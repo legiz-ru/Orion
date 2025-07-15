@@ -860,11 +860,24 @@ body {
         }
 
         function loadAppsConfig() {
-            fetch('assets/app-config.json')
-                .then(response => response.ok ? response.json() : Promise.reject('Failed to load'))
-                .then(data => { appsConfig = data; })
-                .catch(error => { console.error('Error loading apps config:', error); })
-                .finally(() => { if (panelData) renderContent(); });
+            fetch('/assets/app-config.json')
+                .then(response => {
+                    if (!response.ok) {
+                        return Promise.reject(`Failed to load with status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    appsConfig = data;
+                })
+                .catch(error => {
+                    console.error('Error loading apps config:', error);
+                })
+                .finally(() => {
+                    if (panelData) {
+                        renderContent();
+                    }
+                });
         }
 
         function loadPanelData() {
