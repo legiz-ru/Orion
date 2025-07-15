@@ -24,12 +24,14 @@
 ## Скриншоты
 
 <div align="center">
-  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="Светлая тема">
-  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="Темная тема">
-  <img src="./screenshots/orion-apps.jpg" width="75%" alt="Раздел приложений">
-  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="Инструкция по настройке">
-  <img src="./screenshots/orion-settings.jpg" width="75%" alt="Настройки">
+  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="تم روشن">
+  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="تم تاریک">
+  <img src="./screenshots/orion-apps.jpg" width="75%" alt="بخش برنامه‌ها">
+  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="راهنمای نصب">
+  <img src="./screenshots/orion-settings.jpg" width="75%" alt="تنظیمات">
+</div>
 
+<div align="center">
   <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
 </div>
 

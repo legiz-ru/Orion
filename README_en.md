@@ -24,12 +24,14 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 ## Screenshots
 
 <div align="center">
-  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="Light Theme">
-  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="Dark Theme">
-  <img src="./screenshots/orion-apps.jpg" width="75%" alt="Apps Section">
-  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="Setup Guide">
-  <img src="./screenshots/orion-settings.jpg" width="75%" alt="Settings">
-  
+  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="تم روشن">
+  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="تم تاریک">
+  <img src="./screenshots/orion-apps.jpg" width="75%" alt="بخش برنامه‌ها">
+  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="راهنمای نصب">
+  <img src="./screenshots/orion-settings.jpg" width="75%" alt="تنظیمات">
+</div>
+
+<div align="center">
   <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
 </div>
 
