@@ -968,7 +968,7 @@ body {
             if (!app.urlScheme || !response.subscriptionUrl) return '#';
             let url = response.subscriptionUrl;
             if (app.isNeedBase64Encoding) try { url = btoa(url); } catch (e) { return '#'; }
-            return app.urlScheme + encodeURIComponent(url);
+            return app.urlScheme + url;
         }
 
         function getLocalizedText(textObj) { return textObj?.[currentLanguage] || textObj?.['en'] || ''; }
