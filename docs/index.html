@@ -497,6 +497,10 @@ body {
     flex-wrap: wrap;
 }
 
+.step-buttons .btn {
+    flex: 1;
+}
+
 .qr-container {
     text-align: center;
     padding: 20px;
@@ -963,12 +967,13 @@ body {
 
         function getSubscriptionLinkForApp(app) {
             const { response } = panelData || {};
+            const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
             if (!response) return '#';
-            if (app.id.toLowerCase() === 'happ' && response.happ?.cryptoLink) return response.happ.cryptoLink;
+            if (app.id.toLowerCase() === 'happ' && response.happ?.cryptoLink) return redirect_link + response.happ.cryptoLink;
             if (!app.urlScheme || !response.subscriptionUrl) return '#';
             let url = response.subscriptionUrl;
             if (app.isNeedBase64Encoding) try { url = btoa(url); } catch (e) { return '#'; }
-            return app.urlScheme + url;
+            return redirect_link + app.urlScheme + url;
         }
 
         function getLocalizedText(textObj) { return textObj?.[currentLanguage] || textObj?.['en'] || ''; }
