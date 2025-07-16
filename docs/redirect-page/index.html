@@ -413,8 +413,8 @@
         function initialize() {
             loadSettings();
             
-            const params = new URLSearchParams(window.location.search);
-            redirectTo = params.get("redirect_to") || "";
+            const currentURL = window.location.href;
+            redirectTo = decodeURIComponent(currentURL.split('redirect_to=')[1] || '');
             appInfo = appSchemes.find(a => redirectTo.startsWith(a.scheme));
 
             updateUI();
