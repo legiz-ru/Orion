@@ -20,6 +20,7 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 *   **Multilingual Support:** The page is available in **Russian, English, and Farsi**. The language is detected automatically based on the user's browser settings, with a manual override option.
 
 *   **Telegram Mini App Integration:** The ability to use the subscription page as a Telegram Mini App in your bot.
+    *   **Redirect page:** Ability to use your own or external redirect page (relevant for Telegram Mini App, for example in Orion style — [demo](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=), self-host via [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
 
 ## Screenshots
 
@@ -33,6 +34,10 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 
 <div align="center">
   <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
+</div>
+
+<div align="center">
+  <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion Redirect Page">
 </div>
 
 ## Installation
@@ -68,8 +73,15 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
           - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
-3.  **Restart the Container:**
-    To apply the changes, restart the Docker container:
+3.  **(Optional) Redirect page setup for redirection**  
+    For integration with Telegram Mini App or custom redirection logic, set your redirect page in `index.html`:
+    ```js
+    const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
+    ```
+    or use your own self-hosted variant. For example: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) or [redirect-page from maposia](https://github.com/maposia/redirect-page/).
+
+4.  **Restart container:**
+    To apply changes, restart the Docker container:
 
     ```bash
     docker compose down remnawave-subscription-page && docker compose up -d remnawave-subscription-page

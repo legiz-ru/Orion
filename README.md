@@ -20,6 +20,7 @@
 *   **Многоязычная поддержка:** Страница доступна на **русском, английском и фарси**. Язык определяется автоматически на основе настроек браузера пользователя, с возможностью ручного переключения.
 
 *   **Интеграция с Telegram Mini App:** Возможность использовать страницу подписки как Telegram Mini App в вашем боте.
+    *   **Переадресация/Redirect-страница:** Возможность использовать собственную или внешнюю страницу переадресации (актуально для Telegram Mini App, например в стиле Orion — [демо](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=), self-host по [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
 
 ## Скриншоты
 
@@ -33,6 +34,10 @@
 
 <div align="center">
   <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
+</div>
+
+<div align="center">
+  <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion Redirect Page">
 </div>
 
 ## Установка
@@ -68,7 +73,14 @@
           - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
-3.  **Перезапуск контейнера:**
+3.  **(Опционально) Настройка redirect-страницы для переадресации**  
+    Для интеграции с Telegram Mini App или для кастомной логики переадресации укажите свою redirect-страницу в index.html:
+    ```js
+    const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
+    ```
+    или используйте свой self-hosted вариант. Например: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) или [redirect-page от maposia](https://github.com/maposia/redirect-page/).
+
+4.  **Перезапуск контейнера:**
     Для применения изменений перезапустите контейнер Docker:
 
     ```bash

@@ -20,6 +20,8 @@
 *   **پشتیبانی چند زبانه:** صفحه به زبان‌های **روسی، انگلیسی و فارسی** در دسترس است. زبان به طور خودکار بر اساس تنظیمات مرورگر کاربر تشخیص داده می‌شود، با امکان تغییر دستی.
 
 *   **ادغام با Telegram Mini App:** قابلیت استفاده از صفحه اشتراک به عنوان یک اپلیکیشن کوچک تلگرام در ربات شما.
+    *   **صفحه ریدایرکت (پیمایش):** امکان استفاده از صفحه ریدایرکت اختصاصی یا خارجی (مناسب برای Telegram Mini App، به عنوان مثال در سبک Orion — [دمو](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=)، سلف هاست از [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
+
 
 ## اسکرین‌شات‌ها
 
@@ -33,6 +35,10 @@
 
 <div align="center">
   <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
+</div>
+
+<div align="center">
+  <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion Redirect Page">
 </div>
 
 ## نصب
@@ -68,7 +74,14 @@
           - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
-۳. **راه‌اندازی مجدد کانتینر:**
+۳.  **(اختیاری) تنظیم صفحه ریدایرکت برای پیمایش**  
+    برای ادغام با Telegram Mini App یا منطق پیمایش سفارشی، آدرس صفحه ریدایرکت خود را در `index.html` قرار دهید:
+    ```js
+    const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
+    ```
+    یا نسخه سلف هاست خودتان را استفاده کنید. مثلاً: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) یا [redirect-page از maposia](https://github.com/maposia/redirect-page/).
+
+۴.  **راه‌اندازی مجدد کانتینر:**  
    برای اعمال تغییرات، کانتینر Docker را مجدداً راه‌اندازی کنید:
 
     ```bash
