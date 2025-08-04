@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Перенаправление</title>
+    <title>Re:direct</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3b82f6" id="themeColor">
     <style>
@@ -91,6 +91,7 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             white-space: nowrap;
         }
@@ -182,6 +183,20 @@
             font-size: 24px;
             font-weight: 600;
             color: var(--primary-color);
+        }
+        
+        .obtainium-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
         }
 
         .footer {
@@ -276,7 +291,7 @@
             <div class="logo">Orion</div>
             <div class="controls">
                 <button class="btn btn-icon" onclick="openModal('settingsModal')">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     <span class="btn-text" data-key="settings">Settings</span>
                 </button>
             </div>
@@ -297,6 +312,10 @@
                      </div>
                 </div>
                 <p class="redirect-info" id="afterTimerText"></p>
+                <div id="obtainiumSection" class="obtainium-info" style="display:none;">
+                    <p id="obtainiumText"></p>
+                    <div id="obtainiumDownloads" class="download-buttons"></div>
+                </div>
                 <a id="proceedBtn" class="btn btn-primary" href="#" style="display:none;" target="_blank">
                     <span id="proceedBtnText" data-key="proceed"></span>
                 </a>
@@ -314,7 +333,7 @@
             </div>
             <div class="modal-body">
                 <div class="step"><div class="step-title" data-key="theme">Theme</div><div class="step-buttons"><button class="btn" onclick="setTheme('light')" data-key="light">Light</button><button class="btn" onclick="setTheme('dark')" data-key="dark">Dark</button><button class="btn" onclick="setTheme('auto')" data-key="auto">Auto</button></div></div>
-                <div class="step"><div class="step-title" data-key="language">Language</div><div class="step-buttons"><button class="btn" onclick="setLanguage('en')">English</button><button class="btn" onclick="setLanguage('ru')">Русский</button><button class="btn" onclick="setLanguage('fa')">فارسی</button></div></div>
+                <div class="step"><div class="step-title" data-key="language">Language</div><div class="step-buttons"><button class="btn" onclick="setLanguage('en')">English</button><button class="btn" onclick="setLanguage('ru')">Русский</button><button class="btn" onclick="setLanguage('fa')">فارسی</button><button class="btn" onclick="setLanguage('zh')">中文</button></div></div>
             </div>
         </div>
     </div>
@@ -333,66 +352,55 @@
             'flclash': `<svg viewBox="0 0 32 32" fill="currentColor"><path d="M15.215 31.645a3.15 3.15 0 0 1-2.527-1.747c-.293-.585-.376-.988-.34-1.68.047-.866.355-1.542.984-2.144a3.168 3.168 0 0 1 2.23-.883c.954 0 1.653.286 2.301.934.64.64.946 1.379.95 2.297.003.91-.305 1.652-.958 2.308-.695.696-1.628 1.02-2.64.915Z"/><path d="M6.254 16.5a3.232 3.232 0 0 1-2.645-3.215c0-1.316.637-2.246 2.098-3.078l8.719-5.031C18.824 2.636 22.594.496 22.8.422c.777-.281 1.691-.223 2.504.164.515.242 1.199.934 1.453 1.465.336.707.422 1.379.27 2.094-.137.652-.4 1.12-.9 1.617-.421.418-.644.55-5.183 3.168-2.918 1.68-5.84 3.363-8.758 5.047-2.554 1.476-4.14 2.359-4.363 2.425a3.465 3.465 0 0 1-1.57.098Z"/><path d="M10.363 23.996c-.511-.137-.996-.43-1.437-.867-1.285-1.27-1.281-3.27.004-4.54.386-.378.718-.581 4.851-2.96 2.442-1.406 4.59-2.617 4.778-2.691 2.054-.833 4.367.734 4.386 2.968.008.938-.28 1.64-.949 2.305-.422.418-.617.539-4.746 2.918-4.68 2.695-4.738 2.726-5.203 2.863-.395.117-1.254.117-1.684.004Z"/></svg>`,
             'hiddify': `<svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.8191 2.1691C25.0243 3.36662 23.3928 4.49636 23.2092 4.67711C22.6993 5.17420 22.6789 8.38265 23.1684 8.90233C23.6375 9.44461 30.2046 9.44461 30.6737 8.90233C30.9388 8.60860 31.0000 7.88557 31.0000 4.63192C31.0000 1.37828 30.9388 0.655248 30.6737 0.361516C30.5105 0.158163 30.3066 0 30.2250 0C30.1434 0 28.6138 0.971575 26.8191 2.1691Z" /><path d="M15.3980 9.39942C13.6033 10.5969 11.9717 11.7267 11.7882 11.9074C11.4618 12.2464 11.4211 12.8338 11.4211 18.1888C11.4211 22.4818 11.3599 24.1538 11.1763 24.3571C10.8500 24.7187 8.72895 24.7187 8.40263 24.3571C8.23947 24.1764 8.15789 22.8885 8.15789 20.0867C8.15789 16.6749 8.11711 16.0197 7.83158 15.7034C7.64803 15.5000 7.36250 15.3870 7.17895 15.4774C6.70987 15.6808 1.40724 19.2055 0.673026 19.8156L0 20.3579V25.3061C0 29.4862 0.0407895 30.2996 0.326316 30.5933C0.591447 30.8870 1.22368 30.9548 4.07895 30.9548C8.21908 30.9548 8.15789 31.0000 8.15789 28.6050C8.15789 27.6334 8.25987 26.8652 8.40263 26.7070C8.72895 26.3455 10.8500 26.3455 11.1763 26.7070C11.3191 26.8652 11.4211 27.6334 11.4211 28.6050C11.4211 31.0000 11.3599 30.9548 15.5000 30.9548C18.3553 30.9548 18.9875 30.8870 19.2526 30.5933C19.5382 30.2770 19.5789 28.9213 19.5789 19.0926C19.5789 9.26385 19.5382 7.90817 19.2526 7.59184C19.0895 7.38849 18.8855 7.23032 18.8039 7.23032C18.7224 7.23032 17.1928 8.20190 15.3980 9.39942Z" /><path d="M23.1684 11.4329C22.8829 11.7267 22.8421 12.9242 22.8421 21.0131C22.8421 29.1020 22.8829 30.2996 23.1684 30.5933C23.6375 31.1356 30.2046 31.1356 30.6737 30.5933C30.9592 30.2996 31.0000 29.1020 31.0000 21.0131C31.0000 12.9242 30.9592 11.7267 30.6737 11.4329C30.4086 11.1392 29.7763 11.0714 26.9211 11.0714C24.0658 11.0714 23.4336 11.1392 23.1684 11.4329Z" /></svg>`,
             'exclave': `<svg viewBox="0 0 32 32" fill="currentColor"><path d="M10.238 28.828c-1.39-.144-3.39-.8-3.718-1.215-.16-.207-.176-.363-.176-1.593 0-.754.035-1.391.078-1.418.047-.028.387.152.754.398 1.414.945 2.539 1.285 4.258 1.29 1.02.003 1.308-.028 1.875-.204a7.706 7.706 0 0 0 3.914-2.766c.734-.996 1.082-1.8 1.32-3.078.117-.613.117-.77 0-1.344-.492-2.375-1.898-4.054-3.93-4.691-.66-.207-1.836-.18-2.504.059-1.234.441-2.207 1.25-2.668 2.222-.242.512-.285.703-.285 1.278 0 .578.04.754.293 1.265.317.64.926 1.266 1.512 1.551.52.254 1.434.277 1.875.055.61-.313 1.191-1.11 1.32-1.817.172-.91-.64-1.953-1.523-1.953-.27 0-.395.07-.695.383-.204.21-.512.582-.684.828-.262.367-.367.45-.625.469-.504.043-.672-.145-.664-.754.012-.996.601-1.863 1.547-2.293.636-.285 1.851-.266 2.523.043 1.406.652 2.043 2.008 2.043 4.355 0 2.004-.578 2.848-2.277 3.32-.918.259-2.399.278-3.262.048-1.812-.489-3-1.625-3.637-3.485-.226-.664-.246-.832-.246-2.02.004-1.179.028-1.363.258-2.054.379-1.133.746-1.762 1.406-2.418.684-.68 1.72-1.242 2.7-1.469 1.472-.34 3.464-.336 4.835.008 1.715.43 3.344 1.738 4.274 3.434 1.512 2.758 1.344 6.918-.383 9.457-.973 1.437-2.305 2.511-4.043 3.265-1.16.5-2.02.73-3.21.852-.997.102-1.235.102-2.255-.008Z"/><path d="M22.02 28.418c-.31-.074-.774-.484-.903-.793-.172-.41-.16-1.41.02-1.79.078-.167.265-.39.41-.495.25-.176.363-.188 2.015-.172.961.008 1.782.039 1.82.062.044.024.075.727.075 1.563v1.516l-.227.086c-.23.085-2.87.105-3.21.023Z"/><path d="M27.621 26.48l.027-1.91.293-.367c.743-.922.954-1.785.887-3.629-.058-1.62-.215-2.41-.762-3.828l-.418-1.082-.054-6.969.277.313c1.188 1.344 2.82 4.656 3.48 7.058.708 2.57.82 6.164.27 8.375-.379 1.497-1.305 2.868-2.293 3.391-.496.262-1.351.559-1.613.559-.102 0-.117-.336-.094-1.91Z"/><path d="M3.438 25.496c-1.016-1.035-1.602-1.933-2.278-3.492-.707-1.625-.972-2.762-1.117-4.777-.121-1.665.281-4.286.902-5.918.688-1.805 1.371-2.93 2.387-3.946.559-.554.727-.676.785-.57.04.07.082 1 .094 2.062l.016 1.93-.5 1.008c-.872 1.75-1.192 3.242-1.114 5.152.063 1.446.27 2.23.985 3.72l.554 1.163.028 2.121c.02 1.574 0 2.121-.078 2.121-.055 0-.356-.258-.665-.574Z"/><path d="M24.934 10.875c-.168-.242-.633-.754-1.036-1.133-2.89-2.726-6.75-4.035-11.066-3.762-2.043.13-3.496.567-4.95 1.485-1.241.785-1.35.848-1.448.785-.055-.035-.09-.586-.09-1.441 0-1.63.05-1.79.687-2.09 1.328-.625 3.844-1.399 5.387-1.653 1.836-.304 4.367-.265 6.133.094 1.789.363 4.277 1.414 5.742 2.422 1.215.836 1.18.73 1.148 3.352-.015 1.32-.062 2.246-.117 2.296-.058.06-.191-.062-.39-.355Z"/></svg>`,
+            'obtainium': `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M6,18c0,0.55 0.45,1 1,1h1v3.5c0,0.83 0.67,1.5 1.5,1.5s1.5,-0.67 1.5,-1.5V19h2v3.5c0,0.83 0.67,1.5 1.5,1.5s1.5,-0.67 1.5,-1.5V19h1c0.55,0 1,-0.45 1,-1V8H6v10zM3.5,8C2.67,8 2,8.67 2,9.5v7c0,0.83 0.67,1.5 1.5,1.5S5,17.33 5,16.5v-7C5,8.67 4.33,8 3.5,8zM20.5,8C19.67,8 19,8.67 19,9.5v7c0,0.83 0.67,1.5 1.5,1.5s1.5,-0.67 1.5,-1.5v-7C22,8.67 21.33,8 20.5,8zM15.53,2.16l1.3,-1.3c0.2,-0.2 0.2,-0.51 0,-0.71c-0.2,-0.2 -0.51,-0.2 -0.71,0l-1.48,1.48C13.85,1.23 12.95,1 12,1c-0.96,0 -1.86,0.23 -2.66,0.63L7.85,0.15c-0.2,-0.2 -0.51,-0.2 -0.71,0c-0.2,0.2 -0.2,0.51 0,0.71l1.31,1.31C6.97,3.26 6,5.01 6,7h12C18,5.01 17.03,3.25 15.53,2.16zM10,5H9V4h1V5zM15,5h-1V4h1V5z"/></svg>`,
             "default": `<svg viewBox="0 0 32 32" fill="currentColor"><rect width="32" height="32" rx="8" fill="#3b82f6"/><path d="M22.667 10.667L13.333 20l-5.333-5.333 1.88-1.88 3.453 3.453 7.454-7.453 1.88 1.88z" fill="#fff"/></svg>`
         };
 
         const appSchemes = [
-            { scheme: 'happ://', id: 'happ', name: { en: 'Happ', ru: 'Happ', fa: 'Happ' } },
-            { scheme: 'flclash://', id: 'flclash', name: { en: 'FlClash', ru: 'FlClash', fa: 'FlClash' } },
-            { scheme: 'clash://', id: 'clash-meta', name: { en: 'Clash', ru: 'Clash', fa: 'Clash' } },
-            { scheme: 'sing-box://', id: 'sing-box', name: { en: 'sing-box', ru: 'sing-box', fa: 'sing-box' } },
-            { scheme: 'streisand://', id: 'streisand', name: { en: 'Streisand', ru: 'Streisand', fa: 'Streisand' } },
-            { scheme: 'v2rayng://', id: 'v2rayng', name: { en: 'v2rayNG', ru: 'v2rayNG', fa: 'v2rayNG' } },
-            { scheme: 'exclave://', id: 'exclave', name: { en: 'Exclave', ru: 'Exclave', fa: 'Exclave' } },
-            { scheme: 'sub://', id: 'shadowrocket', name: { en: 'Shadowrocket', ru: 'Shadowrocket', fa: 'Shadowrocket' } },
-            { scheme: 'hiddify://', id: 'hiddify', name: { en: 'Hiddify', ru: 'Hiddify', fa: 'Hiddify' } }
+            { scheme: 'happ://', id: 'happ', name: { en: 'Happ', ru: 'Happ', fa: 'Happ', zh: 'Happ' } },
+            { scheme: 'flclash://', id: 'flclash', name: { en: 'FlClash', ru: 'FlClash', fa: 'FlClash', zh: 'FlClash' } },
+            { scheme: 'clash://', id: 'clash-meta', name: { en: 'Clash', ru: 'Clash', fa: 'Clash', zh: 'Clash' } },
+            { scheme: 'sing-box://', id: 'sing-box', name: { en: 'sing-box', ru: 'sing-box', fa: 'sing-box', zh: 'sing-box' } },
+            { scheme: 'streisand://', id: 'streisand', name: { en: 'Streisand', ru: 'Streisand', fa: 'Streisand', zh: 'Streisand' } },
+            { scheme: 'v2rayng://', id: 'v2rayng', name: { en: 'v2rayNG', ru: 'v2rayNG', fa: 'v2rayNG', zh: 'v2rayNG' } },
+            { scheme: 'exclave://', id: 'exclave', name: { en: 'Exclave', ru: 'Exclave', fa: 'Exclave', zh: 'Exclave' } },
+            { scheme: 'sub://', id: 'shadowrocket', name: { en: 'Shadowrocket', ru: 'Shadowrocket', fa: 'Shadowrocket', zh: 'Shadowrocket' } },
+            { scheme: 'hiddify://', id: 'hiddify', name: { en: 'Hiddify', ru: 'Hiddify', fa: 'Hiddify', zh: 'Hiddify' } },
+            { scheme: 'obtainium://', id: 'obtainium', name: { en: 'Obtainium', ru: 'Obtainium', fa: 'Obtainium', zh: 'Obtainium' } }
         ];
 
         const translations = {
             en: {
-                settings: "Settings",
-                theme: "Theme",
-                language: "Language",
-                light: "Light",
-                dark: "Dark",
-                auto: "Auto",
-                seconds: "seconds",
-                redirecting_to: "Redirecting to",
-                you_will_be_redirected: "You will be redirected automatically in",
-                if_not: "If nothing happens, click the button below.",
-                proceed: "Import",
-                error_redirect: "Redirection Error",
-                error_description: "The redirection link is missing or invalid."
+                settings: "Settings", theme: "Theme", language: "Language", light: "Light", dark: "Dark", auto: "Auto",
+                seconds: "seconds", redirecting_to: "Redirecting to", you_will_be_redirected: "You will be redirected automatically in",
+                if_not: "If nothing happens, click the button below.", proceed: "Import", error_redirect: "Redirection Error",
+                error_description: "The redirection link is missing or invalid.",
+                obtainium_info: "If this didn't happen, you may not have the Obtainium app installed. Download it from GitHub or F-Droid and try clicking the Import button below.",
+                download_github: "Download (GitHub)", download_fdroid: "Download (F-Droid)"
             },
             ru: {
-                settings: "Настройки",
-                theme: "Тема",
-                language: "Язык",
-                light: "Светлая",
-                dark: "Тёмная",
-                auto: "Авто",
-                seconds: "секунд",
-                redirecting_to: "Перенаправление в",
-                you_will_be_redirected: "Вы будете автоматически перенаправлены через",
-                if_not: "Если этого не произошло, нажмите кнопку ниже.",
-                proceed: "Импортировать",
-                error_redirect: "Ошибка перенаправления",
-                error_description: "Ссылка для перенаправления отсутствует или недействительна."
+                settings: "Настройки", theme: "Тема", language: "Язык", light: "Светлая", dark: "Тёмная", auto: "Авто",
+                seconds: "секунд", redirecting_to: "Перенаправление в", you_will_be_redirected: "Вы будете автоматически перенаправлены через",
+                if_not: "Если этого не произошло, нажмите кнопку ниже.", proceed: "Импортировать", error_redirect: "Ошибка перенаправления",
+                error_description: "Ссылка для перенаправления отсутствует или недействительна.",
+                obtainium_info: "Если этого не произошло, возможно у вас не загружено приложение Obtainium. Загрузите его в GitHub или F-Droid и попробуйте нажать кнопку Импортировать ниже.",
+                download_github: "GitHub", download_fdroid: "F-Droid"
             },
             fa: {
-                settings: "تنظیمات",
-                theme: "پوسته",
-                language: "زبان",
-                light: "روشن",
-                dark: "تیره",
-                auto: "خودکار",
-                seconds: "ثانیه",
-                redirecting_to: "در حال هدایت به",
-                you_will_be_redirected: "شما به طور خودکار هدایت خواهید شد در",
-                if_not: "اگر اتفاقی نیفتاد، دکمه زیر را کلیک کنید.",
-                proceed: "وارد کردن",
-                error_redirect: "خطای هدایت",
-                error_description: "لینک هدایت وجود ندارد یا نامعتبر است."
+                settings: "تنظیمات", theme: "پوسته", language: "زبان", light: "روشن", dark: "تیره", auto: "خودکار",
+                seconds: "ثانیه", redirecting_to: "در حال هدایت به", you_will_be_redirected: "شما به طور خودکار هدایت خواهید شد در",
+                if_not: "اگر اتفاقی نیفتاد، دکمه زیر را کلیک کنید.", proceed: "وارد کردن", error_redirect: "خطای هدایت",
+                error_description: "لینک هدایت وجود ندارد یا نامعتبر است.",
+                obtainium_info: "اگر این اتفاق نیفتاد، ممکن است برنامه Obtainium را نصب نکرده باشید. آن را از GitHub یا F-Droid دانلود کرده و روی دکمه وارد کردن در پایین کلیک کنید.",
+                download_github: "دانلود (GitHub)", download_fdroid: "دانلود (F-Droid)"
+            },
+            zh: {
+                settings: "设置", theme: "主题", language: "语言", light: "浅色", dark: "深色", auto: "自动",
+                seconds: "秒", redirecting_to: "正在重定向到", you_will_be_redirected: "您将在以下时间后自动重定向",
+                if_not: "如果没有任何反应，请单击下面的按钮。", proceed: "导入", error_redirect: "重定向错误",
+                error_description: "重定向链接丢失或无效。",
+                obtainium_info: "如果重定向没有发生，您可能没有安装 Obtainium 应用程序。请从 GitHub 或 F-Droid 下载它，然后点击下方的“导入”按钮。",
+                download_github: "下载 (GitHub)", download_fdroid: "下载 (F-Droid)"
             }
         };
 
@@ -435,6 +443,7 @@
             const redirectTextEl = document.getElementById("redirectText");
             const timerSection = document.getElementById("timerSection");
             const afterTimerText = document.getElementById("afterTimerText");
+            const obtainiumSectionEl = document.getElementById("obtainiumSection");
             const proceedBtn = document.getElementById("proceedBtn");
 
             if (!redirectTo) {
@@ -444,20 +453,34 @@
                 redirectTextEl.textContent = t("error_description");
                 timerSection.style.display = "none";
                 afterTimerText.style.display = "none";
+                obtainiumSectionEl.style.display = "none";
                 proceedBtn.style.display = "none";
             } else {
                 // Отображение информации о перенаправлении
                 const appId = appInfo ? appInfo.id : "default";
-                const appName = appInfo ? appInfo.name[currentLanguage] : "App";
+                const appName = appInfo ? appInfo.name[currentLanguage] || appInfo.name['en'] : "App";
 
-                appIconEl.innerHTML = appIcons[appId] || appIcons["default"];
+                appIconEl.innerHTML = (appIcons[appId] || appIcons["default"]);
                 appNameEl.textContent = appName;
                 redirectTextEl.textContent = `${t("redirecting_to")} ${appName}...`;
                 
                 timerSection.style.display = "block";
-                afterTimerText.style.display = "block";
                 proceedBtn.style.display = "inline-flex";
                 proceedBtn.href = redirectTo;
+
+                if (appInfo && appInfo.id === 'obtainium') {
+                    afterTimerText.style.display = "none";
+                    obtainiumSectionEl.style.display = "block";
+                    document.getElementById("obtainiumText").textContent = t("obtainium_info");
+                    const downloadsEl = document.getElementById("obtainiumDownloads");
+                    downloadsEl.innerHTML = `
+                        <a href="https://github.com/ImranR98/Obtainium/releases/latest/download/app-release.apk" class="btn btn-primary" target="_blank">${t('download_github')}</a>
+                        <a href="https://f-droid.org/packages/dev.imranr.obtainium.fdroid/" class="btn btn-primary" target="_blank">${t('download_fdroid')}</a>
+                    `;
+                } else {
+                    afterTimerText.style.display = "block";
+                    obtainiumSectionEl.style.display = "none";
+                }
             }
         }
 
@@ -490,6 +513,7 @@
             const lang = navigator.language || navigator.userLanguage;
             if (lang.startsWith('ru')) return 'ru';
             if (lang.startsWith('fa')) return 'fa';
+            if (lang.startsWith('zh')) return 'zh';
             return 'en';
         }
 
@@ -527,9 +551,14 @@
         function updateAllTexts() {
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
-                el.textContent = t(key);
+                const text = t(key);
+                const textNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+                if (textNode) {
+                    textNode.textContent = text;
+                } else if (el.children.length === 0) {
+                    el.textContent = text;
+                }
             });
-            // Обновляем тексты, у которых нет data-key
             document.querySelector('.logo').textContent = "Orion";
             document.getElementById("secondsText").textContent = t("seconds");
             document.getElementById("afterTimerText").textContent = t("if_not");
