@@ -1069,7 +1069,7 @@ body {
 
         function getSubscriptionLinkForApp(app) {
             const { response } = panelData || {};
-            const redirect_link = '';
+            const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
             if (!response) return '#';
             if (app.id.toLowerCase() === 'happ' && response.happ?.cryptoLink) return redirect_link + response.happ.cryptoLink;
             if (!app.urlScheme || !response.subscriptionUrl) return '#';
