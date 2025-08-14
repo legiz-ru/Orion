@@ -1,4 +1,4 @@
-[Русская версия](README.md) | [نسخه فارسی](README_fa.md)
+[Russian Version](README.md) | [中文版本](README_zh.md) | [نسخه فارسی](README_fa.md)
 
 [Demo page](https://legiz-ru.github.io/Orion)
 
@@ -15,9 +15,13 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 *   **Flexible App Configuration:** Full customization of the application list, support for "featured" apps, and multi-step setup guides via a [customizable `app-config.json` file](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps).
     *   **Custom Groups:** Ability to add extra groups to the apps section via the integration file, [e.g., a `TV section`](https://github.com/legiz-ru/my-remnawave/blob/main/sub-page/multiapp/app-config.json).
 
+*   **Branding Support:** Configure logo and support link through `logoUrl` and `supportUrl` parameters in `app-config.json` configuration for page personalization.
+
 *   **Link Copying & QR Codes:** Convenient one-click copying of individual links (`vless://`, `trojan://`) and the main subscription link. An adaptive QR code can be generated for each link.
 
 *   **Multilingual Support:** The page is available in **Russian, English, and Farsi**. The language is detected automatically based on the user's browser settings, with a manual override option.
+
+*   **remnawave-json Support:** Ability to integrate the subscription page into https://github.com/Jolymmiels/remnawave-json (adapted index.html file is located in the remnawave-json folder).
 
 *   **Telegram Mini App Integration:** The ability to use the subscription page as a Telegram Mini App in your bot.
     *   **Redirect page:** Ability to use your own or external redirect page (relevant for Telegram Mini App, for example in Orion style — [demo](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=), self-host via [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
