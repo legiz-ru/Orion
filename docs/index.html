@@ -804,11 +804,80 @@ body {
         let panelData = null, appsConfig = null, currentLanguage = 'en', currentPlatform = 'android', toastTimeout = null, validPlatforms = [], branding = null;
 
         const translations = {
-            en: { settings: 'Settings', get_link: 'Get Link', theme: 'Theme', language: 'Language', light: 'Light', dark: 'Dark', auto: 'Auto', username: 'Username', status: 'Status', expires_at: 'Expires', days_left: 'Days Left', traffic_used: 'Traffic Used', traffic_limit: 'Traffic Limit', traffic_reset: 'Traffic Reset', never_expires: 'Never expires', unlimited: 'Unlimited', ACTIVE: 'Active', DISABLED: 'Disabled', LIMITED: 'Limited', EXPIRED: 'Expired', NO_RESET: 'No reset', DAY: 'Daily', WEEK: 'Weekly', MONTH: 'Monthly', subscription_links: 'Subscription Links', subscription_link: 'Subscription Link', copy: 'Copy', qr_code: 'QR Code', copied: 'Copied!', scan_with_phone: 'Scan with your phone', available_apps: 'Available Apps', other_apps: 'Other Apps', featured: 'Recommended', install_app: 'Install and Run', add_subscription: 'Add Subscription', ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux', androidTV: 'Android TV', appleTV: 'Apple TV', no_data: 'No data to display', error_loading_apps: 'Error loading apps configuration', step_install: 'Installation', step_add_subscription: 'Add Subscription', step_connect: 'Connect & Use', close: 'Close', or: 'or', select_platform: 'Select Platform', support: 'Support'},
-            ru: { settings: 'Настройки', get_link: 'Получить ссылку', theme: 'Тема', language: 'Язык', light: 'Светлая', dark: 'Темная', auto: 'Авто', username: 'Имя пользователя', status: 'Статус', expires_at: 'Истекает', days_left: 'Дней осталось', traffic_used: 'Трафик использован', traffic_limit: 'Лимит трафика', traffic_reset: 'Сброс трафика', never_expires: 'Бессрочно', unlimited: 'Без лимита', ACTIVE: 'Активен', DISABLED: 'Отключен', LIMITED: 'Ограничен', EXPIRED: 'Истек', NO_RESET: 'Без сброса', DAY: 'Ежедневно', WEEK: 'Еженедельно', MONTH: 'Ежемесячно', subscription_links: 'Ссылки подписки', subscription_link: 'Ссылка на подписку', copy: 'Копировать', qr_code: 'QR-код', copied: 'Скопировано!', scan_with_phone: 'Отсканируйте телефоном', available_apps: 'Доступные приложения', other_apps: 'Другие приложения', featured: 'Рекомендуется', install_app: 'Установить и запустить', add_subscription: 'Добавить подписку', ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux', androidTV: 'Android TV', appleTV: 'Apple TV', no_data: 'Нет данных для отображения', error_loading_apps: 'Ошибка загрузки конфигурации приложений', step_install: 'Установка', step_add_subscription: 'Добавление подписки', step_connect: 'Подключение и использование', close: 'Закрыть', or: 'или', select_platform: 'Выберите платформу', support: 'Поддержка'},
-            fa: { settings: 'تنظیمات', get_link: 'دریافت لینک', theme: 'تم', language: 'زبان', light: 'روشن', dark: 'تیره', auto: 'خودکار', username: 'نام کاربری', status: 'وضعیت', expires_at: 'انقضا', days_left: 'روز باقیمانده', traffic_used: 'ترافیک استفاده شده', traffic_limit: 'محدودیت ترافیک', traffic_reset: 'بازنشانی ترافیک', never_expires: 'هرگز منقضی نمی‌شود', unlimited: 'نامحدود', ACTIVE: 'فعال', DISABLED: 'غیرفعال', LIMITED: 'محدود', EXPIRED: 'منقضی شده', NO_RESET: 'بدون بازنشانی', DAY: 'روزانه', WEEK: 'هفتگی', MONTH: 'ماهانه', subscription_links: 'لینک‌های اشتراک', subscription_link: 'لینک اشتراک', copy: 'کپی', qr_code: 'کد QR', copied: 'کپی شد!', scan_with_phone: 'با تلفن اسکن کنید', available_apps: 'اپلیکیشن‌های موجود', other_apps: 'سایر اپلیکیشن‌ها', featured: 'پیشنهادی', install_app: 'نصب و اجرا', add_subscription: 'افزودن اشتراک', ios: 'iOS', android: 'اندروید', windows: 'ویندوز', macos: 'macOS', linux: 'لینوکس', androidTV: 'اندروید تی‌وی', appleTV: 'اپل تی‌وی', no_data: 'داده‌ای برای نمایش وجود ندارد', error_loading_apps: 'خطا در بارگذاری پیکربندی اپلیکیشن‌ها', step_install: 'نصب', step_add_subscription: 'افزودن اشتراک', step_connect: 'اتصال و استفاده', close: 'بستن', or: 'یا', select_platform: 'انتخاب پلتفرم', support: 'پشتیبانی'},
-            zh: { settings: '设置', get_link: '获取链接', theme: '主题', language: '语言', light: '浅色', dark: '深色', auto: '自动', username: '用户名', status: '状态', expires_at: '到期时间', days_left: '剩余天数', traffic_used: '已用流量', traffic_limit: '流量限制', traffic_reset: '流量重置', never_expires: '永不过期', unlimited: '无限', ACTIVE: '有效', DISABLED: '禁用', LIMITED: '受限', EXPIRED: '过期', NO_RESET: '不重置', DAY: '每日', WEEK: '每周', MONTH: '每月', subscription_links: '订阅链接', subscription_link: '订阅链接', copy: '复制', qr_code: '二维码', copied: '已复制!', scan_with_phone: '用手机扫描', available_apps: '可用应用', other_apps: '其他应用', featured: '推荐', install_app: '安装并运行', add_subscription: '添加订阅', ios: 'iOS', android: '安卓', windows: 'Windows', macos: 'macOS', linux: 'Linux', androidTV: '安卓电视', appleTV: 'Apple TV', no_data: '无数据显示', error_loading_apps: '加载应用配置出错', step_install: '安装', step_add_subscription: '添加订阅', step_connect: '连接并使用', close: '关闭', or: '或', select_platform: '选择平台', support: '客服'}
+            en: {
+                settings: 'Settings', get_link: 'Get Link', theme: 'Theme', language: 'Language',
+                light: 'Light', dark: 'Dark', auto: 'Auto',
+                username: 'Username', status: 'Status', expires_at: 'Expires', days_left: 'Days Left',
+                traffic_used: 'Traffic Used', traffic_limit: 'Traffic Limit', traffic_reset: 'Traffic Reset',
+                never_expires: 'Never expires', unlimited: 'Unlimited',
+                ACTIVE: 'Active', DISABLED: 'Disabled', LIMITED: 'Limited', EXPIRED: 'Expired',
+                NO_RESET: 'No reset', DAY: 'Daily', WEEK: 'Weekly', MONTH: 'Monthly',
+                subscription_links: 'Subscription Links', subscription_link: 'Subscription Link',
+                copy: 'Copy', qr_code: 'QR Code', copied: 'Copied!', scan_with_phone: 'Scan with your phone',
+                available_apps: 'Available Apps', other_apps: 'Other Apps', featured: 'Recommended',
+                install_app: 'Install and Run', add_subscription: 'Add Subscription', connect_use: 'Connect & Use',
+                ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: 'Android TV', appleTV: 'Apple TV',
+                no_data: 'No data to display', error_loading_apps: 'Error loading apps configuration',
+                step_install: 'Installation', step_add_subscription: 'Add Subscription', step_connect: 'Connect & Use',
+                close: 'Close', or: 'or', select_platform: 'Select Platform', support: 'Support', additional_step: 'Additional Step'
+            },
+            ru: {
+                settings: 'Настройки', get_link: 'Получить ссылку', theme: 'Тема', language: 'Язык',
+                light: 'Светлая', dark: 'Темная', auto: 'Авто',
+                username: 'Имя пользователя', status: 'Статус', expires_at: 'Истекает', days_left: 'Дней осталось',
+                traffic_used: 'Трафик использован', traffic_limit: 'Лимит трафика', traffic_reset: 'Сброс трафика',
+                never_expires: 'Бессрочно', unlimited: 'Без лимита',
+                ACTIVE: 'Активен', DISABLED: 'Отключен', LIMITED: 'Ограничен', EXPIRED: 'Истек',
+                NO_RESET: 'Без сброса', DAY: 'Ежедневно', WEEK: 'Еженедельно', MONTH: 'Ежемесячно',
+                subscription_links: 'Ссылки подписки', subscription_link: 'Ссылка на подписку',
+                copy: 'Копировать', qr_code: 'QR-код', copied: 'Скопировано!', scan_with_phone: 'Отсканируйте телефоном',
+                available_apps: 'Доступные приложения', other_apps: 'Другие приложения', featured: 'Рекомендуется',
+                install_app: 'Установить и запустить', add_subscription: 'Добавить подписку', connect_use: 'Подключение и использование',
+                ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: 'Android TV', appleTV: 'Apple TV',
+                no_data: 'Нет данных для отображения', error_loading_apps: 'Ошибка загрузки конфигурации приложений',
+                step_install: 'Установка', step_add_subscription: 'Добавление подписки', step_connect: 'Подключение и использование',
+                close: 'Закрыть', or: 'или', select_platform: 'Выберите платформу', support: 'Поддержка', additional_step: 'Дополнительный шаг'
+            },
+            fa: {
+                settings: 'تنظیمات', get_link: 'دریافت لینک', theme: 'تم', language: 'زبان',
+                light: 'روشن', dark: 'تیره', auto: 'خودکار',
+                username: 'نام کاربری', status: 'وضعیت', expires_at: 'انقضا', days_left: 'روز باقیمانده',
+                traffic_used: 'ترافیک استفاده شده', traffic_limit: 'محدودیت ترافیک', traffic_reset: 'بازنشانی ترافیک',
+                never_expires: 'هرگز منقضی نمی‌شود', unlimited: 'نامحدود',
+                ACTIVE: 'فعال', DISABLED: 'غیرفعال', LIMITED: 'محدود', EXPIRED: 'منقضی شده',
+                NO_RESET: 'بدون بازنشانی', DAY: 'روزانه', WEEK: 'هفتگی', MONTH: 'ماهانه',
+                subscription_links: 'لینک‌های اشتراک', subscription_link: 'لینک اشتراک',
+                copy: 'کپی', qr_code: 'کد QR', copied: 'کپی شد!', scan_with_phone: 'با تلفن اسکن کنید',
+                available_apps: 'اپلیکیشن‌های موجود', other_apps: 'سایر اپلیکیشن‌ها', featured: 'پیشنهادی',
+                install_app: 'نصب و اجرا', add_subscription: 'افزودن اشتراک', connect_use: 'اتصال و استفاده',
+                ios: 'iOS', android: 'اندروید', windows: 'ویندوز', macos: 'macOS', linux: 'لینوکس',
+                androidTV: 'اندروید تی‌وی', appleTV: 'اپل تی‌وی',
+                no_data: 'داده‌ای برای نمایش وجود ندارد', error_loading_apps: 'خطا در بارگذاری پیکربندی اپلیکیشن‌ها',
+                step_install: 'نصب', step_add_subscription: 'افزودن اشتراک', step_connect: 'اتصال و استفاده',
+                close: 'بستن', or: 'یا', select_platform: 'انتخاب پلتفرم', support: 'پشتیبانی', additional_step: 'مرحله اضافی'
+            },
+            zh: {
+                settings: '设置', get_link: '获取链接', theme: '主题', language: '语言',
+                light: '浅色', dark: '深色', auto: '自动',
+                username: '用户名', status: '状态', expires_at: '到期时间', days_left: '剩余天数',
+                traffic_used: '已用流量', traffic_limit: '流量限制', traffic_reset: '流量重置',
+                never_expires: '永不过期', unlimited: '无限',
+                ACTIVE: '有效', DISABLED: '禁用', LIMITED: '受限', EXPIRED: '过期',
+                NO_RESET: '不重置', DAY: '每日', WEEK: '每周', MONTH: '每月',
+                subscription_links: '订阅链接', subscription_link: '订阅链接',
+                copy: '复制', qr_code: '二维码', copied: '已复制!', scan_with_phone: '用手机扫描',
+                available_apps: '可用应用', other_apps: '其他应用', featured: '推荐',
+                install_app: '安装并运行', add_subscription: '添加订阅', connect_use: '连接并使用',
+                ios: 'iOS', android: '安卓', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: '安卓电视', appleTV: 'Apple TV',
+                no_data: '无数据显示', error_loading_apps: '加载应用配置出错',
+                step_install: '安装', step_add_subscription: '添加订阅', step_connect: '连接并使用',
+                close: '关闭', or: '或', select_platform: '选择平台', support: '客服', additional_step: '附加步骤'
+            }
         };
+
 
         const langFullNames = {
             en: 'English',
@@ -1065,53 +1134,75 @@ body {
             return `<div class="card links-section"><div class="card-header"><span>${t('subscription_links')}</span></div><div class="card-content">${links.map(link => `<div class="link-item"><div class="link-info"><div class="link-name">${escapeHtml(extractLinkName(link))}</div></div><div class="link-actions"><button class="btn btn-sm copy-btn" data-copy-text="${escapeHtml(link)}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><span class="btn-icon-text">${t('copy')}</span></button><button class="btn btn-sm qr-btn" data-qr-text="${escapeHtml(link)}" data-qr-title="${escapeHtml(extractLinkName(link))}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg><span class="btn-icon-text">${t('qr_code')}</span></button></div></div>`).join('')}</div></div>`;
         }
 
-function renderAppSteps(app) {
-    const { response } = panelData || {};
-    if (!response) return '<div class="step"><div class="step-description">No data available</div></div>';
-    
-    // Создаем объект с данными для передачи в renderStep
-    const stepData = {
-        subscriptionUrl: response.subscriptionUrl,
-        cryptoLink: response.cryptoLink
-    };
-    
-    let stepsHtml = '';
-    
-    // Шаг установки
-    if (app.installationStep) {
-        stepsHtml += renderStep(app.installationStep, 'installationStep', app, stepData);
-    }
-    
-    // Шаг добавления подписки
-    if (app.addSubscriptionStep) {
-        stepsHtml += renderStep(app.addSubscriptionStep, 'addSubscriptionStep', app, stepData);
-    }
-    
-    // Шаг подключения и использования
-    if (app.connectAndUseStep) {
-        stepsHtml += renderStep(app.connectAndUseStep, 'connectAndUseStep', app, stepData);
-    }
-    
-    return stepsHtml || '<div class="step"><div class="step-description">No setup steps available</div></div>';
-}
+        function renderAppSteps(app) {
+            const { response } = panelData || {};
+            if (!response) return '<div class="step"><div class="step-description">No data available</div></div>';
+            
+            // Создаем объект с данными для передачи в renderStep
+            const stepData = {
+                subscriptionUrl: response.subscriptionUrl,
+                cryptoLink: response.happ?.cryptoLink || response.cryptoLink // Используем happ.cryptoLink для приложения happ
+            };
+            
+            let stepsHtml = '';
+            let stepCounter = 1;
+            
+            // Шаг установки
+            if (app.installationStep) {
+                stepsHtml += renderStep(app.installationStep, 'installationStep', app, stepData, stepCounter++);
+            }
+            
+            // Дополнительный шаг ПЕРЕД добавлением подписки
+            if (app.additionalBeforeAddSubscriptionStep) {
+                stepsHtml += renderStep(app.additionalBeforeAddSubscriptionStep, 'additionalBeforeAddSubscriptionStep', app, stepData, stepCounter++);
+            }
+            
+            // Шаг добавления подписки
+            if (app.addSubscriptionStep) {
+                stepsHtml += renderStep(app.addSubscriptionStep, 'addSubscriptionStep', app, stepData, stepCounter++);
+            }
+            
+            // Дополнительный шаг ПОСЛЕ добавления подписки
+            if (app.additionalAfterAddSubscriptionStep) {
+                stepsHtml += renderStep(app.additionalAfterAddSubscriptionStep, 'additionalAfterAddSubscriptionStep', app, stepData, stepCounter++);
+            }
+            
+            // Шаг подключения и использования
+            if (app.connectAndUseStep) {
+                stepsHtml += renderStep(app.connectAndUseStep, 'connectAndUseStep', app, stepData, stepCounter++);
+            }
+            
+            return stepsHtml || '<div class="step"><div class="step-description">No setup steps available</div></div>';
+        }
 
-function getStepNumber(stepKey) {
-    const stepNumbers = {
-        'installationStep': '1',
-        'addSubscriptionStep': '2', 
-        'connectAndUseStep': '3'
-    };
-    return stepNumbers[stepKey] || '1';
-}
+        function getStepNumber(stepKey, stepNumber) {
+            // Используем переданный номер шага вместо фиксированных значений
+            return stepNumber ? stepNumber.toString() : '1';
+        }
 
-function getStepTitle(stepKey) {
-    const stepTitles = {
-        'installationStep': t('install_app'),
-        'addSubscriptionStep': t('add_subscription'),
-        'connectAndUseStep': t('connect_use')
-    };
-    return stepTitles[stepKey] || t('step');
-}
+        function getStepTitle(stepKey, stepConfig) {
+            // Для дополнительных шагов используем title из самого stepConfig
+            if (stepKey === 'additionalBeforeAddSubscriptionStep' || stepKey === 'additionalAfterAddSubscriptionStep') {
+                if (stepConfig?.title) {
+                    // title может быть объектом с переводами или строкой
+                    if (typeof stepConfig.title === 'object') {
+                        return stepConfig.title[currentLanguage] || stepConfig.title.en || t('additional_step');
+                    } else {
+                        return stepConfig.title;
+                    }
+                }
+                return t('additional_step');
+            }
+            
+            // Для обычных шагов используем стандартные переводы
+            const stepTitles = {
+                'installationStep': t('install_app'),
+                'addSubscriptionStep': t('add_subscription'),
+                'connectAndUseStep': t('connect_use')
+            };
+            
+            return stepTitles[stepKey] || t('step');
+        }
 
         function renderAppsSection() {
             if (!appsConfig?.platforms || validPlatforms.length === 0) return '';
@@ -1162,8 +1253,11 @@ function getStepTitle(stepKey) {
             return appIcons[platform] || appIcons['windows'];
         }
 
-        function renderStep(stepConfig, stepKey, app, data) {
+        function renderStep(stepConfig, stepKey, app, data, stepNumber) {
             if (!stepConfig) return '';
+            
+            const stepNum = getStepNumber(stepKey, stepNumber);
+            const stepTitle = getStepTitle(stepKey, stepConfig);
             
             let buttonsHtml = '';
             
@@ -1185,17 +1279,18 @@ function getStepTitle(stepKey) {
                 const REDIRECT_BASE = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
                 
                 if (app.id === 'happ') {
-                    // Для приложения happ
-                    if (data.cryptoLink) {
+                    // Для приложения happ используем cryptoLink из panelData.response.happ
+                    const happCryptoLink = panelData?.response?.happ?.cryptoLink;
+                    if (happCryptoLink) {
                         if (isInTelegram) {
                             // В Telegram используем redirect
                             const redirectPrefix = (app.redirectLink && app.redirectLink.trim() !== "") 
                                 ? app.redirectLink 
                                 : REDIRECT_BASE;
-                            finalUrl = redirectPrefix + encodeURIComponent(data.cryptoLink);
+                            finalUrl = redirectPrefix + encodeURIComponent(happCryptoLink);
                         } else {
                             // Вне Telegram используем прямую ссылку
-                            finalUrl = data.cryptoLink;
+                            finalUrl = happCryptoLink;
                         }
                     }
                 } else {
@@ -1233,8 +1328,8 @@ function getStepTitle(stepKey) {
             return `
                 <div class="step">
                     <div class="step-title">
-                        <span class="step-number">${getStepNumber(stepKey)}</span>
-                        ${getStepTitle(stepKey)}
+                        <span class="step-number">${stepNum}</span> 
+                        ${stepTitle}
                     </div>
                     <div class="step-description">${escapeHtml(description)}</div>
                     <div class="step-buttons">${buttonsHtml}</div>
