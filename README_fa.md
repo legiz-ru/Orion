@@ -1,4 +1,4 @@
-[Русская версия](README.md) | [English Version](README_en.md)
+[Russian Version](README.md) | [English Version](README_en.md) | [中文版本](README_zh.md)
 
 [صفحه‌ی نمایشی](https://legiz-ru.github.io/Orion)
 
@@ -15,9 +15,13 @@
 *   **پیکربندی انعطاف‌پذیر برنامه‌ها:** سفارشی‌سازی کامل لیست برنامه‌ها، پشتیبانی از برنامه‌های "ویژه" و راهنماهای نصب چند مرحله‌ای از طریق [فایل قابل تنظیم `app-config.json`](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps).
     *   **گروه‌های سفارشی:** قابلیت افزودن گروه‌های اضافی به بخش برنامه‌ها از طریق فایل یکپارچه‌سازی، [به عنوان مثال `بخش تلویزیون`](https://github.com/legiz-ru/my-remnawave/blob/main/sub-page/multiapp/app-config.json).
 
+*   **پشتیبانی از برندینگ:** پیکربندی لوگو و لینک پشتیبانی از طریق پارامترهای `logoUrl` و `supportUrl` در تنظیمات `app-config.json` برای شخصی‌سازی صفحه.
+
 *   **کپی کردن لینک‌ها و کدهای QR:** کپی کردن آسان لینک‌های فردی (`vless://`, `trojan://`) و لینک اشتراک اصلی با یک کلیک. برای هر لینک می‌توان یک کد QR تطبیق‌پذیر تولید کرد.
 
 *   **پشتیبانی چند زبانه:** صفحه به زبان‌های **روسی، انگلیسی و فارسی** در دسترس است. زبان به طور خودکار بر اساس تنظیمات مرورگر کاربر تشخیص داده می‌شود، با امکان تغییر دستی.
+
+*   **پشتیبانی از remnawave-json:** امکان یکپارچگی صفحه اشتراک در https://github.com/Jolymmiels/remnawave-json (فایل تطبیق‌یافته index.html در پوشه remnawave-json قرار دارد).
 
 *   **ادغام با Telegram Mini App:** قابلیت استفاده از صفحه اشتراک به عنوان یک اپلیکیشن کوچک تلگرام در ربات شما.
     *   **صفحه ریدایرکت (پیمایش):** امکان استفاده از صفحه ریدایرکت اختصاصی یا خارجی (مناسب برای Telegram Mini App، به عنوان مثال در سبک Orion — [دمو](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=)، سلف هاست از [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).

@@ -1,4 +1,4 @@
-[English Version](README_en.md) | [نسخه فارسی](README_fa.md)
+[English Version](README_en.md) | [中文版本](README_zh.md) | [نسخه فارسی](README_fa.md)
 
 [Демонстрационная страница](https://legiz-ru.github.io/Orion)
 
@@ -15,9 +15,13 @@
 *   **Гибкая настройка приложений:** Полная кастомизация списка приложений, поддержка "рекомендуемых" приложений и многошаговые инструкции по установке через [настраиваемый файл `app-config.json`](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps).
     *   **Кастомные группы:** Возможность добавлять дополнительные группы в раздел приложений через файл интеграции, [например `секцию TV`](https://github.com/legiz-ru/my-remnawave/blob/main/sub-page/multiapp/app-config.json).
 
+*   **Поддержка брендинга:** Настройка логотипа и ссылки на поддержку через параметры `logoUrl` и `supportUrl` в конфигурации `app-config.json` для персонализации внешнего вида страницы.
+
 *   **Копирование ссылок и QR-коды:** Удобное копирование индивидуальных ссылок (`vless://`, `trojan://`) и основной ссылки-подписки в один клик. Для каждой ссылки можно сгенерировать адаптивный QR-код.
 
 *   **Многоязычная поддержка:** Страница доступна на **русском, английском и фарси**. Язык определяется автоматически на основе настроек браузера пользователя, с возможностью ручного переключения.
+
+*   **Поддержка remnawave-json:** Возможность интеграции страницы подписки в https://github.com/Jolymmiels/remnawave-json (адаптированный файл index.html расположен в папке remnawave-json).
 
 *   **Интеграция с Telegram Mini App:** Возможность использовать страницу подписки как Telegram Mini App в вашем боте.
     *   **Переадресация/Redirect-страница:** Возможность использовать собственную или внешнюю страницу переадресации (актуально для Telegram Mini App, например в стиле Orion — [демо](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=), self-host по [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
