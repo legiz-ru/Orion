@@ -1,3 +1,178 @@
+<?php
+$metaTitle = 'vpnbot sub';
+$announce = 'welcome to the club';
+$metaDescription = 'Manage your vpnbot subscription and download configuration files for various clients.';
+$supportUrl = 'https://t.me/yourID';
+$subscription_url = preg_replace("/<a href='([^']+)'>.*<\/a>/", '$1', $suburl);
+$ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+$username = htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8');
+$appsConfigUrl = 'https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json';
+// Переменные для страницы подписки vpnbot
+/*
+    $suburl - ссылка на страницу подписки пользователя
+    $vless - шорт ссылка на конфиг
+    $singbox - ссылка на singbox конфиг
+    $clash - ссылка на mihomo конфиг
+    $xray - ссылка на xray конфига
+    $windows - ссылка на архив скриптов сингбокс под винду
+    $download
+    $upload
+    $uid
+    $email
+    $expire - срок действия подписки пользователя
+    $configs['singbox'] - содержимое конфига сингбокс
+    $configs['xray'] - содержимое конфига xray
+    $configs['clash'] - содержимое конфига clash
+
+    sing-box://import-remote-profile/?url=$singbox
+    streisand://import/$vxray
+    v2rayng://install-config?url=$vxray
+    karing://install-config?url=$singbox
+    hiddify://install-config/?url=$singbox
+    clash://install-config/?url=$clash&overwrite=no&name=$email
+*/
+
+// Функция определния браузера по User-Agent для выдачи страницы подписки
+function isBrowser(string $userAgent): bool {
+    $browserKeywords = [
+        'Mozilla', 'Chrome', 'Safari', 'Firefox', 'Opera', 'Edge', 'Brave',
+        'YaBrowser', 'Cromite', 'Vivaldi', 'DuckDuckGo', 'SamsungBrowser',
+        'Puffin', 'Maxthon', 'QQBrowser', 'UCBrowser', 'SogouMobileBrowser',
+        'TelegramBot', 'SeznamBot', 'Coc Coc', 'Naver', 'Baiduspider',
+        'Lynx', 'w3m',
+    ];
+
+    foreach ($browserKeywords as $keyword) {
+        if (stripos($userAgent, $keyword) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Функция формирования panelData для страницы подписки
+function generate_panelData(
+    string $uid,
+    string $download,
+    string $email,
+    string $vless,
+    string $subscription_url,
+    string $clash,
+    string $singbox,
+    string $windows,
+    string $xray,
+    ?int $expire = null // Может быть null или timestamp
+): string {
+    $happ_cryptolink = 'happ://add/' . $subscription_url;
+
+    $links = [
+        (string)$vless,
+        $clash   . '#mihomo conf',
+        $singbox . '#sing-box conf',
+        $windows . '#sing-box windows script',
+        $xray    . '#xray conf',
+    ];
+
+    // daysLeft и expiresAt рассчитываются автоматически
+    if ($expire === null) {
+        $daysLeft = 27012;
+        $expiresAt = '2099-08-12T10:46:21.000Z';
+    } else {
+        $now = time();
+        $daysLeft = max(0, (int)ceil(($expire - $now) / 86400));
+        $expiresAt = gmdate('Y-m-d\TH:i:s.000\Z', $expire);
+    }
+
+    $payload = [
+        'response' => [
+            'isFound' => true,
+            'user' => [
+                'shortUuid' => (string)$uid,
+                'daysLeft' => $daysLeft,
+                'trafficUsed' => (string)$download,
+                'trafficLimit' => '0',
+                'username' => (string)$email,
+                'expiresAt' => $expiresAt,
+                'isActive' => true,
+                'userStatus' => 'ACTIVE',
+                'trafficLimitStrategy' => 'NO_RESET',
+            ],
+            'links' => $links,
+            'ssConfLinks' => new stdClass(),
+            'subscriptionUrl' => $subscription_url,
+            'happ' => [
+                'cryptoLink' => $happ_cryptolink,
+            ],
+        ],
+    ];
+
+    $json = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    return base64_encode($json !== false ? $json : '{}');
+}
+
+// Функция для отправки общих заголовков профиля
+function send_profile_headers(string $email, string $subscription_url, string $supportUrl): void {
+    header('profile-title: base64:' . base64_encode(substr($email, 0, 25)));
+    header('support-url: ' . $supportUrl);
+    header('profile-web-page-url: ' . $subscription_url);
+    header('profile-update-interval: 12');
+}
+
+// Функция для отправки общих заголовков профиля Happ, Koala Clash, FlClashX
+function send_profile_extra_headers(string $announce): void {
+    header('update-always: true');
+    header('announce: ' . $announce);
+    header('flclashx-denywidgets: true');
+    header('flclashx-custom: update');
+    header('flclashx-widgets: announce,metainfo,networkDetection,intranetIp,tunButton,systemProxyButton,networkSpeed');
+    header('flclashx-view: type:list; sort:none; layout:standard; icon:standard; card:min');
+}
+
+$panelData = generate_panelData($uid, $download, $email, $vless, $subscription_url, $clash, $singbox, $windows, $xray, $expire);
+
+switch (true) {
+    case preg_match('~^(?:[Kk]oala-[Cc]lash|FlClashX)~iu', $ua):
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_extra_headers($announce);
+        header('Content-type: text/yaml');
+        echo $configs['clash'];
+        break;
+
+    case preg_match('~Happ/~', $ua):
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_extra_headers($announce);
+        header('routing: happ://routing/onadd/eyJOYW1lIjoiU2ltcGxlLVJVLXJvdXRpbmciLCJHbG9iYWxQcm94eSI6InRydWUiLCJSZW1vdGVETlNUeXBlIjoiRG9VIiwiUmVtb3RlRE5TRG9tYWluIjoiaHR0cHM6Ly9kbnMuYWRndWFyZC1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiOTQuMTQwLjE0LjE0IiwiRG9tZXN0aWNETlNUeXBlIjoiRG9VIiwiRG9tZXN0aWNETlNEb21haW4iOiJodHRwczovL2Rucy5hZGd1YXJkLWRucy5jb20vZG5zLXF1ZXJ5IiwiRG9tZXN0aWNETlNJUCI6Ijk0LjE0MC4xNS4xNSIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2ZyYXlaVi9zaW1wbGUtcnUtZ2VvaXAvcmVsZWFzZXMvbGF0ZXN0L2Rvd25sb2FkL2dlb2lwLmRhdCIsIkdlb3NpdGV1cmwiOiJodHRwczovL2dpdGh1Yi5jb20vZnJheVpWL3NpbXBsZS1ydS1nZW9zaXRlL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9nZW9zaXRlLmRhdCIsIkxhc3RVcGRhdGVkIjoiMTc1MTY4MTM4MiIsIkRuc0hvc3RzIjp7fSwiRGlyZWN0U2l0ZXMiOlsiZ2Vvc2l0ZTpwcml2YXRlIiwiZ2Vvc2l0ZTpjYXRlZ29yeS1ydSIsImdlb3NpdGU6YXBwbGUiLCJnZW9zaXRlOnR3aXRjaCJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsImdlb2lwOnByaXZhdGUiXSwiUHJveHlTaXRlcyI6WyJnZW9zaXRlOnlvdXR1YmUiLCJnZW9zaXRlOmNhdGVnb3J5LWJhbi1ydSJdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6W10sIkJsb2NrSXAiOltdLCJEb21haW5TdHJhdGVneSI6IklQSWZOb25NYXRjaCIsIkZha2VETlMiOiJmYWxzZSIsIlVzZUNodW5rRmlsZXMiOiJ0cnVlIn0=');
+        header('Content-type: text/plain');
+        echo base64_encode($vless);
+        break;
+
+    case preg_match('~^(?:FlClash|[Cc]lash-[Vv]erge|[Cc]lash-?[Mm]eta|[Mm]urge|[Cc]lashX [Mm]eta|[Mm]ihomo|[Cc]lash-nyanpasu|clash\.meta)~iu', $ua):
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        header('Content-type: text/yaml');
+        echo $configs['clash'];
+        break;
+
+    case preg_match('~(?:SFA|SFI|SFM|SFT|[Rr]abbit[Hh]ole)/\d+\.\d+\.\d+(?:-beta\.\d+)?~', $ua):
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        header('Content-type: application/json');
+        echo $configs['singbox'];
+        break;
+
+    case preg_match('~^(?:[Ss]treisand|ktor-client|V2Box|io\.github\.saeeddev94\.xray/)~', $ua):
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        header('Content-type: application/json');
+        echo $configs['xray'];
+        break;
+
+    case isBrowser($ua):
+        // Формируем URL-схемы для клиентов, используя переменные
+        $sub_url_schemes_json = json_encode([
+            'pc' => "clash://install-config?url=" . urlencode($clash) . "&name=" . urlencode($username),
+            'android' => "clash://install-config?url=" . urlencode($clash) . "&name=" . urlencode($username),
+            'ios' => "sing-box://import-remote-profile?url=" . urlencode($singbox) . "#" . urlencode($username)
+        ]);
+        header('Content-type: text/html; charset=utf-8');
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +183,8 @@
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3b82f6" id="themeColor">
-    <meta name="description" content="{{.MetaDescription}}" />
-    <title>{{.MetaTitle}}</title>
+    <meta name="description" content="<?php echo $metaDescription; ?>" />
+    <title><?php echo $metaTitle; ?></title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 	<script type="module" defer>
     // Fix flags emoji in some browsers on Windows
@@ -701,7 +876,7 @@ body {
 <body>
     <div class="container">
         <header class="header">
-            <div class="logo">{{.MetaTitle}}</div>
+            <div class="logo"><?php echo $metaTitle; ?></div>
             <div class="controls">
                 <button class="btn btn-icon" onclick="openModal('settingsModal')">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -716,7 +891,7 @@ body {
 
         <main id="mainContent"></main>
 
-        <footer class="footer">{{.MetaDescription}}</footer>
+        <footer class="footer"><?php echo $metaDescription; ?></footer>
     </div>
 
     <!-- Modals -->
@@ -997,7 +1172,7 @@ body {
         }
 
         function loadAppsConfig() {
-            fetch('/assets/app-config.json')
+            fetch('<?php echo $appsConfigUrl; ?>')
                 .then(response => {
                     if (!response.ok) {
                         return Promise.reject(`Failed to load with status: ${response.status}`);
@@ -1080,7 +1255,7 @@ body {
         }
 
         function loadPanelData() {
-            const panelDataB64 = '{{.PanelData}}';
+            const panelDataB64 = '<?php echo $panelData; ?>';
             try {
                 panelData = JSON.parse(atob(panelDataB64));
             } catch (error) {
@@ -1632,4 +1807,12 @@ function escapeForAttribute(text) {
     </script>
 </body>
 </html>
+        <?php
+        break;
 
+    default:
+        send_profile_headers($email, $subscription_url, $supportUrl);
+        header('Content-type: text/plain');
+        echo base64_encode($vless);
+        break;
+}

@@ -44,7 +44,7 @@
   <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion 重定向页面">
 </div>
 
-## 安装
+## 安装 Remnawave
 
 1.  **下载页面文件：**
     使用 `curl` 将 `index.html` 文件下载到 `docker-compose.yml` 所在的同一文件夹：
@@ -90,6 +90,48 @@
     ```bash
     docker compose down remnawave-subscription-page && docker compose up -d remnawave-subscription-page
     ```
+
+## 安装 vpnbot
+
+在您的 vpnbot 服务器上运行安装脚本：
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/vpnbot/install.sh)
+```
+
+## Marzban 安装
+
+**自动安装:**  
+参考 [marz-sub](https://github.com/legiz-ru/marz-sub/blob/main/README.md) 使用自动脚本进行安装。
+
+**手动安装:**  
+<details>
+<summary>分步说明</summary>
+
+1. 下载订阅页面文件：
+   ```bash
+   sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/legiz-ru/Orion/main/marzban/index.html
+   ```
+
+2. 在 Marzban `.env` 文件中设置订阅页面模板路径：
+   ```bash
+   echo 'CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"' | sudo tee -a /opt/marzban/.env
+   echo 'SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"' | sudo tee -a /opt/marzban/.env
+   ```
+
+   或手动编辑 `.env` 文件：
+   ```
+   CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"
+   SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
+   ```
+
+3. **在 `index.html` 文件的所有位置，将 `<%= metaTitle %>` 和 `<%= metaDescription %>` 替换为你自己的内容。**
+
+4. 重启 Marzban：
+   ```bash
+   marzban restart
+   ```
+</details>
 
 ## 联系方式
 

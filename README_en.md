@@ -44,7 +44,7 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
   <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion Redirect Page">
 </div>
 
-## Installation
+## Installation for Remnawave
 
 1.  **Download the Page File:**
     Download the `index.html` file to the same directory as your `docker-compose.yml` using `curl`:
@@ -90,6 +90,48 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
     ```bash
     docker compose down remnawave-subscription-page && docker compose up -d remnawave-subscription-page
     ```
+
+## Installing for vpnbot
+
+Run the installation script on your vpnbot server:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/vpnbot/install.sh)
+```
+
+## Installation for marzban
+
+**Automatic installation:**  
+Use the automatic script as described in [marz-sub](https://github.com/legiz-ru/marz-sub/blob/main/README.md).
+
+**Manual installation:**  
+<details>
+<summary>Step-by-step instructions</summary>
+
+1. Download the subscription page file:
+   ```bash
+   sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/legiz-ru/Orion/main/marzban/index.html
+   ```
+
+2. Set the subscription page template path in Marzban `.env`:
+   ```bash
+   echo 'CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"' | sudo tee -a /opt/marzban/.env
+   echo 'SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"' | sudo tee -a /opt/marzban/.env
+   ```
+
+   Or edit `.env` manually:
+   ```
+   CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"
+   SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
+   ```
+
+3. **Replace all `<%= metaTitle %>` and `<%= metaDescription %>` values in `index.html` with your own.**
+
+4. Restart Marzban:
+   ```bash
+   marzban restart
+   ```
+</details>
 
 ## Contact
 
