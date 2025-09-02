@@ -1103,7 +1103,7 @@ body {
                 {% for link in user.links %}"{{ link }}"{% if not loop.last %},{% endif %}{% endfor %}
             ],
             ssConfLinks: {},
-            subscriptionUrl: window.location.href,
+            subscriptionUrl: window.location.href + "#" + "{{ user.username }}",
             happ: {
                 cryptoLink: "happ://add/" + window.location.href
             }
