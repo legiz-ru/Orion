@@ -99,7 +99,7 @@ function generate_panelData(
             ],
             'links' => $links,
             'ssConfLinks' => new stdClass(),
-            'subscriptionUrl' => $subscription_url,
+            'subscriptionUrl' => $subscription_url . '#' . $email,
             'happ' => [
                 'cryptoLink' => $happ_cryptolink,
             ],
@@ -110,18 +110,51 @@ function generate_panelData(
     return base64_encode($json !== false ? $json : '{}');
 }
 
+// Функция для подсчёта трафика для заголовка subscription-userinfo
+function parse_traffic_to_bytes($traffic_str): int {
+    if (is_numeric($traffic_str)) {
+        return (int)$traffic_str;
+    }
+    $traffic_str = trim(strtoupper($traffic_str));
+    preg_match('/([0-9\.]+)\s*(B|KB|MB|GB|TB|KIB|MIB|GIB|TIB)/', $traffic_str, $matches);
+    if (isset($matches[1]) && isset($matches[2])) {
+        $value = (float)$matches[1];
+        $unit = $matches[2];
+        $powers = ['B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4];
+        $bi_powers = ['B' => 0, 'KIB' => 1, 'MIB' => 2, 'GIB' => 3, 'TIB' => 4];
+
+        if (array_key_exists($unit, $powers)) {
+            return (int)($value * pow(1000, $powers[$unit]));
+        } elseif (array_key_exists($unit, $bi_powers)) {
+            return (int)($value * pow(1024, $bi_powers[$unit]));
+        }
+    }
+    return (int)$traffic_str;
+}
+
 // Функция для отправки общих заголовков профиля
-function send_profile_headers(string $email, string $subscription_url, string $supportUrl): void {
+function send_profile_headers(string $email, string $subscription_url, string $supportUrl, $download, $expire, string $announce): void {
+    // Основные заголовки
+    header('x-robots-tag: noindex, nofollow, noarchive, nosnippet, noimageindex');
     header('profile-title: base64:' . base64_encode(substr($email, 0, 25)));
     header('support-url: ' . $supportUrl);
     header('profile-web-page-url: ' . $subscription_url);
-    header('profile-update-interval: 12');
-}
 
-// Функция для отправки общих заголовков профиля Happ, Koala Clash, FlClashX
-function send_profile_extra_headers(string $announce): void {
+    // Заголовок с информацией о пользователе
+    $uploadBytes = 0;
+    $downloadBytes = parse_traffic_to_bytes($download ?? '0');
+    $totalBytes = 0;
+    $expireTimestamp = (!empty($expire) && is_numeric($expire)) ? (int)$expire : 0;
+    $userInfo = "upload={$uploadBytes}; download={$downloadBytes}; total={$totalBytes}; expire={$expireTimestamp}";
+    header('subscription-userinfo: ' . $userInfo);
+
+    // Прочие заголовки
+    header('profile-update-interval: 12');
+    header('content-disposition: attachment; filename=' . $email);
+
+    // Заголовки, перенесенные из send_profile_extra_headers
     header('update-always: true');
-    header('announce: ' . $announce);
+    header('announce: base64:' . base64_encode($announce));
     header('flclashx-denywidgets: true');
     header('flclashx-custom: update');
     header('flclashx-widgets: announce,metainfo,networkDetection,intranetIp,tunButton,systemProxyButton,networkSpeed');
@@ -132,46 +165,39 @@ $panelData = generate_panelData($uid, $download, $email, $vless, $subscription_u
 
 switch (true) {
     case preg_match('~^(?:[Kk]oala-[Cc]lash|FlClashX)~iu', $ua):
-        send_profile_headers($email, $subscription_url, $supportUrl);
-        send_profile_extra_headers($announce);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: text/yaml');
         echo $configs['clash'];
         break;
 
     case preg_match('~Happ/~', $ua):
-        send_profile_headers($email, $subscription_url, $supportUrl);
-        send_profile_extra_headers($announce);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('routing: happ://routing/onadd/eyJOYW1lIjoiU2ltcGxlLVJVLXJvdXRpbmciLCJHbG9iYWxQcm94eSI6InRydWUiLCJSZW1vdGVETlNUeXBlIjoiRG9VIiwiUmVtb3RlRE5TRG9tYWluIjoiaHR0cHM6Ly9kbnMuYWRndWFyZC1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiOTQuMTQwLjE0LjE0IiwiRG9tZXN0aWNETlNUeXBlIjoiRG9VIiwiRG9tZXN0aWNETlNEb21haW4iOiJodHRwczovL2Rucy5hZGd1YXJkLWRucy5jb20vZG5zLXF1ZXJ5IiwiRG9tZXN0aWNETlNJUCI6Ijk0LjE0MC4xNS4xNSIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2ZyYXlaVi9zaW1wbGUtcnUtZ2VvaXAvcmVsZWFzZXMvbGF0ZXN0L2Rvd25sb2FkL2dlb2lwLmRhdCIsIkdlb3NpdGV1cmwiOiJodHRwczovL2dpdGh1Yi5jb20vZnJheVpWL3NpbXBsZS1ydS1nZW9zaXRlL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9nZW9zaXRlLmRhdCIsIkxhc3RVcGRhdGVkIjoiMTc1MTY4MTM4MiIsIkRuc0hvc3RzIjp7fSwiRGlyZWN0U2l0ZXMiOlsiZ2Vvc2l0ZTpwcml2YXRlIiwiZ2Vvc2l0ZTpjYXRlZ29yeS1ydSIsImdlb3NpdGU6YXBwbGUiLCJnZW9zaXRlOnR3aXRjaCJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsImdlb2lwOnByaXZhdGUiXSwiUHJveHlTaXRlcyI6WyJnZW9zaXRlOnlvdXR1YmUiLCJnZW9zaXRlOmNhdGVnb3J5LWJhbi1ydSJdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6W10sIkJsb2NrSXAiOltdLCJEb21haW5TdHJhdGVneSI6IklQSWZOb25NYXRjaCIsIkZha2VETlMiOiJmYWxzZSIsIlVzZUNodW5rRmlsZXMiOiJ0cnVlIn0=');
         header('Content-type: text/plain');
         echo base64_encode($vless);
         break;
 
     case preg_match('~^(?:FlClash|[Cc]lash-[Vv]erge|[Cc]lash-?[Mm]eta|[Mm]urge|[Cc]lashX [Mm]eta|[Mm]ihomo|[Cc]lash-nyanpasu|clash\.meta)~iu', $ua):
-        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: text/yaml');
         echo $configs['clash'];
         break;
 
     case preg_match('~(?:SFA|SFI|SFM|SFT|[Rr]abbit[Hh]ole)/\d+\.\d+\.\d+(?:-beta\.\d+)?~', $ua):
-        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: application/json');
         echo $configs['singbox'];
         break;
 
     case preg_match('~^(?:[Ss]treisand|ktor-client|V2Box|io\.github\.saeeddev94\.xray/)~', $ua):
-        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: application/json');
         echo $configs['xray'];
         break;
 
     case isBrowser($ua):
-        // Формируем URL-схемы для клиентов, используя переменные
-        $sub_url_schemes_json = json_encode([
-            'pc' => "clash://install-config?url=" . urlencode($clash) . "&name=" . urlencode($username),
-            'android' => "clash://install-config?url=" . urlencode($clash) . "&name=" . urlencode($username),
-            'ios' => "sing-box://import-remote-profile?url=" . urlencode($singbox) . "#" . urlencode($username)
-        ]);
         header('Content-type: text/html; charset=utf-8');
+        header('x-robots-tag: noindex, nofollow, noarchive, nosnippet, noimageindex');
         ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1811,7 +1837,7 @@ function escapeForAttribute(text) {
         break;
 
     default:
-        send_profile_headers($email, $subscription_url, $supportUrl);
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: text/plain');
         echo base64_encode($vless);
         break;
