@@ -19,7 +19,7 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 
 *   **Link Copying & QR Codes:** Convenient one-click copying of individual links (`vless://`, `trojan://`) and the main subscription link. An adaptive QR code can be generated for each link.
 
-*   **Multilingual Support:** The page is available in **Russian, English, and Farsi**. The language is detected automatically based on the user's browser settings, with a manual override option.
+*   **Multilingual support:** The page is available in **Russian, English, Uzbek, Turkish, Farsi, and Chinese**. The language is detected automatically based on the user's browser settings, with an option to switch manually.
 
 *   **remnawave-json Support:** Ability to integrate the subscription page into https://github.com/Jolymmiels/remnawave-json (adapted index.html file is located in the remnawave-json folder).
 
