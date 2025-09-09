@@ -1076,6 +1076,42 @@ body {
                 no_data: '无数据显示', error_loading_apps: '加载应用配置出错',
                 step_install: '安装', step_add_subscription: '添加订阅', step_connect: '连接并使用',
                 close: '关闭', or: '或', select_platform: '选择平台', support: '客服', additional_step: '附加步骤'
+            },
+            tr: {
+                settings: 'Ayarlar', get_link: 'Bağlantıyı Al', theme: 'Tema', language: 'Dil',
+                light: 'Açık', dark: 'Koyu', auto: 'Otomatik',
+                username: 'Kullanıcı adı', status: 'Durum', expires_at: 'Bitiş tarihi', days_left: 'Kalan gün',
+                traffic_used: 'Kullanılan trafik', traffic_limit: 'Trafik limiti', traffic_reset: 'Trafik sıfırlama',
+                never_expires: 'Süresiz', unlimited: 'Sınırsız',
+                ACTIVE: 'Aktif', DISABLED: 'Devre dışı', LIMITED: 'Sınırlı', EXPIRED: 'Süresi doldu',
+                NO_RESET: 'Sıfırlama yok', DAY: 'Günlük', WEEK: 'Haftalık', MONTH: 'Aylık',
+                subscription_links: 'Abonelik bağlantıları', subscription_link: 'Abonelik bağlantısı',
+                copy: 'Kopyala', qr_code: 'QR kodu', copied: 'Kopyalandı!', scan_with_phone: 'Telefonunuzla tarayın',
+                available_apps: 'Mevcut uygulamalar', other_apps: 'Diğer uygulamalar', featured: 'Önerilen',
+                install_app: 'Yükle ve çalıştır', add_subscription: 'Abonelik ekle', connect_use: 'Bağlan ve kullan',
+                ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: 'Android TV', appleTV: 'Apple TV',
+                no_data: 'Görüntülenecek veri yok', error_loading_apps: 'Uygulama yapılandırması yüklenirken hata oluştu',
+                step_install: 'Kurulum', step_add_subscription: 'Abonelik ekleme', step_connect: 'Bağlan ve kullan',
+                close: 'Kapat', or: 'veya', select_platform: 'Platform seçin', support: 'Destek', additional_step: 'Ek adım'
+            },
+            uz: {
+                settings: 'Sozlamalar', get_link: 'Havolani olish', theme: 'Mavzu', language: 'Til',
+                light: 'Yorugʻ', dark: 'Qorongʻi', auto: 'Avtomatik',
+                username: 'Foydalanuvchi nomi', status: 'Holat', expires_at: 'Tugash muddati', days_left: 'Qolgan kunlar',
+                traffic_used: 'Ishlatilgan trafik', traffic_limit: 'Trafik chegarasi', traffic_reset: 'Trafikni qayta tiklash',
+                never_expires: 'Muddatsiz', unlimited: 'Cheksiz',
+                ACTIVE: 'Faol', DISABLED: 'Oʻchirib qoʻyilgan', LIMITED: 'Cheklangan', EXPIRED: 'Muddati tugagan',
+                NO_RESET: 'Qayta tiklash yoʻq', DAY: 'Kunlik', WEEK: 'Haftalik', MONTH: 'Oylik',
+                subscription_links: 'Obuna havolalari', subscription_link: 'Obuna havolasi',
+                copy: 'Nusxa olish', qr_code: 'QR-kod', copied: 'Nusxa olindi!', scan_with_phone: 'Telefoningiz bilan skanerlang',
+                available_apps: 'Mavjud ilovalar', other_apps: 'Boshqa ilovalar', featured: 'Tavsiya etilgan',
+                install_app: 'Oʻrnatish va ishga tushirish', add_subscription: 'Obunani qoʻshish', connect_use: 'Ulanish va foydalanish',
+                ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: 'Android TV', appleTV: 'Apple TV',
+                no_data: 'Koʻrsatish uchun maʼlumot yoʻq', error_loading_apps: 'Ilovalar konfiguratsiyasini yuklashda xatolik yuz berdi',
+                step_install: 'Oʻrnatish', step_add_subscription: 'Obuna qoʻshish', step_connect: 'Ulanish va foydalanish',
+                close: 'Yopish', or: 'yoki', select_platform: 'Platformani tanlang', support: 'Yordam', additional_step: 'Qoʻshimcha qadam'
             }
         };
 
@@ -1084,7 +1120,9 @@ body {
             en: 'English',
             ru: 'Русский',
             fa: 'فارسی',
-            zh: '中文'
+            zh: '中文',
+            tr: 'Türkçe',
+            uz: 'Oʻzbekcha'
         };
 
         const appIcons = {

@@ -333,7 +333,17 @@
             </div>
             <div class="modal-body">
                 <div class="step"><div class="step-title" data-key="theme">Theme</div><div class="step-buttons"><button class="btn" onclick="setTheme('light')" data-key="light">Light</button><button class="btn" onclick="setTheme('dark')" data-key="dark">Dark</button><button class="btn" onclick="setTheme('auto')" data-key="auto">Auto</button></div></div>
-                <div class="step"><div class="step-title" data-key="language">Language</div><div class="step-buttons"><button class="btn" onclick="setLanguage('en')">English</button><button class="btn" onclick="setLanguage('ru')">Русский</button><button class="btn" onclick="setLanguage('fa')">فارسی</button><button class="btn" onclick="setLanguage('zh')">中文</button></div></div>
+                <div class="step">
+                <div class="step-title" data-key="language">Language</div>
+                <div class="step-buttons">
+                    <button class="btn" onclick="setLanguage('fa')">فارسی</button>
+                    <button class="btn" onclick="setLanguage('zh')">中文</button>
+                    <button class="btn" onclick="setLanguage('tr')">Türkçe</button>
+                    <button class="btn" onclick="setLanguage('uz')">Oʻzbekcha</button>
+                    <button class="btn" onclick="setLanguage('en')">English</button>
+                    <button class="btn" onclick="setLanguage('ru')">Русский</button>
+                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -361,20 +371,20 @@
         };
 
         const appSchemes = [
-            { scheme: 'v2raytun://', id: 'v2raytun', name: { en: 'v2RayTun', ru: 'v2RayTun', fa: 'v2RayTun', zh: 'Happ' } },
-            { scheme: 'happ://', id: 'happ', name: { en: 'Happ', ru: 'Happ', fa: 'Happ', zh: 'Happ' } },
-            { scheme: 'flclash://', id: 'flclash', name: { en: 'FlClash', ru: 'FlClash', fa: 'FlClash', zh: 'FlClash' } },
-            { scheme: 'flclash://', id: 'flclashx', name: { en: 'FlClashX', ru: 'FlClashX', fa: 'FlClashX', zh: 'FlClashX' } },
-            { scheme: 'clashmeta://', id: 'clash-meta', name: { en: 'Clash Meta', ru: 'Clash Meta', fa: 'Clash Meta', zh: 'Clash Meta' } },
-            { scheme: 'sing-box://', id: 'sing-box', name: { en: 'sing-box', ru: 'sing-box', fa: 'sing-box', zh: 'sing-box' } },
-            { scheme: 'streisand://', id: 'streisand', name: { en: 'Streisand', ru: 'Streisand', fa: 'Streisand', zh: 'Streisand' } },
-            { scheme: 'v2rayng://', id: 'v2rayng', name: { en: 'v2rayNG', ru: 'v2rayNG', fa: 'v2rayNG', zh: 'v2rayNG' } },
-            { scheme: 'exclave://', id: 'exclave', name: { en: 'Exclave', ru: 'Exclave', fa: 'Exclave', zh: 'Exclave' } },
-            { scheme: 'sub://', id: 'shadowrocket', name: { en: 'Shadowrocket', ru: 'Shadowrocket', fa: 'Shadowrocket', zh: 'Shadowrocket' } },
-            { scheme: 'hiddify://', id: 'hiddify', name: { en: 'Hiddify', ru: 'Hiddify', fa: 'Hiddify', zh: 'Hiddify' } },
-            { scheme: 'obtainium://', id: 'obtainium', name: { en: 'Obtainium', ru: 'Obtainium', fa: 'Obtainium', zh: 'Obtainium' } },
-            { scheme: 'koala-clash://', id: 'koala-clash', name: { en: 'Koala Clash', ru: 'Koala Clash', fa: 'Koala Clash', zh: 'Koala Clash' } },
-            { scheme: 'clash://', id: 'clash-mi', name: { en: 'Clash Mi', ru: 'Clash Mi', fa: 'Clash Mi', zh: 'Clash Mi' } }
+            { scheme: 'v2raytun://', id: 'v2raytun', name: { en: 'v2RayTun', ru: 'v2RayTun', fa: 'v2RayTun', zh: 'Happ', tr: 'v2RayTun', uz: 'v2RayTun' } },
+            { scheme: 'happ://', id: 'happ', name: { en: 'Happ', ru: 'Happ', fa: 'Happ', zh: 'Happ', tr: 'Happ', uz: 'Happ' } },
+            { scheme: 'flclash://', id: 'flclash', name: { en: 'FlClash', ru: 'FlClash', fa: 'FlClash', zh: 'FlClash', tr: 'FlClash', uz: 'FlClash' } },
+            { scheme: 'flclash://', id: 'flclashx', name: { en: 'FlClashX', ru: 'FlClashX', fa: 'FlClashX', zh: 'FlClashX', tr: 'FlClashX', uz: 'FlClashX' } },
+            { scheme: 'clashmeta://', id: 'clash-meta', name: { en: 'Clash Meta', ru: 'Clash Meta', fa: 'Clash Meta', zh: 'Clash Meta', tr: 'Clash Meta', uz: 'Clash Meta' } },
+            { scheme: 'sing-box://', id: 'sing-box', name: { en: 'sing-box', ru: 'sing-box', fa: 'sing-box', zh: 'sing-box', tr: 'sing-box', uz: 'sing-box' } },
+            { scheme: 'streisand://', id: 'streisand', name: { en: 'Streisand', ru: 'Streisand', fa: 'Streisand', zh: 'Streisand', tr: 'Streisand', uz: 'Streisand' } },
+            { scheme: 'v2rayng://', id: 'v2rayng', name: { en: 'v2rayNG', ru: 'v2rayNG', fa: 'v2rayNG', zh: 'v2rayNG', tr: 'v2rayNG', uz: 'v2rayNG' } },
+            { scheme: 'exclave://', id: 'exclave', name: { en: 'Exclave', ru: 'Exclave', fa: 'Exclave', zh: 'Exclave', tr: 'Exclave', uz: 'Exclave' } },
+            { scheme: 'sub://', id: 'shadowrocket', name: { en: 'Shadowrocket', ru: 'Shadowrocket', fa: 'Shadowrocket', zh: 'Shadowrocket', tr: 'Shadowrocket', uz: 'Shadowrocket' } },
+            { scheme: 'hiddify://', id: 'hiddify', name: { en: 'Hiddify', ru: 'Hiddify', fa: 'Hiddify', zh: 'Hiddify', tr: 'Hiddify', uz: 'Hiddify' } },
+            { scheme: 'obtainium://', id: 'obtainium', name: { en: 'Obtainium', ru: 'Obtainium', fa: 'Obtainium', zh: 'Obtainium', tr: 'Obtainium', uz: 'Obtainium' } },
+            { scheme: 'koala-clash://', id: 'koala-clash', name: { en: 'Koala Clash', ru: 'Koala Clash', fa: 'Koala Clash', zh: 'Koala Clash', tr: 'Koala Clash', uz: 'Koala Clash' } },
+            { scheme: 'clash://', id: 'clash-mi', name: { en: 'Clash Mi', ru: 'Clash Mi', fa: 'Clash Mi', zh: 'Clash Mi', tr: 'Clash Mi', uz: 'Clash Mi' } }
         ];
 
         const translations = {
@@ -409,6 +419,22 @@
                 error_description: "重定向链接丢失或无效。",
                 obtainium_info: "如果重定向没有发生，您可能没有安装 Obtainium 应用程序。请从 GitHub 或 F-Droid 下载它，然后点击下方的“导入”按钮。",
                 download_github: "下载 (GitHub)", download_fdroid: "下载 (F-Droid)"
+            },
+            tr: {
+                settings: "Ayarlar", theme: "Tema", language: "Dil", light: "Açık", dark: "Koyu", auto: "Otomatik",
+                seconds: "saniye içinde", redirecting_to: "Şuraya yönlendiriliyor", you_will_be_redirected: "Otomatik olarak yönlendirileceksiniz",
+                if_not: "Hiçbir şey olmazsa, aşağıdaki düğmeye tıklayın.", proceed: "İçe aktar", error_redirect: "Yönlendirme hatası",
+                error_description: "Yönlendirme bağlantısı eksik veya geçersiz.",
+                obtainium_info: "Bu gerçekleşmediyse, Obtainium uygulaması yüklü olmayabilir. GitHub veya F-Droid'den indirin ve aşağıdaki İçe aktar düğmesine tıklayın.",
+                download_github: "İndir (GitHub)", download_fdroid: "İndir (F-Droid)"
+            },
+            uz: {
+                settings: "Sozlamalar", theme: "Mavzu", language: "Til", light: "Yorugʻ", dark: "Qorongʻi", auto: "Avtomatik",
+                seconds: "soniya ichida", redirecting_to: "Quyidagiga yoʻnaltirilmoqda", you_will_be_redirected: "Siz avtomatik ravishda yoʻnaltirilasiz",
+                if_not: "Agar hech narsa sodir bo‘lmasa, quyidagi tugmani bosing.", proceed: "Import qilish", error_redirect: "Yoʻnaltirish xatosi",
+                error_description: "Yoʻnaltirish havolasi yoʻq yoki yaroqsiz.",
+                obtainium_info: "Agar bu sodir boʻlmagan boʻlsa, ehtimol sizda Obtainium ilovasi oʻrnatilmagan. Uni GitHub yoki F-Droid’dan yuklab oling va quyidagi “Import qilish” tugmasini bosing.",
+                download_github: "Yuklab olish (GitHub)", download_fdroid: "Yuklab olish (F-Droid)"
             }
         };
 
