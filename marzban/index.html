@@ -1141,7 +1141,7 @@ body {
                 {% for link in user.links %}"{{ link }}"{% if not loop.last %},{% endif %}{% endfor %}
             ],
             ssConfLinks: {},
-            subscriptionUrl: window.location.href + "#" + "{{ user.username }}",
+            subscriptionUrl: window.location.href,
             happ: {
                 cryptoLink: "happ://add/" + window.location.href
             }
@@ -1369,12 +1369,22 @@ body {
                 } else {
                     // Для других приложений
                     if (app.urlScheme && data.subscriptionUrl) {
-                        let subscriptionPart = data.subscriptionUrl;
+                        let subscriptionPart = data.subscriptionUrl + "#" + "{{ user.username }}";
+                        // Для определенных приложений добавляем /clash-meta
+                        if (app.id === 'flclashx' || app.id === 'koala-clash') {
+                            subscriptionPart = data.subscriptionUrl + "/clash-meta" + "#" + "{{ user.username }}";
+                        }
+
                         if (app.isNeedBase64Encoding) {
                             subscriptionPart = btoa(subscriptionPart);
                         }
                         
-                        const appUrl = app.urlScheme + subscriptionPart;
+                        let urlScheme = app.urlScheme;
+                        if (app.id === 'clash-mi' || app.id === 'clash-meta' || app.id === 'v2rayng' || app.id === 'v2rayNG') {
+                            urlScheme = app.urlScheme.replace('name=Remnawave', 'name={{ user.username }}');
+                        }
+                        
+                        const appUrl = urlScheme + subscriptionPart;
                         
                         if (isInTelegram) {
                             // В Telegram используем redirect

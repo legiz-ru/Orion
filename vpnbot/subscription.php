@@ -1545,7 +1545,12 @@ body {
                             subscriptionPart = btoa(subscriptionPart);
                         }
                         
-                        const appUrl = app.urlScheme + subscriptionPart;
+                        let urlScheme = app.urlScheme;
+                        if (app.id === 'clash-mi' || app.id === 'clash-meta' || app.id === 'v2rayng' || app.id === 'v2rayNG') {
+                            urlScheme = app.urlScheme.replace('name=Remnawave', 'name=<?php echo $username; ?>');
+                        }
+                        
+                        const appUrl = urlScheme + subscriptionPart;
                         
                         if (isInTelegram) {
                             // В Telegram используем redirect
