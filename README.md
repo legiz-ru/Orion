@@ -82,7 +82,7 @@
     ```js
     const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
     ```
-    или используйте свой self-hosted вариант. Например: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) или [redirect-page от maposia](https://github.com/maposia/redirect-page/).
+    или используйте свой self-hosted вариант. Например: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) ,[redirect-page от SawGoD](https://github.com/SawGoD/redirect-page) или [redirect-page от maposia](https://github.com/maposia/redirect-page/).
 
 4.  **Перезапуск контейнера:**
     Для применения изменений перезапустите контейнер Docker:
