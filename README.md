@@ -142,4 +142,4 @@ bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/
 Если вам нравится этот проект и вы хотите поддержать его развитие, вы можете сделать пожертвование:
 
 *   [Tribute on Telegram](https://t.me/tribute/app?startapp=drzu)
-*   TON USDT: `UQAGQTQZYCx5TWj5cmTLpo7164PFsXqZZJ6t6x88n7sHW9gU`
+*   TON USDT: `UQDMsPzYket1ZvztKEHheR3guiWzTBAH4gC1KjPEMMwtWBPO`
