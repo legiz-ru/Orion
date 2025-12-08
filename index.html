@@ -1183,7 +1183,6 @@ body {
             // Создаем объект с данными для передачи в renderStep
             const stepData = {
                 subscriptionUrl: response.subscriptionUrl,
-                cryptoLink: response.happ?.cryptoLink || response.cryptoLink // Используем happ.cryptoLink для приложения happ
             };
             
             let stepsHtml = '';
@@ -1322,41 +1321,26 @@ body {
                 // Базовая redirect ссылка используется ТОЛЬКО в Telegram WebApp
                 const REDIRECT_BASE = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
                 
-                if (app.id === 'happ') {
-                    // Для приложения happ используем cryptoLink из panelData.response.happ
-                    const happCryptoLink = panelData?.response?.happ?.cryptoLink;
-                    if (happCryptoLink) {
-                        if (isInTelegram) {
-                            // В Telegram используем redirect
-                            const redirectPrefix = (app.redirectLink && app.redirectLink.trim() !== "") 
-                                ? app.redirectLink 
-                                : REDIRECT_BASE;
-                            finalUrl = redirectPrefix + encodeURIComponent(happCryptoLink);
-                        } else {
-                            // Вне Telegram используем прямую ссылку
-                            finalUrl = happCryptoLink;
-                        }
+                // Для всех приложений (без отдельной логики для happ)
+                if (app.urlScheme && data.subscriptionUrl) {
+                    let subscriptionPart = data.subscriptionUrl;
+                    
+                    // При необходимости кодируем подписку в base64
+                    if (app.isNeedBase64Encoding) {
+                        subscriptionPart = btoa(subscriptionPart);
                     }
-                } else {
-                    // Для других приложений
-                    if (app.urlScheme && data.subscriptionUrl) {
-                        let subscriptionPart = data.subscriptionUrl;
-                        if (app.isNeedBase64Encoding) {
-                            subscriptionPart = btoa(subscriptionPart);
-                        }
-                        
-                        const appUrl = app.urlScheme + subscriptionPart;
-                        
-                        if (isInTelegram) {
-                            // В Telegram используем redirect
-                            const redirectPrefix = (app.redirectLink && app.redirectLink.trim() !== "") 
-                                ? app.redirectLink 
-                                : REDIRECT_BASE;
-                            finalUrl = redirectPrefix + encodeURIComponent(appUrl);
-                        } else {
-                            // Вне Telegram используем прямую ссылку
-                            finalUrl = appUrl;
-                        }
+                    
+                    const appUrl = app.urlScheme + subscriptionPart;
+                    
+                    if (isInTelegram) {
+                        // В Telegram используем redirect
+                        const redirectPrefix = (app.redirectLink && app.redirectLink.trim() !== "") 
+                            ? app.redirectLink 
+                            : REDIRECT_BASE;
+                        finalUrl = redirectPrefix + encodeURIComponent(appUrl);
+                    } else {
+                        // Вне Telegram используем прямую ссылку
+                        finalUrl = appUrl;
                     }
                 }
                 
@@ -1366,7 +1350,7 @@ body {
                     buttonsHtml += addSubscriptionButton;
                 }
             }
-            
+
             const description = stepConfig.description?.[currentLanguage] || stepConfig.description?.en || '';
             
             return `
@@ -1428,7 +1412,6 @@ body {
             const { response } = panelData || {};
             const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
             if (!response) return '#';
-            if (app.id.toLowerCase() === 'happ' && response.happ?.cryptoLink) return redirect_link + response.happ.cryptoLink;
             if (!app.urlScheme || !response.subscriptionUrl) return '#';
             let url = response.subscriptionUrl;
             if (app.isNeedBase64Encoding) try { url = btoa(url); } catch (e) { return '#'; }
