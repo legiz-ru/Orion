@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://telegram.org">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdn.skypack.dev">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-180x180.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
@@ -10,13 +13,19 @@
     <meta name="theme-color" content="#3b82f6" id="themeColor">
     <meta name="description" content="<%= metaDescription %>" />
     <title><%= metaTitle %></title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script type="module" defer>
-    // Fix flags emoji in some browsers on Windows
-    import { polyfillCountryFlagEmojis } from "https://cdn.skypack.dev/country-flag-emoji-polyfill";
-    polyfillCountryFlagEmojis();
+    <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script type="module">
+      if (navigator.userAgent.includes('Windows')) {
+        import('https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.8/dist/index.mjs')
+          .then(({ polyfillCountryFlagEmojis }) => {
+            polyfillCountryFlagEmojis();
+          })
+          .catch((err) => {
+            console.warn('Flag emoji polyfill failed to load:', err);
+          });
+      }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js" defer></script>
     <style>
 :root {
     --primary-color: #3b82f6;
@@ -911,6 +920,24 @@ body {
                 no_data: 'Koʻrsatish uchun maʼlumot yoʻq', error_loading_apps: 'Ilovalar konfiguratsiyasini yuklashda xatolik yuz berdi',
                 step_install: 'Oʻrnatish', step_add_subscription: 'Obuna qoʻshish', step_connect: 'Ulanish va foydalanish',
                 close: 'Yopish', or: 'yoki', select_platform: 'Platformani tanlang', support: 'Yordam', additional_step: 'Qoʻshimcha qadam'
+            },
+            fr: {
+                settings: 'Paramètres', get_link: 'Obtenir le lien', theme: 'Thème', language: 'Langue',
+                light: 'Clair', dark: 'Sombre', auto: 'Auto',
+                username: 'Nom d\'utilisateur', status: 'Statut', expires_at: 'Expiration', days_left: 'Jours restants',
+                traffic_used: 'Trafic utilisé', traffic_limit: 'Limite de trafic', traffic_reset: 'Réinitialisation du trafic',
+                never_expires: 'N\'expire jamais', unlimited: 'Illimité',
+                ACTIVE: 'Actif', DISABLED: 'Désactivé', LIMITED: 'Limité', EXPIRED: 'Expiré',
+                NO_RESET: 'Sans réinitialisation', DAY: 'Quotidien', WEEK: 'Hebdomadaire', MONTH: 'Mensuel',
+                subscription_links: 'Liens d\'abonnement', subscription_link: 'Lien d\'abonnement',
+                copy: 'Copier', qr_code: 'QR code', copied: 'Copié !', scan_with_phone: 'Scannez avec votre téléphone',
+                available_apps: 'Applications disponibles', other_apps: 'Autres applications', featured: 'Recommandé',
+                install_app: 'Installer et lancer', add_subscription: 'Ajouter l\'abonnement', connect_use: 'Se connecter et utiliser',
+                ios: 'iOS', android: 'Android', windows: 'Windows', macos: 'macOS', linux: 'Linux',
+                androidTV: 'Android TV', appleTV: 'Apple TV',
+                no_data: 'Aucune donnée à afficher', error_loading_apps: 'Erreur lors du chargement de la configuration des applications',
+                step_install: 'Installation', step_add_subscription: 'Ajout de l\'abonnement', step_connect: 'Connexion et utilisation',
+                close: 'Fermer', or: 'ou', select_platform: 'Choisir une plateforme', support: 'Support', additional_step: 'Étape supplémentaire'
             }
         };
 
@@ -921,7 +948,8 @@ body {
             fa: 'فارسی',
             zh: '中文',
             tr: 'Türkçe',
-            uz: 'Oʻzbekcha'
+            uz: 'Oʻzbekcha',
+            fr: 'Français'
         };
 
         const appIcons = {
@@ -1248,8 +1276,7 @@ body {
         function renderAppsSection() {
             if (!appsConfig?.platforms || validPlatforms.length === 0) return '';
             
-            const storedPlatform = localStorage.getItem('platform');
-            currentPlatform = validPlatforms.includes(storedPlatform) ? storedPlatform : detectOS();
+            currentPlatform = detectOS();
             if (!validPlatforms.includes(currentPlatform)) {
                 currentPlatform = validPlatforms[0];
             }
@@ -1515,7 +1542,6 @@ body {
         function switchPlatform(platform) {
             if (!platform || platform === currentPlatform) return;
             currentPlatform = platform;
-            localStorage.setItem('platform', platform);
 
             document.querySelectorAll('.platform-tab').forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.platform === platform);
