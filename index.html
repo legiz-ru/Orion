@@ -1267,8 +1267,7 @@ body {
         function renderAppsSection() {
             if (!appsConfig?.platforms || validPlatforms.length === 0) return '';
             
-            const storedPlatform = localStorage.getItem('platform');
-            currentPlatform = validPlatforms.includes(storedPlatform) ? storedPlatform : detectOS();
+            currentPlatform = detectOS();
             if (!validPlatforms.includes(currentPlatform)) {
                 currentPlatform = validPlatforms[0];
             }
@@ -1429,7 +1428,7 @@ body {
 
         function getSubscriptionLinkForApp(app) {
             const { response } = panelData || {};
-            const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
+            const redirect_link = 'https://subs.undergut.org/redirect-page/?redirect_to=';
             if (!response) return '#';
             if (!app.urlScheme || !response.subscriptionUrl) return '#';
             let url = response.subscriptionUrl;
@@ -1534,7 +1533,6 @@ body {
         function switchPlatform(platform) {
             if (!platform || platform === currentPlatform) return;
             currentPlatform = platform;
-            localStorage.setItem('platform', platform);
 
             document.querySelectorAll('.platform-tab').forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.platform === platform);
