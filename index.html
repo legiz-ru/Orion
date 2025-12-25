@@ -123,8 +123,6 @@ body {
 .btn-sm { padding: 6px 12px; font-size: 12px; }
 .btn-icon { padding: 8px; min-width: 40px; justify-content: center; }
 
-/* Button text hidden on mobile */
-.btn-text { display: inline; }
 
 .card {
     background: var(--surface);
@@ -683,7 +681,6 @@ body {
     .header { gap: 12px; }
     .logo { font-size: 20px; flex: 1; }
     .controls { gap: 8px; }
-    .btn-text { display: none; }
     .btn-icon { padding: 8px; min-width: auto; }
     .platform-tabs { display: none; }
     #platform-selector-btn { display: inline-flex !important; }
@@ -962,24 +959,22 @@ body {
                 const supportIcon = isTelegramUrl
                     ? `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`
                     : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
-                html += `<button class="btn" onclick="openLink('${escapeForAttribute(branding.supportUrl)}')">${supportIcon}<span class="btn-text">${t('getLink') || 'Support'}</span></button>`;
+                html += `<button class="btn btn-icon" onclick="openLink('${escapeForAttribute(branding.supportUrl)}')">${supportIcon}</button>`;
             }
 
             // Settings button
-            html += `<button class="btn" onclick="openModal('settingsModal')">
+            html += `<button class="btn btn-icon" onclick="openModal('settingsModal')">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                <span class="btn-text">${t('scanQrCodeDescription') || 'Settings'}</span>
             </button>`;
 
             // Get Link / QR button
-            html += `<button class="btn btn-primary" onclick="showSubscriptionModal()">
+            html += `<button class="btn btn-primary btn-icon" onclick="showSubscriptionModal()">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
-                <span class="btn-text">${t('getLink') || 'Get Link'}</span>
             </button>`;
 
             controls.innerHTML = html;
