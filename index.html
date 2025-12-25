@@ -131,6 +131,7 @@ body {
     box-shadow: var(--shadow);
     overflow: hidden;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .card-header {
@@ -147,7 +148,7 @@ body {
 .card-header.clickable:hover { background: rgba(0,0,0,0.02); }
 .dark-theme .card-header.clickable:hover { background: rgba(255,255,255,0.02); }
 
-.card-content { padding: 20px; }
+.card-content { padding: 20px; width: 100%; box-sizing: border-box; }
 
 /* User Info - Original cards style with info-row */
 .user-info .info-row {
@@ -250,7 +251,7 @@ body {
 .link-actions { display: flex; gap: 8px; }
 
 /* Installation Section */
-.apps-section { margin-bottom: 30px; }
+.apps-section { margin-bottom: 30px; width: 100%; }
 .platform-tabs {
     display: flex;
     gap: 8px;
@@ -372,10 +373,9 @@ body {
 .app-tab.featured { border-color: var(--warning); }
 .app-tab .star-icon { color: var(--warning); }
 .app-tab.active .star-icon { color: white; }
-.app-tab .app-tab-icon { width: 24px; height: 24px; background: var(--primary-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.app-tab .app-tab-icon svg { width: 16px; height: 16px; color: white; fill: white; stroke: white; }
-.app-tab.active .app-tab-icon { background: rgba(255,255,255,0.9); }
-.app-tab.active .app-tab-icon svg { color: var(--primary-color); fill: var(--primary-color); stroke: var(--primary-color); }
+.app-tab .app-tab-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.app-tab .app-tab-icon svg { width: 24px; height: 24px; }
+.app-tab.active .app-tab-icon svg { color: white; fill: white; }
 
 /* Installation Guides - Cards */
 .guides-cards .guide-card {
@@ -407,12 +407,14 @@ body {
 .guides-cards .guide-card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Accordion */
+.guides-accordion { width: 100%; }
 .guides-accordion .accordion-item {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     margin-bottom: 8px;
     overflow: hidden;
+    width: 100%;
 }
 .guides-accordion .accordion-item:last-child { margin-bottom: 0; }
 .guides-accordion .accordion-header {
@@ -422,6 +424,7 @@ body {
     padding: 16px;
     cursor: pointer;
     transition: background 0.2s ease;
+    width: 100%;
 }
 .guides-accordion .accordion-header:hover { background: rgba(0,0,0,0.02); }
 .dark-theme .guides-accordion .accordion-header:hover { background: rgba(255,255,255,0.02); }
@@ -657,7 +660,10 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    font-family: "Twemoji Country Flags", system-ui, -apple-system, Roboto, "Segoe UI", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.lang-emoji {
+    font-family: "Twemoji Country Flags", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    font-size: 1.2em;
 }
 
 /* QR Modal */
@@ -1074,7 +1080,7 @@ body {
                 const button = document.createElement('button');
                 button.className = 'btn' + (langCode === currentLanguage ? ' btn-primary' : '');
                 const emoji = langEmojis[langCode] || '';
-                button.textContent = `${emoji} ${langFullNames[langCode] || langCode.toUpperCase()}`;
+                button.innerHTML = `<span class="lang-emoji">${emoji}</span> ${langFullNames[langCode] || langCode.toUpperCase()}`;
                 button.onclick = () => setLanguage(langCode);
                 container.appendChild(button);
             });
@@ -1256,23 +1262,36 @@ body {
 
             return `
                 <div class="card" style="margin-bottom: 20px;">
-                    <div class="card-content user-info-expanded">
-                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
-                            <div class="status-icon ${isActive ? 'active' : 'inactive'}" style="width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: ${isActive ? 'var(--success)' : 'var(--error)'}; color: white;">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
+                    <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--border);">
+                        <div class="status-icon ${isActive ? 'active' : 'inactive'}" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: ${isActive ? 'var(--success)' : 'var(--error)'}; color: white; flex-shrink: 0;">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 18px;">${escapeHtml(user.username)}</div>
+                            <div style="color: var(--text-secondary); font-size: 14px;">${expiryText}</div>
+                        </div>
+                    </div>
+                    <div style="padding: 20px;">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-card-label">${t('name') || 'Username'}</div>
+                                <div class="stat-card-value">${escapeHtml(user.username)}</div>
                             </div>
-                            <div>
-                                <div style="font-weight: 600; font-size: 20px;">${escapeHtml(user.username)}</div>
-                                <div style="color: var(--text-secondary);">${expiryText}</div>
+                            <div class="stat-card">
+                                <div class="stat-card-label">${t('status') || 'Status'}</div>
+                                <div class="stat-card-value"><span class="badge badge-${user.userStatus.toLowerCase()}">${isActive ? (t('active') || 'Active') : (t('inactive') || 'Inactive')}</span></div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-label">${t('expires') || 'Expires'}</div>
+                                <div class="stat-card-value">${expiryText}</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-label">${t('bandwidth') || 'Bandwidth'}</div>
+                                <div class="stat-card-value">${bandwidth}</div>
                             </div>
                         </div>
-                        <div class="info-row"><span class="info-label">${t('name') || 'Username'}</span><span class="info-value">${escapeHtml(user.username)}</span></div>
-                        <div class="info-row"><span class="info-label">${t('status') || 'Status'}</span><span class="info-value"><span class="badge badge-${user.userStatus.toLowerCase()}">${isActive ? (t('active') || 'Active') : (t('inactive') || 'Inactive')}</span></span></div>
-                        <div class="info-row"><span class="info-label">${t('expires') || 'Expires'}</span><span class="info-value">${expiryText}</span></div>
-                        ${!isNeverExpires && isActive ? `<div class="info-row"><span class="info-label">${t('expiresIn') || 'Days left'}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
-                        <div class="info-row"><span class="info-label">${t('bandwidth') || 'Bandwidth'}</span><span class="info-value">${bandwidth}</span></div>
                     </div>
                 </div>
             `;
@@ -1472,7 +1491,7 @@ body {
                 html += `
                     <div class="step">
                         <div class="step-title">
-                            <span class="step-number">${index + 1}</span>
+                            <span class="step-number" style="background: ${iconColor};">${index + 1}</span>
                             ${getLocalizedText(block.title)}
                         </div>
                         <div class="step-description">${getLocalizedText(block.description)}</div>
