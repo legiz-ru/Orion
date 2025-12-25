@@ -131,6 +131,7 @@ body {
     box-shadow: var(--shadow);
     overflow: hidden;
     margin-bottom: 20px;
+    max-width: 600px;
 }
 
 .card-header {
@@ -372,8 +373,12 @@ body {
 .app-tab.featured { border-color: var(--warning); }
 .app-tab .star-icon { color: var(--warning); }
 .app-tab.active .star-icon { color: white; }
-.app-tab svg { color: var(--text-primary); }
-.app-tab.active svg { color: white; }
+.app-tab svg:not(.star-icon) { color: var(--primary-color); }
+.app-tab.active svg:not(.star-icon) { color: white; }
+.app-tab .app-tab-icon { width: 20px; height: 20px; background: var(--primary-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.app-tab .app-tab-icon svg { color: white; width: 14px; height: 14px; }
+.app-tab.active .app-tab-icon { background: white; }
+.app-tab.active .app-tab-icon svg { color: var(--primary-color); }
 
 /* Installation Guides - Cards */
 .guides-cards .guide-card {
@@ -473,36 +478,13 @@ body {
 
 /* Installation Guides - Timeline */
 .guides-timeline { position: relative; }
-.guides-timeline .timeline-container {
-    position: relative;
-    padding-left: 48px;
-}
-.guides-timeline .timeline-line {
-    position: absolute;
-    left: 18px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border);
-}
+.guides-timeline .timeline-container { position: relative; }
 .guides-timeline .timeline-step {
     position: relative;
     margin-bottom: 24px;
     display: none;
 }
 .guides-timeline .timeline-step.active { display: block; }
-.guides-timeline .timeline-step-icon {
-    position: absolute;
-    left: -48px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-.guides-timeline .timeline-step-icon svg { width: 18px; height: 18px; }
 .guides-timeline .timeline-step-content {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -521,26 +503,30 @@ body {
     justify-content: space-between;
     gap: 16px;
     margin-top: 20px;
-    padding-left: 48px;
 }
-.guides-timeline .timeline-nav .btn { flex: 1; justify-content: center; }
+.guides-timeline .timeline-nav .btn { flex: 1; justify-content: center; gap: 8px; }
+.guides-timeline .timeline-nav .nav-step-icon { display: flex; align-items: center; }
+.guides-timeline .timeline-nav .nav-step-icon svg { width: 16px; height: 16px; }
 .guides-timeline .timeline-dots {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding-left: 48px;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 .guides-timeline .timeline-dot {
-    width: 10px;
-    height: 10px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--border);
     cursor: pointer;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
-.guides-timeline .timeline-dot.active { background: var(--primary-color); transform: scale(1.2); }
-.guides-timeline .timeline-dot.completed { background: var(--success); }
+.guides-timeline .timeline-dot svg { width: 16px; height: 16px; }
+.guides-timeline .timeline-dot.active { transform: scale(1.3); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.guides-timeline .timeline-dot.completed { opacity: 0.6; }
 
 /* Modal */
 .modal {
@@ -640,7 +626,8 @@ body {
 
 /* QR Modal */
 .qr-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
-.qr-container img { max-width: 100%; height: auto; border-radius: var(--radius); }
+.qr-container > div { width: 256px; height: 256px; display: flex; align-items: center; justify-content: center; }
+.qr-container img { width: 256px; height: 256px; border-radius: var(--radius); }
 .qr-hint { margin-top: 16px; color: var(--text-secondary); text-align: center; }
 
 /* Footer */
@@ -841,7 +828,7 @@ body {
         }
 
         function loadAppConfig() {
-            fetch('assets/.app-config-v2.json')
+            fetch('/assets/.app-config-v2.json')
                 .then(response => {
                     if (!response.ok) throw new Error(`Failed to load config: ${response.status}`);
                     return response.json();
@@ -942,17 +929,35 @@ body {
                 uk: 'Рекомендовано', pl: 'Zalecane', id: 'Direkomendasikan', tk: 'Maslahat berilýär', th: 'แนะนำ'
             },
             install: {
-                en: 'Install', ru: 'Установить', zh: '安装', fa: 'نصب', fr: 'Installer',
-                uz: "O'rnatish", hi: 'इंस्टॉल करें', de: 'Installieren', tr: 'Yükle', az: 'Quraşdır',
-                vi: 'Cài đặt', es: 'Instalar', ja: 'インストール', be: 'Усталяваць', pt: 'Instalar',
-                uk: 'Встановити', pl: 'Zainstaluj', id: 'Instal', tk: 'Gurnamak', th: 'ติดตั้ง'
+                en: 'Install and Launch', ru: 'Установить и Запустить', zh: '安装并启动', fa: 'نصب و اجرا', fr: 'Installer et Lancer',
+                uz: "O'rnatish va Ishga tushirish", hi: 'इंस्टॉल करें और लॉन्च करें', de: 'Installieren und Starten', tr: 'Yükle ve Başlat', az: 'Quraşdır və İşə sal',
+                vi: 'Cài đặt và Khởi chạy', es: 'Instalar e Iniciar', ja: 'インストールして起動', be: 'Усталяваць і Запусціць', pt: 'Instalar e Iniciar',
+                uk: 'Встановити та Запустити', pl: 'Zainstaluj i Uruchom', id: 'Instal dan Luncurkan', tk: 'Gurnamak we Başla', th: 'ติดตั้งและเปิด'
             },
-            launch: {
-                en: 'Launch', ru: 'Запустить', zh: '启动', fa: 'اجرا', fr: 'Lancer',
-                uz: 'Ishga tushirish', hi: 'लॉन्च करें', de: 'Starten', tr: 'Başlat', az: 'İşə sal',
-                vi: 'Khởi chạy', es: 'Iniciar', ja: '起動', be: 'Запусціць', pt: 'Iniciar',
-                uk: 'Запустити', pl: 'Uruchom', id: 'Luncurkan', tk: 'Başla', th: 'เปิด'
+            support: {
+                en: 'Support', ru: 'Поддержка', zh: '支持', fa: 'پشتیبانی', fr: 'Support',
+                uz: 'Yordam', hi: 'सहायता', de: 'Support', tr: 'Destek', az: 'Dəstək',
+                vi: 'Hỗ trợ', es: 'Soporte', ja: 'サポート', be: 'Падтрымка', pt: 'Suporte',
+                uk: 'Підтримка', pl: 'Wsparcie', id: 'Dukungan', tk: 'Goldaw', th: 'สนับสนุน'
+            },
+            settings: {
+                en: 'Settings', ru: 'Настройки', zh: '设置', fa: 'تنظیمات', fr: 'Paramètres',
+                uz: 'Sozlamalar', hi: 'सेटिंग्स', de: 'Einstellungen', tr: 'Ayarlar', az: 'Parametrlər',
+                vi: 'Cài đặt', es: 'Ajustes', ja: '設定', be: 'Налады', pt: 'Configurações',
+                uk: 'Налаштування', pl: 'Ustawienia', id: 'Pengaturan', tk: 'Sazlamalar', th: 'การตั้งค่า'
+            },
+            getLink: {
+                en: 'Get Link', ru: 'Получить ссылку', zh: '获取链接', fa: 'دریافت لینک', fr: 'Obtenir le lien',
+                uz: 'Havolani olish', hi: 'लिंक प्राप्त करें', de: 'Link erhalten', tr: 'Bağlantı Al', az: 'Link əldə et',
+                vi: 'Lấy liên kết', es: 'Obtener enlace', ja: 'リンクを取得', be: 'Атрымаць спасылку', pt: 'Obter link',
+                uk: 'Отримати посилання', pl: 'Pobierz link', id: 'Dapatkan Tautan', tk: 'Baglanyşyk al', th: 'รับลิงก์'
             }
+        };
+
+        // Language emojis for selector
+        const langEmojis = {
+            en: '🇬🇧', ru: '🇷🇺', zh: '🇨🇳', fa: '🇮🇷', fr: '🇫🇷', uz: '🇺🇿', hi: '🇮🇳', de: '🇩🇪', tr: '🇹🇷', az: '🇦🇿',
+            vi: '🇻🇳', es: '🇪🇸', ja: '🇯🇵', be: '🇧🇾', pt: '🇵🇹', uk: '🇺🇦', pl: '🇵🇱', id: '🇮🇩', tk: '🇹🇲', th: '🇹🇭'
         };
 
         function getHardcodedText(key) {
@@ -994,7 +999,7 @@ body {
                 const supportIcon = isTelegramUrl
                     ? `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`
                     : `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
-                html += `<button class="btn btn-icon" onclick="openLink('${escapeForAttribute(branding.supportUrl)}')">${supportIcon}<span class="btn-text">${t('support') || 'Support'}</span></button>`;
+                html += `<button class="btn btn-icon" onclick="openLink('${escapeForAttribute(branding.supportUrl)}')">${supportIcon}<span class="btn-text">${getHardcodedText('support')}</span></button>`;
             }
 
             // Settings button
@@ -1003,7 +1008,7 @@ body {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                <span class="btn-text">${t('settings') || 'Settings'}</span>
+                <span class="btn-text">${getHardcodedText('settings')}</span>
             </button>`;
 
             // Get Link / QR button
@@ -1011,7 +1016,7 @@ body {
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
-                <span class="btn-text">${t('getLink') || 'Get Link'}</span>
+                <span class="btn-text">${getHardcodedText('getLink')}</span>
             </button>`;
 
             controls.innerHTML = html;
@@ -1026,7 +1031,8 @@ body {
             locales.forEach(langCode => {
                 const button = document.createElement('button');
                 button.className = 'btn' + (langCode === currentLanguage ? ' btn-primary' : '');
-                button.textContent = langFullNames[langCode] || langCode.toUpperCase();
+                const emoji = langEmojis[langCode] || '';
+                button.textContent = `${emoji} ${langFullNames[langCode] || langCode.toUpperCase()}`;
                 button.onclick = () => setLanguage(langCode);
                 container.appendChild(button);
             });
@@ -1289,9 +1295,9 @@ body {
         }
 
         function renderAppsCardsView(apps) {
-            // Show all apps in a simple grid without spoiler or featured badge
+            // Show all apps in a simple grid with featured badge
             let html = '<div class="apps-container">';
-            html += `<div class="apps-grid">${apps.map(app => renderAppCard(app, false)).join('')}</div>`;
+            html += `<div class="apps-grid">${apps.map(app => renderAppCard(app, true)).join('')}</div>`;
             html += '</div>';
             return html;
         }
@@ -1317,8 +1323,9 @@ body {
             apps.forEach((app, index) => {
                 const appIcon = getSvgIcon(app.svgIconKey) || '';
                 const starIcon = app.featured ? '<svg class="w-4 h-4 star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
+                const iconHtml = appIcon ? `<span class="app-tab-icon">${appIcon}</span>` : '';
                 html += `<div class="app-tab ${index === 0 ? 'active' : ''} ${app.featured ? 'featured' : ''}" data-app-index="${index}">
-                    ${starIcon} ${appIcon} ${escapeHtml(app.name)}
+                    ${starIcon} ${iconHtml} ${escapeHtml(app.name)}
                 </div>`;
             });
             html += '</div>';
@@ -1336,7 +1343,9 @@ body {
                 case 'cards':
                     return renderGuidesCards(app);
                 case 'accordion':
-                    return renderGuidesAccordion(app);
+                    return renderGuidesAccordion(app, false);
+                case 'expanded':
+                    return renderGuidesAccordion(app, true);
                 case 'timeline':
                     return renderGuidesTimeline(app);
                 case 'minimal':
@@ -1365,13 +1374,14 @@ body {
             return html;
         }
 
-        function renderGuidesAccordion(app) {
+        function renderGuidesAccordion(app, allExpanded = false) {
             let html = '<div class="guides-accordion">';
             app.blocks.forEach((block, index) => {
                 const iconColor = getIconColor(block.svgIconColor);
                 const icon = getSvgIcon(block.svgIconKey);
+                const isOpen = allExpanded || index === 0;
                 html += `
-                    <div class="accordion-item ${index === 0 ? 'open' : ''}">
+                    <div class="accordion-item ${isOpen ? 'open' : ''}">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
                             <div class="accordion-icon" style="background: ${iconColor}; color: white;">${icon}</div>
                             <div class="accordion-title">${getLocalizedText(block.title)}</div>
@@ -1410,44 +1420,58 @@ body {
             return html;
         }
 
+        let timelineBlocks = []; // Store blocks for nav button updates
+
         function renderGuidesTimeline(app) {
             timelineCurrentStep = 0;
             const blocks = app.blocks;
+            timelineBlocks = blocks; // Store for nav updates
             const platformIcon = getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey);
 
             let html = '<div class="guides-timeline">';
+
+            // Timeline dots with icons and colors
             html += '<div class="timeline-dots">';
-            blocks.forEach((_, index) => {
-                html += `<div class="timeline-dot ${index === 0 ? 'active' : ''}" data-step="${index}" onclick="goToTimelineStep(${index})"></div>`;
+            blocks.forEach((block, index) => {
+                const iconColor = getIconColor(block.svgIconColor);
+                const icon = getSvgIcon(block.svgIconKey) || platformIcon;
+                html += `<div class="timeline-dot ${index === 0 ? 'active' : ''}" data-step="${index}" style="background: ${iconColor};" onclick="goToTimelineStep(${index})">${icon}</div>`;
             });
             html += '</div>';
 
-            html += '<div class="timeline-container"><div class="timeline-line"></div>';
+            html += '<div class="timeline-container">';
             blocks.forEach((block, index) => {
                 const iconColor = getIconColor(block.svgIconColor);
                 const icon = getSvgIcon(block.svgIconKey) || platformIcon;
                 html += `
-                    <div class="timeline-step ${index === 0 ? 'active' : ''}" data-step="${index}">
-                        <div class="timeline-step-icon" style="background: ${iconColor}; color: white;">${icon}</div>
+                    <div class="timeline-step ${index === 0 ? 'active' : ''}" data-step="${index}" data-color="${iconColor}">
                         <div class="timeline-step-content guide-card">
                             <div class="guide-card-header">
                                 <div class="guide-card-icon" style="background: ${iconColor}; color: white;">${icon}</div>
                                 <div class="guide-card-title">${getLocalizedText(block.title)}</div>
                             </div>
                             <div class="guide-card-description">${getLocalizedText(block.description)}</div>
-                            <div class="guide-card-buttons">${renderBlockButtons(block, app)}</div>
+                            <div class="guide-card-buttons" data-btn-color="${iconColor}">${renderBlockButtons(block, app, iconColor)}</div>
                         </div>
                     </div>
                 `;
             });
             html += '</div>';
 
+            // Nav buttons with step icons
+            const prevIcon = blocks.length > 1 ? (getSvgIcon(blocks[0].svgIconKey) || platformIcon) : '';
+            const nextIcon = blocks.length > 1 ? (getSvgIcon(blocks[1].svgIconKey) || platformIcon) : '';
+            const prevColor = blocks.length > 0 ? getIconColor(blocks[0].svgIconColor) : 'var(--primary-color)';
+            const nextColor = blocks.length > 1 ? getIconColor(blocks[1].svgIconColor) : 'var(--primary-color)';
+
             html += `
                 <div class="timeline-nav">
-                    <button class="btn btn-icon" onclick="prevTimelineStep()" id="timelinePrevBtn" disabled>
+                    <button class="btn btn-icon" onclick="prevTimelineStep()" id="timelinePrevBtn" disabled style="--btn-color: ${prevColor};">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        <span class="nav-step-icon">${prevIcon}</span>
                     </button>
-                    <button class="btn btn-primary btn-icon" onclick="nextTimelineStep()" id="timelineNextBtn">
+                    <button class="btn btn-primary btn-icon" onclick="nextTimelineStep()" id="timelineNextBtn" style="background: ${nextColor}; border-color: ${nextColor};">
+                        <span class="nav-step-icon">${nextIcon}</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -1456,10 +1480,11 @@ body {
             return html;
         }
 
-        function renderBlockButtons(block, app) {
+        function renderBlockButtons(block, app, btnColor = null) {
             if (!block.buttons?.length) return '';
             const { response } = panelData || {};
             let html = '';
+            const colorStyle = btnColor ? `style="background: ${btnColor}; border-color: ${btnColor};"` : '';
 
             block.buttons.forEach(button => {
                 const buttonText = getLocalizedText(button.text);
@@ -1476,12 +1501,12 @@ body {
                 if (buttonType === 'subscription') {
                     const subscriptionUrl = generateSubscriptionUrl(app, response?.subscriptionUrl, button.link);
                     if (subscriptionUrl) {
-                        html += `<button class="btn btn-primary" onclick="openSubscriptionUrl('${escapeForAttribute(subscriptionUrl)}')">${buttonIcon} ${buttonText}</button>`;
+                        html += `<button class="btn btn-primary" ${colorStyle} onclick="openSubscriptionUrl('${escapeForAttribute(subscriptionUrl)}')">${buttonIcon} ${buttonText}</button>`;
                     }
                 } else if (buttonType === 'copy') {
                     html += `<button class="btn" onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 } else {
-                    html += `<button class="btn btn-primary" onclick="openLink('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
+                    html += `<button class="btn btn-primary" ${colorStyle} onclick="openLink('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 }
             });
 
@@ -1501,6 +1526,7 @@ body {
             const dots = document.querySelectorAll('.timeline-dot');
             const prevBtn = document.getElementById('timelinePrevBtn');
             const nextBtn = document.getElementById('timelineNextBtn');
+            const platformIcon = getSvgIcon(appConfig?.platforms?.[currentPlatform]?.svgIconKey);
 
             if (step < 0 || step >= steps.length) return;
             timelineCurrentStep = step;
@@ -1512,10 +1538,31 @@ body {
                 if (i < step) d.classList.add('completed');
             });
 
-            if (prevBtn) prevBtn.disabled = step === 0;
+            // Update prev button
+            if (prevBtn) {
+                prevBtn.disabled = step === 0;
+                if (step > 0 && timelineBlocks[step - 1]) {
+                    const prevBlock = timelineBlocks[step - 1];
+                    const prevIcon = getSvgIcon(prevBlock.svgIconKey) || platformIcon;
+                    const prevColor = getIconColor(prevBlock.svgIconColor);
+                    const prevIconSpan = prevBtn.querySelector('.nav-step-icon');
+                    if (prevIconSpan) prevIconSpan.innerHTML = prevIcon;
+                }
+            }
+
+            // Update next button
             if (nextBtn) {
                 const isLast = step === steps.length - 1;
                 nextBtn.disabled = isLast;
+                if (!isLast && timelineBlocks[step + 1]) {
+                    const nextBlock = timelineBlocks[step + 1];
+                    const nextIcon = getSvgIcon(nextBlock.svgIconKey) || platformIcon;
+                    const nextColor = getIconColor(nextBlock.svgIconColor);
+                    nextBtn.style.background = nextColor;
+                    nextBtn.style.borderColor = nextColor;
+                    const nextIconSpan = nextBtn.querySelector('.nav-step-icon');
+                    if (nextIconSpan) nextIconSpan.innerHTML = nextIcon;
+                }
             }
         }
 
