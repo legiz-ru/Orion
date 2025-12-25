@@ -372,6 +372,8 @@ body {
 .app-tab.featured { border-color: var(--warning); }
 .app-tab .star-icon { color: var(--warning); }
 .app-tab.active .star-icon { color: white; }
+.app-tab svg { color: var(--text-primary); }
+.app-tab.active svg { color: white; }
 
 /* Installation Guides - Cards */
 .guides-cards .guide-card {
@@ -507,9 +509,13 @@ body {
     border-radius: var(--radius);
     padding: 20px;
 }
-.guides-timeline .timeline-step-title { font-weight: 600; margin-bottom: 8px; }
-.guides-timeline .timeline-step-description { color: var(--text-secondary); margin-bottom: 16px; }
-.guides-timeline .timeline-step-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.guides-timeline .timeline-step-content.guide-card { margin-bottom: 0; }
+.guides-timeline .timeline-step-content .guide-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.guides-timeline .timeline-step-content .guide-card-icon { width: 40px; height: 40px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.guides-timeline .timeline-step-content .guide-card-icon svg { width: 20px; height: 20px; }
+.guides-timeline .timeline-step-content .guide-card-title { font-weight: 600; font-size: 16px; }
+.guides-timeline .timeline-step-content .guide-card-description { color: var(--text-secondary); margin-bottom: 16px; }
+.guides-timeline .timeline-step-content .guide-card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .guides-timeline .timeline-nav {
     display: flex;
     justify-content: space-between;
@@ -927,6 +933,34 @@ body {
             return `var(--color-${colorValue}, var(--primary-color))`;
         }
 
+        // Hardcoded translations for common UI texts
+        const hardcodedTranslations = {
+            recommended: {
+                en: 'Recommended', ru: 'Рекомендуется', zh: '推荐', fa: 'پیشنهادی', fr: 'Recommandé',
+                uz: 'Tavsiya etiladi', hi: 'अनुशंसित', de: 'Empfohlen', tr: 'Önerilen', az: 'Tövsiyə olunur',
+                vi: 'Được đề xuất', es: 'Recomendado', ja: '推奨', be: 'Рэкамендуецца', pt: 'Recomendado',
+                uk: 'Рекомендовано', pl: 'Zalecane', id: 'Direkomendasikan', tk: 'Maslahat berilýär', th: 'แนะนำ'
+            },
+            install: {
+                en: 'Install', ru: 'Установить', zh: '安装', fa: 'نصب', fr: 'Installer',
+                uz: "O'rnatish", hi: 'इंस्टॉल करें', de: 'Installieren', tr: 'Yükle', az: 'Quraşdır',
+                vi: 'Cài đặt', es: 'Instalar', ja: 'インストール', be: 'Усталяваць', pt: 'Instalar',
+                uk: 'Встановити', pl: 'Zainstaluj', id: 'Instal', tk: 'Gurnamak', th: 'ติดตั้ง'
+            },
+            launch: {
+                en: 'Launch', ru: 'Запустить', zh: '启动', fa: 'اجرا', fr: 'Lancer',
+                uz: 'Ishga tushirish', hi: 'लॉन्च करें', de: 'Starten', tr: 'Başlat', az: 'İşə sal',
+                vi: 'Khởi chạy', es: 'Iniciar', ja: '起動', be: 'Запусціць', pt: 'Iniciar',
+                uk: 'Запустити', pl: 'Uruchom', id: 'Luncurkan', tk: 'Başla', th: 'เปิด'
+            }
+        };
+
+        function getHardcodedText(key) {
+            const texts = hardcodedTranslations[key];
+            if (!texts) return key;
+            return texts[currentLanguage] || texts['en'] || key;
+        }
+
         function updateBranding() {
             if (!appConfig?.brandingSettings) return;
             const branding = appConfig.brandingSettings;
@@ -1255,47 +1289,25 @@ body {
         }
 
         function renderAppsCardsView(apps) {
-            const featuredApps = apps.filter(app => app.featured);
-            const otherApps = apps.filter(app => !app.featured);
-
+            // Show all apps in a simple grid without spoiler or featured badge
             let html = '<div class="apps-container">';
-
-            if (featuredApps.length > 0) {
-                html += `<div class="featured-apps-row">${featuredApps.map(app => renderAppCard(app)).join('')}</div>`;
-            }
-
-            if (otherApps.length > 0) {
-                html += `
-                    <div class="other-apps-spoiler">
-                        <div class="spoiler-header" onclick="toggleSpoiler(this)">
-                            <span>${t('scanQrCode') || 'Other apps'}</span>
-                            <svg class="w-4 h-4 spoiler-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </div>
-                        <div class="spoiler-content">
-                            <div class="apps-grid">${otherApps.map(app => renderAppCard(app)).join('')}</div>
-                        </div>
-                    </div>
-                `;
-            }
-
+            html += `<div class="apps-grid">${apps.map(app => renderAppCard(app, false)).join('')}</div>`;
             html += '</div>';
             return html;
         }
 
-        function renderAppCard(app) {
-            const appIcon = getSvgIcon(app.svgIconKey);
-            const featuredText = t('linkCopied') || 'Featured';
+        function renderAppCard(app, showFeaturedBadge = true) {
+            const appIcon = getSvgIcon(app.svgIconKey) || getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey);
+            const recommendedText = getHardcodedText('recommended');
 
             return `
                 <div class="app-card ${app.featured ? 'featured' : ''}" data-app-name="${escapeHtml(app.name)}">
-                    ${app.featured ? `<div class="featured-badge">${featuredText}</div>` : ''}
+                    ${(app.featured && showFeaturedBadge) ? `<div class="featured-badge">${recommendedText}</div>` : ''}
                     <div class="app-header">
                         <div class="app-icon">${appIcon}</div>
                         <div class="app-name">${escapeHtml(app.name)}</div>
                     </div>
-                    <div class="btn btn-primary" style="width: 100%; justify-content: center;">${t('scanToImport') || 'Install'}</div>
+                    <div class="btn btn-primary" style="width: 100%; justify-content: center;">${getHardcodedText('install')}</div>
                 </div>
             `;
         }
@@ -1401,6 +1413,7 @@ body {
         function renderGuidesTimeline(app) {
             timelineCurrentStep = 0;
             const blocks = app.blocks;
+            const platformIcon = getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey);
 
             let html = '<div class="guides-timeline">';
             html += '<div class="timeline-dots">';
@@ -1412,14 +1425,17 @@ body {
             html += '<div class="timeline-container"><div class="timeline-line"></div>';
             blocks.forEach((block, index) => {
                 const iconColor = getIconColor(block.svgIconColor);
-                const icon = getSvgIcon(block.svgIconKey);
+                const icon = getSvgIcon(block.svgIconKey) || platformIcon;
                 html += `
                     <div class="timeline-step ${index === 0 ? 'active' : ''}" data-step="${index}">
                         <div class="timeline-step-icon" style="background: ${iconColor}; color: white;">${icon}</div>
-                        <div class="timeline-step-content">
-                            <div class="timeline-step-title">${getLocalizedText(block.title)}</div>
-                            <div class="timeline-step-description">${getLocalizedText(block.description)}</div>
-                            <div class="timeline-step-buttons">${renderBlockButtons(block, app)}</div>
+                        <div class="timeline-step-content guide-card">
+                            <div class="guide-card-header">
+                                <div class="guide-card-icon" style="background: ${iconColor}; color: white;">${icon}</div>
+                                <div class="guide-card-title">${getLocalizedText(block.title)}</div>
+                            </div>
+                            <div class="guide-card-description">${getLocalizedText(block.description)}</div>
+                            <div class="guide-card-buttons">${renderBlockButtons(block, app)}</div>
                         </div>
                     </div>
                 `;
@@ -1428,13 +1444,11 @@ body {
 
             html += `
                 <div class="timeline-nav">
-                    <button class="btn" onclick="prevTimelineStep()" id="timelinePrevBtn" disabled>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                        Back
+                    <button class="btn btn-icon" onclick="prevTimelineStep()" id="timelinePrevBtn" disabled>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button class="btn btn-primary" onclick="nextTimelineStep()" id="timelineNextBtn">
-                        Next
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <button class="btn btn-primary btn-icon" onclick="nextTimelineStep()" id="timelineNextBtn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             `;
@@ -1502,7 +1516,6 @@ body {
             if (nextBtn) {
                 const isLast = step === steps.length - 1;
                 nextBtn.disabled = isLast;
-                nextBtn.innerHTML = isLast ? 'Done' : `Next <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
             }
         }
 
@@ -1512,7 +1525,14 @@ body {
             if (timelineCurrentStep < steps.length - 1) goToTimelineStep(timelineCurrentStep + 1);
         }
 
-        function toggleAccordion(header) { header.parentElement.classList.toggle('open'); }
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const wasOpen = item.classList.contains('open');
+            // Close all accordion items first
+            document.querySelectorAll('.accordion-item.open').forEach(el => el.classList.remove('open'));
+            // Open clicked item if it wasn't open before
+            if (!wasOpen) item.classList.add('open');
+        }
         function toggleSpoiler(header) {
             const content = header.nextElementSibling;
             const arrow = header.querySelector('.spoiler-arrow');
