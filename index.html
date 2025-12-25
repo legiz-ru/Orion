@@ -131,7 +131,6 @@ body {
     box-shadow: var(--shadow);
     overflow: hidden;
     margin-bottom: 20px;
-    max-width: 600px;
 }
 
 .card-header {
@@ -373,12 +372,10 @@ body {
 .app-tab.featured { border-color: var(--warning); }
 .app-tab .star-icon { color: var(--warning); }
 .app-tab.active .star-icon { color: white; }
-.app-tab svg:not(.star-icon) { color: var(--primary-color); }
-.app-tab.active svg:not(.star-icon) { color: white; }
-.app-tab .app-tab-icon { width: 20px; height: 20px; background: var(--primary-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-.app-tab .app-tab-icon svg { color: white; width: 14px; height: 14px; }
-.app-tab.active .app-tab-icon { background: white; }
-.app-tab.active .app-tab-icon svg { color: var(--primary-color); }
+.app-tab .app-tab-icon { width: 24px; height: 24px; background: var(--primary-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.app-tab .app-tab-icon svg { width: 16px; height: 16px; color: white; fill: white; stroke: white; }
+.app-tab.active .app-tab-icon { background: rgba(255,255,255,0.9); }
+.app-tab.active .app-tab-icon svg { color: var(--primary-color); fill: var(--primary-color); stroke: var(--primary-color); }
 
 /* Installation Guides - Cards */
 .guides-cards .guide-card {
@@ -449,6 +446,40 @@ body {
 .guides-accordion .accordion-item.open .accordion-content { display: block; padding-top: 16px; }
 .guides-accordion .accordion-description { color: var(--text-secondary); margin-bottom: 12px; }
 .guides-accordion .accordion-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Installation Guides - Expanded (always open, no toggle) */
+.guides-expanded .expanded-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+.guides-expanded .expanded-item:last-child { margin-bottom: 0; }
+.guides-expanded .expanded-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+.guides-expanded .expanded-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.guides-expanded .expanded-icon svg { width: 18px; height: 18px; }
+.guides-expanded .expanded-title { flex: 1; font-weight: 500; }
+.guides-expanded .expanded-content {
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+}
+.guides-expanded .expanded-description { color: var(--text-secondary); margin-bottom: 12px; }
+.guides-expanded .expanded-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Minimal (steps in modal) */
 .guides-minimal .step { margin-bottom: 24px; }
@@ -622,7 +653,12 @@ body {
 .settings-section { margin-bottom: 24px; }
 .settings-section:last-child { margin-bottom: 0; }
 .settings-label { font-weight: 600; margin-bottom: 12px; display: block; }
-.settings-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.settings-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: "Twemoji Country Flags", system-ui, -apple-system, Roboto, "Segoe UI", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
 
 /* QR Modal */
 .qr-container { display: flex; flex-direction: column; align-items: center; padding: 20px; }
@@ -709,10 +745,10 @@ body {
             <div class="modal-body">
                 <div class="settings-section">
                     <label class="settings-label" id="themeLabel">Theme</label>
-                    <div class="settings-buttons">
-                        <button class="btn" onclick="setTheme('light')">Light</button>
-                        <button class="btn" onclick="setTheme('dark')">Dark</button>
-                        <button class="btn" onclick="setTheme('auto')">Auto</button>
+                    <div class="settings-buttons" id="themeButtons">
+                        <button class="btn" onclick="setTheme('light')">☀️ Light</button>
+                        <button class="btn" onclick="setTheme('dark')">🌙 Dark</button>
+                        <button class="btn" onclick="setTheme('auto')">⚙️ Auto</button>
                     </div>
                 </div>
                 <div class="settings-section">
@@ -951,6 +987,12 @@ body {
                 uz: 'Havolani olish', hi: 'लिंक प्राप्त करें', de: 'Link erhalten', tr: 'Bağlantı Al', az: 'Link əldə et',
                 vi: 'Lấy liên kết', es: 'Obtener enlace', ja: 'リンクを取得', be: 'Атрымаць спасылку', pt: 'Obter link',
                 uk: 'Отримати посилання', pl: 'Pobierz link', id: 'Dapatkan Tautan', tk: 'Baglanyşyk al', th: 'รับลิงก์'
+            },
+            selectPlatform: {
+                en: 'Select platform', ru: 'Выбрать платформу', zh: '选择平台', fa: 'انتخاب پلتفرم', fr: 'Sélectionner la plateforme',
+                uz: 'Platformani tanlang', hi: 'प्लेटफॉर्म चुनें', de: 'Plattform auswählen', tr: 'Platform seçin', az: 'Platformanı seçin',
+                vi: 'Chọn nền tảng', es: 'Seleccionar plataforma', ja: 'プラットフォームを選択', be: 'Выберыце платформу', pt: 'Selecionar plataforma',
+                uk: 'Вибрати платформу', pl: 'Wybierz platformę', id: 'Pilih platform', tk: 'Platformany saýlaň', th: 'เลือกแพลตฟอร์ม'
             }
         };
 
@@ -1343,9 +1385,9 @@ body {
                 case 'cards':
                     return renderGuidesCards(app);
                 case 'accordion':
-                    return renderGuidesAccordion(app, false);
+                    return renderGuidesAccordion(app);
                 case 'expanded':
-                    return renderGuidesAccordion(app, true);
+                    return renderGuidesExpanded(app);
                 case 'timeline':
                     return renderGuidesTimeline(app);
                 case 'minimal':
@@ -1366,7 +1408,7 @@ body {
                             <div class="guide-card-title">${getLocalizedText(block.title)}</div>
                         </div>
                         <div class="guide-card-description">${getLocalizedText(block.description)}</div>
-                        <div class="guide-card-buttons">${renderBlockButtons(block, app)}</div>
+                        <div class="guide-card-buttons">${renderBlockButtons(block, app, iconColor)}</div>
                     </div>
                 `;
             });
@@ -1374,14 +1416,13 @@ body {
             return html;
         }
 
-        function renderGuidesAccordion(app, allExpanded = false) {
+        function renderGuidesAccordion(app) {
             let html = '<div class="guides-accordion">';
             app.blocks.forEach((block, index) => {
                 const iconColor = getIconColor(block.svgIconColor);
                 const icon = getSvgIcon(block.svgIconKey);
-                const isOpen = allExpanded || index === 0;
                 html += `
-                    <div class="accordion-item ${isOpen ? 'open' : ''}">
+                    <div class="accordion-item ${index === 0 ? 'open' : ''}">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
                             <div class="accordion-icon" style="background: ${iconColor}; color: white;">${icon}</div>
                             <div class="accordion-title">${getLocalizedText(block.title)}</div>
@@ -1393,7 +1434,29 @@ body {
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-description">${getLocalizedText(block.description)}</div>
-                            <div class="accordion-buttons">${renderBlockButtons(block, app)}</div>
+                            <div class="accordion-buttons">${renderBlockButtons(block, app, iconColor)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderGuidesExpanded(app) {
+            let html = '<div class="guides-expanded">';
+            app.blocks.forEach((block) => {
+                const iconColor = getIconColor(block.svgIconColor);
+                const icon = getSvgIcon(block.svgIconKey);
+                html += `
+                    <div class="expanded-item">
+                        <div class="expanded-header">
+                            <div class="expanded-icon" style="background: ${iconColor}; color: white;">${icon}</div>
+                            <div class="expanded-title">${getLocalizedText(block.title)}</div>
+                        </div>
+                        <div class="expanded-content">
+                            <div class="expanded-description">${getLocalizedText(block.description)}</div>
+                            <div class="expanded-buttons">${renderBlockButtons(block, app, iconColor)}</div>
                         </div>
                     </div>
                 `;
@@ -1405,6 +1468,7 @@ body {
         function renderGuidesMinimal(app) {
             let html = '<div class="guides-minimal">';
             app.blocks.forEach((block, index) => {
+                const iconColor = getIconColor(block.svgIconColor);
                 html += `
                     <div class="step">
                         <div class="step-title">
@@ -1412,7 +1476,7 @@ body {
                             ${getLocalizedText(block.title)}
                         </div>
                         <div class="step-description">${getLocalizedText(block.description)}</div>
-                        <div class="step-buttons">${renderBlockButtons(block, app)}</div>
+                        <div class="step-buttons">${renderBlockButtons(block, app, iconColor)}</div>
                     </div>
                 `;
             });
