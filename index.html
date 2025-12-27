@@ -132,6 +132,7 @@ body {
     overflow: hidden;
     margin-bottom: 20px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .card-header {
@@ -148,7 +149,7 @@ body {
 .card-header.clickable:hover { background: rgba(0,0,0,0.02); }
 .dark-theme .card-header.clickable:hover { background: rgba(255,255,255,0.02); }
 
-.card-content { padding: 20px; width: 100%; box-sizing: border-box; }
+.card-content { padding: 20px; width: 100%; box-sizing: border-box; min-width: 0; overflow: hidden; }
 
 /* User Info - Original cards style with info-row */
 .user-info .info-row {
@@ -368,7 +369,6 @@ body {
     align-items: center;
     gap: 12px;
     position: relative;
-    min-width: 120px;
 }
 .app-tab:hover { border-color: var(--primary-color); }
 .app-tab.active {
@@ -376,8 +376,6 @@ body {
     background: var(--primary-color);
     color: white;
 }
-.app-tab.active .star-icon { color: white; }
-.app-tab.active .app-tab-icon svg { color: white; fill: white; }
 .app-tab .star-icon {
     color: var(--primary-color);
     position: absolute;
@@ -386,9 +384,12 @@ body {
     width: 12px;
     height: 12px;
 }
+.app-tab.active .star-icon { color: white; }
 .app-tab .app-tab-icon {
     width: 32px;
     height: 32px;
+    border-radius: var(--radius);
+    background: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -396,23 +397,27 @@ body {
     order: 2;
     margin-left: auto;
 }
-.app-tab .app-tab-icon svg { width: 32px; height: 32px; }
+.app-tab .app-tab-icon svg { width: 20px; height: 20px; color: white; fill: white; }
+.app-tab.active .app-tab-icon { background: rgba(255,255,255,0.2); }
 .app-tab .app-tab-name { order: 1; }
 
 @media (max-width: 768px) {
     .app-tab {
         flex: 1 1 calc(50% - 4px);
-        min-width: 140px;
+        min-width: 120px;
     }
 }
 
 /* Installation Guides - Cards */
+.guides-cards { width: 100%; overflow: hidden; }
 .guides-cards .guide-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
     margin-bottom: 16px;
+    overflow: hidden;
+    word-break: break-word;
 }
 .guides-cards .guide-card:last-child { margin-bottom: 0; }
 .guides-cards .guide-card-header {
@@ -432,11 +437,11 @@ body {
 }
 .guides-cards .guide-card-icon svg { width: 20px; height: 20px; }
 .guides-cards .guide-card-title { font-weight: 600; font-size: 16px; }
-.guides-cards .guide-card-description { color: var(--text-secondary); margin-bottom: 16px; }
+.guides-cards .guide-card-description { color: var(--text-secondary); margin-bottom: 16px; word-break: break-word; }
 .guides-cards .guide-card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Accordion */
-.guides-accordion { width: 100%; }
+.guides-accordion { width: 100%; overflow: hidden; }
 .guides-accordion .accordion-item {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -474,18 +479,22 @@ body {
     display: none;
     padding: 0 16px 16px;
     border-top: 1px solid var(--border);
+    overflow: hidden;
+    word-break: break-word;
 }
 .guides-accordion .accordion-item.open .accordion-content { display: block; padding-top: 16px; }
-.guides-accordion .accordion-description { color: var(--text-secondary); margin-bottom: 12px; }
+.guides-accordion .accordion-description { color: var(--text-secondary); margin-bottom: 12px; word-break: break-word; }
 .guides-accordion .accordion-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Expanded (always open, no toggle) */
+.guides-expanded { width: 100%; overflow: hidden; }
 .guides-expanded .expanded-item {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     margin-bottom: 8px;
     overflow: hidden;
+    word-break: break-word;
 }
 .guides-expanded .expanded-item:last-child { margin-bottom: 0; }
 .guides-expanded .expanded-header {
@@ -509,8 +518,10 @@ body {
     padding: 0 16px 16px;
     border-top: 1px solid var(--border);
     padding-top: 16px;
+    overflow: hidden;
+    word-break: break-word;
 }
-.guides-expanded .expanded-description { color: var(--text-secondary); margin-bottom: 12px; }
+.guides-expanded .expanded-description { color: var(--text-secondary); margin-bottom: 12px; word-break: break-word; }
 .guides-expanded .expanded-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Minimal (steps in modal) */
@@ -536,11 +547,11 @@ body {
     font-weight: bold;
     flex-shrink: 0;
 }
-.guides-minimal .step-description { color: var(--text-secondary); margin-bottom: 12px; }
+.guides-minimal .step-description { color: var(--text-secondary); margin-bottom: 12px; word-break: break-word; }
 .guides-minimal .step-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Timeline */
-.guides-timeline { position: relative; }
+.guides-timeline { position: relative; width: 100%; overflow: hidden; }
 .guides-timeline .timeline-container { position: relative; }
 .guides-timeline .timeline-step {
     position: relative;
@@ -553,13 +564,15 @@ body {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 20px;
+    overflow: hidden;
+    word-break: break-word;
 }
 .guides-timeline .timeline-step-content.guide-card { margin-bottom: 0; }
 .guides-timeline .timeline-step-content .guide-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .guides-timeline .timeline-step-content .guide-card-icon { width: 40px; height: 40px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .guides-timeline .timeline-step-content .guide-card-icon svg { width: 20px; height: 20px; }
 .guides-timeline .timeline-step-content .guide-card-title { font-weight: 600; font-size: 16px; }
-.guides-timeline .timeline-step-content .guide-card-description { color: var(--text-secondary); margin-bottom: 16px; }
+.guides-timeline .timeline-step-content .guide-card-description { color: var(--text-secondary); margin-bottom: 16px; word-break: break-word; }
 .guides-timeline .timeline-step-content .guide-card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .guides-timeline .timeline-nav {
     display: flex;
