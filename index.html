@@ -357,7 +357,7 @@ body {
     flex-wrap: wrap;
 }
 .app-tab {
-    padding: 10px 20px;
+    padding: 12px 16px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
@@ -366,16 +366,43 @@ body {
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    position: relative;
+    min-width: 120px;
 }
 .app-tab:hover { border-color: var(--primary-color); }
-.app-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-.app-tab.featured { border-color: var(--warning); }
-.app-tab .star-icon { color: var(--warning); }
-.app-tab.active .star-icon { color: white; }
-.app-tab .app-tab-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.app-tab .app-tab-icon svg { width: 24px; height: 24px; }
-.app-tab.active .app-tab-icon svg { color: white; fill: white; }
+.app-tab.active {
+    border-color: var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, var(--surface) 100%);
+}
+.app-tab .star-icon {
+    color: var(--warning);
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 12px;
+    height: 12px;
+}
+.app-tab .app-tab-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    order: 2;
+    margin-left: auto;
+}
+.app-tab .app-tab-icon svg { width: 32px; height: 32px; }
+.app-tab .app-tab-name { order: 1; }
+
+@media (max-width: 768px) {
+    .app-tab {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 140px;
+    }
+}
 
 /* Installation Guides - Cards */
 .guides-cards .guide-card {
@@ -509,6 +536,39 @@ body {
 }
 .guides-minimal .step-description { color: var(--text-secondary); margin-bottom: 12px; }
 .guides-minimal .step-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Installation Guides - Minimal Timeline (with app selection) */
+.guides-minimal-timeline { position: relative; }
+.minimal-timeline-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.minimal-timeline-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.minimal-timeline-dot svg { width: 16px; height: 16px; }
+.minimal-timeline-dot.active { transform: scale(1.3); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.minimal-timeline-content { position: relative; }
+.minimal-timeline-step { display: none; }
+.minimal-timeline-step.active { display: block; }
+.minimal-timeline-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+}
+.minimal-timeline-nav .btn { flex: 1; justify-content: center; }
+.minimal-app-selection { padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
 
 /* Installation Guides - Timeline */
 .guides-timeline { position: relative; }
@@ -999,6 +1059,12 @@ body {
                 uz: 'Platformani tanlang', hi: 'प्लेटफॉर्म चुनें', de: 'Plattform auswählen', tr: 'Platform seçin', az: 'Platformanı seçin',
                 vi: 'Chọn nền tảng', es: 'Seleccionar plataforma', ja: 'プラットフォームを選択', be: 'Выберыце платформу', pt: 'Selecionar plataforma',
                 uk: 'Вибрати платформу', pl: 'Wybierz platformę', id: 'Pilih platform', tk: 'Platformany saýlaň', th: 'เลือกแพลตฟอร์ม'
+            },
+            selectApp: {
+                en: 'Select application', ru: 'Выбрать приложение', zh: '选择应用', fa: 'انتخاب برنامه', fr: 'Sélectionner l\'application',
+                uz: 'Ilovani tanlang', hi: 'एप्लिकेशन चुनें', de: 'Anwendung auswählen', tr: 'Uygulama seçin', az: 'Tətbiqi seçin',
+                vi: 'Chọn ứng dụng', es: 'Seleccionar aplicación', ja: 'アプリを選択', be: 'Выберыце праграму', pt: 'Selecionar aplicativo',
+                uk: 'Вибрати додаток', pl: 'Wybierz aplikację', id: 'Pilih aplikasi', tk: 'Programmany saýlaň', th: 'เลือกแอปพลิเคชัน'
             }
         };
 
@@ -1346,21 +1412,181 @@ body {
             const apps = platformData.apps;
             const guidesType = appConfig?.uiConfig?.installationGuidesBlockType || 'minimal';
 
-            // For minimal mode, use app cards like original
+            // For minimal mode, use timeline with app selection as first step
             if (guidesType === 'minimal') {
-                return renderAppsCardsView(apps);
+                return renderAppsMinimalView(apps);
             }
 
             // For other modes, use app tabs
             return renderAppsTabsView(apps, guidesType);
         }
 
-        function renderAppsCardsView(apps) {
-            // Show all apps in a simple grid with featured badge
-            let html = '<div class="apps-container">';
-            html += `<div class="apps-grid">${apps.map(app => renderAppCard(app, true)).join('')}</div>`;
+        let minimalCurrentStep = 0;
+        let minimalApps = [];
+        let minimalSelectedAppIndex = 0;
+        let minimalHasAppSelection = false;
+
+        function renderAppsMinimalView(apps) {
+            minimalApps = apps;
+            minimalSelectedAppIndex = 0;
+            minimalCurrentStep = 0;
+            minimalHasAppSelection = apps.length > 1;
+
+            const selectedApp = apps[0];
+            currentApp = selectedApp;
+
+            // If only one app, skip app selection step
+            if (!minimalHasAppSelection) {
+                return renderGuidesMinimal(selectedApp);
+            }
+
+            // Multiple apps - show timeline with app selection as first step
+            return renderMinimalTimeline(apps, selectedApp);
+        }
+
+        function renderMinimalTimeline(apps, selectedApp) {
+            const blocks = selectedApp.blocks || [];
+            const totalSteps = 1 + blocks.length; // 1 for app selection + blocks
+            const platformIcon = getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey);
+
+            let html = '<div class="guides-minimal-timeline">';
+
+            // Timeline dots
+            html += '<div class="minimal-timeline-dots">';
+            // First dot for app selection
+            html += `<div class="minimal-timeline-dot ${minimalCurrentStep === 0 ? 'active' : ''}" data-step="0" style="background: var(--primary-color);" onclick="goToMinimalStep(0)">${platformIcon}</div>`;
+            // Dots for each block
+            blocks.forEach((block, index) => {
+                const stepIndex = index + 1;
+                const iconColor = getIconColor(block.svgIconColor);
+                const icon = getSvgIcon(block.svgIconKey) || platformIcon;
+                html += `<div class="minimal-timeline-dot ${minimalCurrentStep === stepIndex ? 'active' : ''}" data-step="${stepIndex}" style="background: ${iconColor};" onclick="goToMinimalStep(${stepIndex})">${icon}</div>`;
+            });
+            html += '</div>';
+
+            // Content container
+            html += '<div class="minimal-timeline-content">';
+
+            // Step 0: App selection
+            html += `<div class="minimal-timeline-step ${minimalCurrentStep === 0 ? 'active' : ''}" data-step="0">`;
+            html += '<div class="minimal-app-selection">';
+            html += `<div class="step-title"><span class="step-number" style="background: var(--primary-color);">1</span>${getHardcodedText('selectApp')}</div>`;
+            html += '<div class="app-tabs" style="margin-top: 16px;">';
+            apps.forEach((app, index) => {
+                const appIcon = getSvgIcon(app.svgIconKey) || platformIcon;
+                const starIcon = app.featured ? '<svg class="star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
+                const iconHtml = appIcon ? `<span class="app-tab-icon">${appIcon}</span>` : '';
+                html += `<div class="app-tab ${index === minimalSelectedAppIndex ? 'active' : ''}" data-minimal-app-index="${index}" onclick="selectMinimalApp(${index})">
+                    ${starIcon}<span class="app-tab-name">${escapeHtml(app.name)}</span>${iconHtml}
+                </div>`;
+            });
+            html += '</div></div></div>';
+
+            // Steps for blocks
+            blocks.forEach((block, index) => {
+                const stepIndex = index + 1;
+                const iconColor = getIconColor(block.svgIconColor);
+                html += `<div class="minimal-timeline-step ${minimalCurrentStep === stepIndex ? 'active' : ''}" data-step="${stepIndex}">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number" style="background: ${iconColor};">${stepIndex + 1}</span>
+                            ${getLocalizedText(block.title)}
+                        </div>
+                        <div class="step-description">${getLocalizedText(block.description)}</div>
+                        <div class="step-buttons">${renderBlockButtons(block, selectedApp, iconColor)}</div>
+                    </div>
+                </div>`;
+            });
+
+            html += '</div>';
+
+            // Navigation buttons
+            const prevColor = minimalCurrentStep > 0 ? (minimalCurrentStep === 1 ? 'var(--primary-color)' : getIconColor(blocks[minimalCurrentStep - 2]?.svgIconColor)) : 'var(--primary-color)';
+            const nextColor = minimalCurrentStep < totalSteps - 1 ? getIconColor(blocks[minimalCurrentStep]?.svgIconColor) : 'var(--primary-color)';
+
+            html += `<div class="minimal-timeline-nav">
+                <button class="btn" onclick="prevMinimalStep()" id="minimalPrevBtn" ${minimalCurrentStep === 0 ? 'disabled' : ''}>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button class="btn btn-primary" onclick="nextMinimalStep()" id="minimalNextBtn" style="background: ${nextColor}; border-color: ${nextColor};" ${minimalCurrentStep === totalSteps - 1 ? 'disabled' : ''}>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>`;
+
             html += '</div>';
             return html;
+        }
+
+        function selectMinimalApp(appIndex) {
+            if (appIndex === minimalSelectedAppIndex) return;
+            minimalSelectedAppIndex = appIndex;
+            currentApp = minimalApps[appIndex];
+
+            // Update app tabs active state
+            document.querySelectorAll('.minimal-app-selection .app-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === appIndex);
+            });
+
+            // Re-render the timeline with new app's blocks
+            const container = document.querySelector('.guides-minimal-timeline');
+            if (container) {
+                container.outerHTML = renderMinimalTimeline(minimalApps, minimalApps[appIndex]);
+                minimalCurrentStep = 0;
+            }
+        }
+
+        function goToMinimalStep(step) {
+            const selectedApp = minimalApps[minimalSelectedAppIndex];
+            const blocks = selectedApp?.blocks || [];
+            const totalSteps = minimalHasAppSelection ? 1 + blocks.length : blocks.length;
+
+            if (step < 0 || step >= totalSteps) return;
+            minimalCurrentStep = step;
+
+            // Update dots
+            document.querySelectorAll('.minimal-timeline-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === step);
+            });
+
+            // Update steps
+            document.querySelectorAll('.minimal-timeline-step').forEach((stepEl, i) => {
+                stepEl.classList.toggle('active', i === step);
+            });
+
+            // Update nav buttons
+            updateMinimalNavButtons();
+        }
+
+        function prevMinimalStep() {
+            if (minimalCurrentStep > 0) goToMinimalStep(minimalCurrentStep - 1);
+        }
+
+        function nextMinimalStep() {
+            const selectedApp = minimalApps[minimalSelectedAppIndex];
+            const blocks = selectedApp?.blocks || [];
+            const totalSteps = minimalHasAppSelection ? 1 + blocks.length : blocks.length;
+            if (minimalCurrentStep < totalSteps - 1) goToMinimalStep(minimalCurrentStep + 1);
+        }
+
+        function updateMinimalNavButtons() {
+            const selectedApp = minimalApps[minimalSelectedAppIndex];
+            const blocks = selectedApp?.blocks || [];
+            const totalSteps = minimalHasAppSelection ? 1 + blocks.length : blocks.length;
+
+            const prevBtn = document.getElementById('minimalPrevBtn');
+            const nextBtn = document.getElementById('minimalNextBtn');
+
+            if (prevBtn) prevBtn.disabled = minimalCurrentStep === 0;
+            if (nextBtn) {
+                nextBtn.disabled = minimalCurrentStep === totalSteps - 1;
+                if (minimalCurrentStep < totalSteps - 1) {
+                    const nextColor = minimalHasAppSelection && minimalCurrentStep === 0
+                        ? getIconColor(blocks[0]?.svgIconColor)
+                        : getIconColor(blocks[minimalCurrentStep]?.svgIconColor);
+                    nextBtn.style.background = nextColor;
+                    nextBtn.style.borderColor = nextColor;
+                }
+            }
         }
 
         function renderAppCard(app, showFeaturedBadge = true) {
@@ -1382,11 +1608,11 @@ body {
         function renderAppsTabsView(apps, guidesType) {
             let html = '<div class="app-tabs">';
             apps.forEach((app, index) => {
-                const appIcon = getSvgIcon(app.svgIconKey) || '';
-                const starIcon = app.featured ? '<svg class="w-4 h-4 star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
+                const appIcon = getSvgIcon(app.svgIconKey) || getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey) || '';
+                const starIcon = app.featured ? '<svg class="star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
                 const iconHtml = appIcon ? `<span class="app-tab-icon">${appIcon}</span>` : '';
-                html += `<div class="app-tab ${index === 0 ? 'active' : ''} ${app.featured ? 'featured' : ''}" data-app-index="${index}">
-                    ${starIcon} ${iconHtml} ${escapeHtml(app.name)}
+                html += `<div class="app-tab ${index === 0 ? 'active' : ''}" data-app-index="${index}">
+                    ${starIcon}<span class="app-tab-name">${escapeHtml(app.name)}</span>${iconHtml}
                 </div>`;
             });
             html += '</div>';
