@@ -599,11 +599,18 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    padding-top: env(safe-area-inset-top, 20px);
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+.dark-theme .modal {
+    background: rgba(15, 23, 42, 0.9);
 }
 .modal.active { display: flex; }
 .modal-content {
