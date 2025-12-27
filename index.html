@@ -358,7 +358,7 @@ body {
     flex-wrap: wrap;
 }
 .app-tab {
-    padding: 12px 16px;
+    padding: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
@@ -366,9 +366,9 @@ body {
     transition: all 0.2s ease;
     font-weight: 500;
     display: flex;
-    align-items: center;
-    gap: 12px;
+    align-items: stretch;
     position: relative;
+    overflow: hidden;
 }
 .app-tab:hover { border-color: var(--primary-color); }
 .app-tab.active {
@@ -383,23 +383,22 @@ body {
     left: 4px;
     width: 12px;
     height: 12px;
+    z-index: 1;
 }
 .app-tab.active .star-icon { color: white; }
 .app-tab .app-tab-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius);
+    width: 48px;
+    min-height: 48px;
     background: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     order: 2;
-    margin-left: auto;
 }
-.app-tab .app-tab-icon svg { width: 20px; height: 20px; color: white; fill: white; }
+.app-tab .app-tab-icon svg { width: 24px; height: 24px; color: white; fill: white; }
 .app-tab.active .app-tab-icon { background: rgba(255,255,255,0.2); }
-.app-tab .app-tab-name { order: 1; }
+.app-tab .app-tab-name { order: 1; padding: 12px 16px; flex: 1; display: flex; align-items: center; }
 
 @media (max-width: 768px) {
     .app-tab {
@@ -551,7 +550,7 @@ body {
 .guides-minimal .step-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Timeline */
-.guides-timeline { position: relative; width: 100%; overflow: hidden; }
+.guides-timeline { position: relative; width: 100%; }
 .guides-timeline .timeline-container { position: relative; }
 .guides-timeline .timeline-step {
     position: relative;
@@ -588,6 +587,7 @@ body {
     justify-content: center;
     gap: 12px;
     margin-bottom: 20px;
+    padding: 8px 0;
 }
 .guides-timeline .timeline-dot {
     width: 32px;
@@ -599,6 +599,7 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
+    flex-shrink: 0;
 }
 .guides-timeline .timeline-dot svg { width: 16px; height: 16px; }
 .guides-timeline .timeline-dot.active { transform: scale(1.3); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
@@ -772,6 +773,9 @@ body {
     .stats-grid { grid-template-columns: 1fr; }
     .featured-apps-row { grid-template-columns: 1fr; }
     .apps-grid { grid-template-columns: 1fr; }
+    .app-card { width: 100%; box-sizing: border-box; }
+    .card { width: 100%; box-sizing: border-box; }
+    .card-content { width: 100%; box-sizing: border-box; }
 }
     </style>
 </head>
