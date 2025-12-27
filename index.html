@@ -373,9 +373,11 @@ body {
 .app-tab:hover { border-color: var(--primary-color); }
 .app-tab.active {
     border-color: var(--primary-color);
-    border-left: 3px solid var(--primary-color);
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, var(--surface) 100%);
+    background: var(--primary-color);
+    color: white;
 }
+.app-tab.active .star-icon { color: white; }
+.app-tab.active .app-tab-icon svg { color: white; fill: white; }
 .app-tab .star-icon {
     color: var(--warning);
     position: absolute;
