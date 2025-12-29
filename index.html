@@ -73,7 +73,14 @@ body {
     flex-direction: column;
 }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 20px; flex: 1; }
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    box-sizing: border-box;
+}
 
 .header {
     display: flex;
@@ -132,6 +139,7 @@ body {
     overflow: hidden;
     margin-bottom: 20px;
     width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 }
 
@@ -252,7 +260,8 @@ body {
 .link-actions { display: flex; gap: 8px; }
 
 /* Installation Section */
-.apps-section { margin-bottom: 30px; width: 100%; }
+.apps-section { margin-bottom: 30px; width: 100%; min-width: 0; box-sizing: border-box; }
+#appsContainer { width: 100%; min-width: 0; box-sizing: border-box; }
 .platform-tabs {
     display: flex;
     gap: 8px;
@@ -284,8 +293,8 @@ body {
 #platform-selector-btn { display: none; }
 
 /* App Cards Container */
-.apps-container { display: flex; flex-direction: column; gap: 20px; }
-.featured-apps-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.apps-container { display: flex; flex-direction: column; gap: 20px; width: 100%; min-width: 0; box-sizing: border-box; }
+.featured-apps-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; width: 100%; min-width: 0; box-sizing: border-box; }
 
 .other-apps-spoiler { width: 100%; }
 .spoiler-header {
@@ -306,7 +315,7 @@ body {
 .spoiler-content.open { display: block; }
 .spoiler-arrow { transition: transform 0.2s ease; flex-shrink: 0; }
 .spoiler-arrow.open { transform: rotate(180deg); }
-.apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; width: 100%; min-width: 0; box-sizing: border-box; }
 
 .app-card {
     background: var(--surface);
@@ -317,6 +326,8 @@ body {
     transition: all 0.2s ease;
     cursor: pointer;
     width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .app-card:hover { border-color: var(--primary-color); box-shadow: var(--shadow-lg); }
 .app-card.featured {
@@ -356,6 +367,9 @@ body {
     gap: 8px;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .app-tab {
     padding: 0;
@@ -408,7 +422,7 @@ body {
 }
 
 /* Installation Guides - Cards */
-.guides-cards { width: 100%; overflow: hidden; }
+.guides-cards { width: 100%; min-width: 0; box-sizing: border-box; }
 .guides-cards .guide-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -417,6 +431,9 @@ body {
     margin-bottom: 16px;
     overflow: hidden;
     word-break: break-word;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .guides-cards .guide-card:last-child { margin-bottom: 0; }
 .guides-cards .guide-card-header {
@@ -440,7 +457,7 @@ body {
 .guides-cards .guide-card-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Accordion */
-.guides-accordion { width: 100%; overflow: hidden; }
+.guides-accordion { width: 100%; min-width: 0; box-sizing: border-box; }
 .guides-accordion .accordion-item {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -448,6 +465,8 @@ body {
     margin-bottom: 8px;
     overflow: hidden;
     width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .guides-accordion .accordion-item:last-child { margin-bottom: 0; }
 .guides-accordion .accordion-header {
@@ -486,7 +505,7 @@ body {
 .guides-accordion .accordion-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Expanded (always open, no toggle) */
-.guides-expanded { width: 100%; overflow: hidden; }
+.guides-expanded { width: 100%; min-width: 0; box-sizing: border-box; }
 .guides-expanded .expanded-item {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -494,6 +513,9 @@ body {
     margin-bottom: 8px;
     overflow: hidden;
     word-break: break-word;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .guides-expanded .expanded-item:last-child { margin-bottom: 0; }
 .guides-expanded .expanded-header {
@@ -524,7 +546,8 @@ body {
 .guides-expanded .expanded-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Minimal (steps in modal) */
-.guides-minimal .step { margin-bottom: 24px; }
+.guides-minimal { width: 100%; min-width: 0; box-sizing: border-box; }
+.guides-minimal .step { margin-bottom: 24px; width: 100%; min-width: 0; box-sizing: border-box; }
 .guides-minimal .step:last-child { margin-bottom: 0; }
 .guides-minimal .step-title {
     font-weight: 600;
@@ -550,12 +573,15 @@ body {
 .guides-minimal .step-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Installation Guides - Timeline */
-.guides-timeline { position: relative; width: 100%; }
-.guides-timeline .timeline-container { position: relative; }
+.guides-timeline { position: relative; width: 100%; min-width: 0; box-sizing: border-box; }
+.guides-timeline .timeline-container { position: relative; width: 100%; min-width: 0; box-sizing: border-box; }
 .guides-timeline .timeline-step {
     position: relative;
     margin-bottom: 24px;
     display: none;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .guides-timeline .timeline-step.active { display: block; }
 .guides-timeline .timeline-step-content {
@@ -565,6 +591,9 @@ body {
     padding: 20px;
     overflow: hidden;
     word-break: break-word;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .guides-timeline .timeline-step-content.guide-card { margin-bottom: 0; }
 .guides-timeline .timeline-step-content .guide-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
@@ -762,7 +791,7 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .container { padding: 16px; }
+    .container { padding: 16px; width: 100%; box-sizing: border-box; }
     .header { gap: 12px; }
     .logo { font-size: 20px; flex: 1; }
     .controls { gap: 8px; }
@@ -773,9 +802,12 @@ body {
     .stats-grid { grid-template-columns: 1fr; }
     .featured-apps-row { grid-template-columns: 1fr; }
     .apps-grid { grid-template-columns: 1fr; }
-    .app-card { width: 100%; box-sizing: border-box; }
-    .card { width: 100%; box-sizing: border-box; }
-    .card-content { width: 100%; box-sizing: border-box; }
+    .app-card { width: 100%; min-width: 0; box-sizing: border-box; }
+    .card { width: 100%; min-width: 0; box-sizing: border-box; }
+    .card-content { width: 100%; min-width: 0; box-sizing: border-box; }
+    .apps-container { width: 100%; min-width: 0; box-sizing: border-box; }
+    .guides-cards, .guides-accordion, .guides-expanded, .guides-minimal, .guides-timeline { width: 100%; min-width: 0; box-sizing: border-box; }
+    .app-tabs { width: 100%; min-width: 0; box-sizing: border-box; }
 }
     </style>
 </head>
