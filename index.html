@@ -411,9 +411,9 @@ body {
     justify-content: center;
     flex-shrink: 0;
     order: 2;
-    border-radius: 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0;
+    border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
 }
-.app-tab .app-tab-icon svg { width: 24px; height: 24px; }
+.app-tab .app-tab-icon svg { width: 32px; height: 32px; }
 .app-tab .app-tab-name {
     order: 1;
     padding: 12px 16px;
@@ -429,7 +429,7 @@ body {
 @media (max-width: 768px) {
     .app-tab {
         flex: 1 1 calc(50% - 4px);
-        min-width: 140px;
+        min-width: 170px;
     }
 }
 
