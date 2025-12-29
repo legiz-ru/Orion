@@ -372,7 +372,7 @@ body {
     box-sizing: border-box;
 }
 .app-tab {
-    padding: 0;
+    padding: 12px 16px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--surface);
@@ -380,39 +380,40 @@ body {
     transition: all 0.2s ease;
     font-weight: 500;
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    gap: 12px;
     position: relative;
-    overflow: hidden;
+    min-width: 0;
+    box-sizing: border-box;
 }
 .app-tab:hover { border-color: var(--primary-color); }
 .app-tab.active {
-    border-color: var(--primary-color);
-    background: var(--primary-color);
-    color: white;
+    border-left: 3px solid var(--primary-color);
+    background: var(--surface);
+    color: var(--text-primary);
 }
 .app-tab .star-icon {
-    color: var(--primary-color);
     position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 12px;
-    height: 12px;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-color);
     z-index: 1;
 }
-.app-tab.active .star-icon { color: white; }
 .app-tab .app-tab-icon {
-    width: 48px;
-    min-height: 48px;
-    background: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     order: 2;
+    margin-left: auto;
+    color: var(--text-muted);
 }
-.app-tab .app-tab-icon svg { width: 24px; height: 24px; color: white; fill: white; }
-.app-tab.active .app-tab-icon { background: rgba(255,255,255,0.2); }
-.app-tab .app-tab-name { order: 1; padding: 12px 16px; flex: 1; display: flex; align-items: center; }
+.app-tab .app-tab-icon svg { width: 24px; height: 24px; }
+.app-tab.active .app-tab-icon { color: var(--primary-color); }
+.app-tab .app-tab-name { order: 1; display: flex; align-items: center; }
 
 @media (max-width: 768px) {
     .app-tab {
@@ -1507,7 +1508,7 @@ body {
             html += '<div class="app-tabs" style="margin-top: 8px;">';
             apps.forEach((app, index) => {
                 const appIcon = getSvgIcon(app.svgIconKey) || platformIcon;
-                const starIcon = app.featured ? '<svg class="star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
+                const starIcon = app.featured ? '<span class="star-icon"></span>' : '';
                 const iconHtml = appIcon ? `<span class="app-tab-icon">${appIcon}</span>` : '';
                 html += `<div class="app-tab ${index === timelineSelectedAppIndex ? 'active' : ''}" data-timeline-app-index="${index}" onclick="selectTimelineApp(${index})">
                     ${starIcon}<span class="app-tab-name">${escapeHtml(app.name)}</span>${iconHtml}
@@ -1583,7 +1584,7 @@ body {
             let html = '<div class="app-tabs">';
             apps.forEach((app, index) => {
                 const appIcon = getSvgIcon(app.svgIconKey) || getSvgIcon(appConfig.platforms[currentPlatform]?.svgIconKey) || '';
-                const starIcon = app.featured ? '<svg class="star-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' : '';
+                const starIcon = app.featured ? '<span class="star-icon"></span>' : '';
                 const iconHtml = appIcon ? `<span class="app-tab-icon">${appIcon}</span>` : '';
                 html += `<div class="app-tab ${index === 0 ? 'active' : ''}" data-app-index="${index}">
                     ${starIcon}<span class="app-tab-name">${escapeHtml(app.name)}</span>${iconHtml}
