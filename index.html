@@ -1812,9 +1812,16 @@ body {
                 const buttonIcon = getSvgIcon(button.svgIconKey, 'w-4 h-4');
                 let buttonLink = button.link;
 
-                if (buttonLink && response?.subscriptionUrl) {
-                    buttonLink = buttonLink.replace('{SUBSCRIPTION_URL}', response.subscriptionUrl);
-                    buttonLink = buttonLink.replace('{SUBSCRIPTION_URL_B64}', btoa(response.subscriptionUrl));
+                if (buttonLink && response) {
+                    // Support for template variables
+                    if (response.subscriptionUrl) {
+                        buttonLink = buttonLink.replace('{SUBSCRIPTION_URL}', response.subscriptionUrl);
+                        buttonLink = buttonLink.replace('{SUBSCRIPTION_URL_B64}', btoa(response.subscriptionUrl));
+                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(response.subscriptionUrl));
+                    }
+                    if (response.user?.username) {
+                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(response.user.username));
+                    }
                 }
 
                 const buttonType = button.type || 'link';
@@ -1837,7 +1844,16 @@ body {
         function generateSubscriptionUrl(app, subscriptionUrl, linkTemplate) {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
-                return linkTemplate.replace('{SUBSCRIPTION_URL}', subscriptionUrl).replace('{SUBSCRIPTION_URL_B64}', btoa(subscriptionUrl));
+                let result = linkTemplate
+                    .replace('{SUBSCRIPTION_URL}', subscriptionUrl)
+                    .replace('{SUBSCRIPTION_URL_B64}', btoa(subscriptionUrl))
+                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(subscriptionUrl));
+                // Support {{USERNAME}} variable
+                const username = panelData?.response?.user?.username;
+                if (username) {
+                    result = result.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(username));
+                }
+                return result;
             }
             return null;
         }
