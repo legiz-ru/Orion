@@ -215,14 +215,23 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            padding-top: env(safe-area-inset-top, 20px);
+            padding-bottom: env(safe-area-inset-bottom, 20px);
         }
-
+        .dark-theme .modal {
+            background: rgba(15, 23, 42, 0.9);
+        }
         .modal.active {
             display: flex;
         }
@@ -230,8 +239,10 @@
         .modal-content {
             background: var(--surface);
             border-radius: var(--radius);
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: var(--shadow-lg);
         }
 
@@ -246,6 +257,10 @@
         .modal-title {
             font-size: 18px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: "Twemoji Country Flags", system-ui, -apple-system, Roboto, "Segoe UI", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         }
 
         .modal-close {
@@ -254,7 +269,15 @@
             font-size: 24px;
             cursor: pointer;
             color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
         }
+        .modal-close:hover { background: var(--border); }
 
         .modal-body {
             padding: 20px;
