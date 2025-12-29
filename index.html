@@ -753,6 +753,11 @@ body {
     flex-wrap: wrap;
     gap: 8px;
 }
+.settings-buttons .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+}
 .lang-emoji {
     font-family: "Twemoji Country Flags", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
     font-size: 1.2em;
@@ -995,6 +1000,11 @@ body {
                         return platform && platform.apps && platform.apps.length > 0;
                     });
 
+                    // Set language if not already set (now that appConfig is loaded)
+                    if (!localStorage.getItem('lang')) {
+                        currentLanguage = getBrowserLanguage();
+                    }
+
                     // Setup language buttons
                     setupLanguageButtons();
 
@@ -1003,11 +1013,6 @@ body {
 
                     // Render header controls
                     renderHeaderControls();
-
-                    // Set language if not already set
-                    if (!localStorage.getItem('lang')) {
-                        currentLanguage = getBrowserLanguage();
-                    }
 
                     // Update all texts
                     updateTexts();
