@@ -12,14 +12,13 @@
 
 *   **主题支持：** 可在浅色、深色和系统主题之间自动或手动切换，使用更加舒适。
 
-*   **灵活的应用配置：** 完全自定义应用列表，支持"推荐"应用和添加自定义链接。
-    *   **自定义分组：** 可通过 `app-config.json` 集成文件在应用部分添加额外分组。
+*   **灵活的应用配置：** 完全自定义应用列表，支持"推荐"应用和添加自定义链接，可通过 remnawave 面板侧的 subpage 配置进行设置。
 
-*   **品牌支持：** 通过 `app-config.json` 配置中的 `logoUrl` 和 `supportUrl` 参数设置徽标和支持链接，实现页面个性化。
+*   **品牌支持：** 通过 subpage config 配置中的 `logoUrl` 和 `supportUrl` 参数设置徽标和支持链接，实现页面个性化。
 
 *   **链接复制和二维码：** 一键方便复制单个链接（`vless://`、`trojan://`）和主订阅链接，还能生成二维码便于快速设置。
 
-*   **多语言支持：** 页面提供 **俄语、英语、乌兹别克语、土耳其语、波斯语和中文**。语言将根据用户的浏览器设置自动识别，并支持手动切换。
+*   **多语言支持：** 页面提供 subpage 配置编辑器的全部 20 种语言，包括俄语、英语、波斯语和中文。语言将根据用户的浏览器设置自动识别，并支持手动切换。
 
 *   **remnawave-json 支持：** 可将订阅页面集成到 https://github.com/Jolymmiels/remnawave-json（适配的 index.html 文件位于 remnawave-json 文件夹中）。
 
@@ -64,17 +63,6 @@
         image: remnawave/subscription-page:latest
         volumes:
           - ./index.html:/opt/app/frontend/index.html
-    ```
-
-    如果您计划使用[自定义应用列表](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-configuration)：
-
-    ```yaml
-    services:
-      remnawave-subscription-page:
-        image: remnawave/subscription-page:latest
-        volumes:
-          - ./index.html:/opt/app/frontend/index.html
-          - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
 3.  **（可选）配置重定向页面**  

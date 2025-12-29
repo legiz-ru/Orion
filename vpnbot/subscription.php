@@ -6,7 +6,7 @@ $supportUrl = 'https://t.me/yourID';
 $subscription_url = preg_replace("/<a href='([^']+)'>.*<\/a>/", '$1', $suburl);
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $username = htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8');
-$appsConfigUrl = 'https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json';
+$appsConfigUrl = 'https://raw.githubusercontent.com/remnawave/templates/refs/heads/main/remnawave-default/subscription-page/subscription-page-default-config.json';
 // Переменные для страницы подписки vpnbot
 /*
     $suburl - ссылка на страницу подписки пользователя

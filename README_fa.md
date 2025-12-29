@@ -12,14 +12,13 @@
 
 *   **پشتیبانی از تم‌ها:** جابجایی خودکار یا دستی بین تم‌های روشن، تاریک و سیستمی برای راحتی چشم در هر زمان از روز.
 
-*   **پیکربندی انعطاف‌پذیر برنامه‌ها:** سفارشی‌سازی کامل لیست برنامه‌ها، پشتیبانی از برنامه‌های "ویژه" و راهنماهای نصب چند مرحله‌ای از طریق [فایل قابل تنظیم `app-config.json`](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps).
-    *   **گروه‌های سفارشی:** قابلیت افزودن گروه‌های اضافی به بخش برنامه‌ها از طریق فایل یکپارچه‌سازی، [به عنوان مثال `بخش تلویزیون`](https://github.com/legiz-ru/my-remnawave/blob/main/sub-page/multiapp/app-config.json).
+*   **پیکربندی انعطاف‌پذیر برنامه‌ها:** سفارشی‌سازی کامل لیست برنامه‌ها، پشتیبانی از برنامه‌های "ویژه" و راهنماهای نصب چند مرحله‌ای از طریق پیکربندی قابل تنظیم subpage در سمت پنل remnawave.
 
-*   **پشتیبانی از برندینگ:** پیکربندی لوگو و لینک پشتیبانی از طریق پارامترهای `logoUrl` و `supportUrl` در تنظیمات `app-config.json` برای شخصی‌سازی صفحه.
+*   **پشتیبانی از برندینگ:** پیکربندی لوگو و لینک پشتیبانی از طریق پارامترهای `logoUrl` و `supportUrl` در تنظیمات subpage config برای شخصی‌سازی صفحه.
 
 *   **کپی کردن لینک‌ها و کدهای QR:** کپی کردن آسان لینک‌های فردی (`vless://`, `trojan://`) و لینک اشتراک اصلی با یک کلیک. برای هر لینک می‌توان یک کد QR تطبیق‌پذیر تولید کرد.
 
-*   **پشتیبانی چندزبانه:** صفحه به زبان‌های **روسی، انگلیسی، ازبکی، ترکی، فارسی و چینی** در دسترس است. زبان بر اساس تنظیمات مرورگر کاربر به‌صورت خودکار تشخیص داده می‌شود و امکان تغییر دستی نیز وجود دارد.
+*   **پشتیبانی چندزبانه:** صفحه به تمام ۲۰ زبان ویرایشگر پیکربندی subpage، از جمله روسی، انگلیسی، فارسی و چینی در دسترس است. زبان بر اساس تنظیمات مرورگر کاربر به‌صورت خودکار تشخیص داده می‌شود و امکان تغییر دستی نیز وجود دارد.
 
 *   **پشتیبانی از remnawave-json:** امکان یکپارچگی صفحه اشتراک در https://github.com/Jolymmiels/remnawave-json (فایل تطبیق‌یافته index.html در پوشه remnawave-json قرار دارد).
 
@@ -65,17 +64,6 @@
         image: remnawave/subscription-page:latest
         volumes:
           - ./index.html:/opt/app/frontend/index.html
-    ```
-
-   اگر قصد دارید از [لیست برنامه‌های سفارشی](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps) (`app-config.json`) استفاده کنید، `volume` مربوطه را اضافه کنید:
-
-    ```yaml
-    services:
-      remnawave-subscription-page:
-        image: remnawave/subscription-page:latest
-        volumes:
-          - ./index.html:/opt/app/frontend/index.html
-          - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
 ۳.  **(اختیاری) تنظیم صفحه ریدایرکت برای پیمایش**  

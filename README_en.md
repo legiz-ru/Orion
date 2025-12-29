@@ -12,14 +12,13 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
 
 *   **Theme Support:** Automatic or manual switching between light, dark, and system themes for eye comfort at any time of day.
 
-*   **Flexible App Configuration:** Full customization of the application list, support for "featured" apps, and multi-step setup guides via a [customizable `app-config.json` file](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps).
-    *   **Custom Groups:** Ability to add extra groups to the apps section via the integration file, [e.g., a `TV section`](https://github.com/legiz-ru/my-remnawave/blob/main/sub-page/multiapp/app-config.json).
+*   **Flexible App Configuration:** Full customization of the application list, support for "featured" apps, and multi-step setup guides via a customizable subpage configuration on the remnawave panel side.
 
-*   **Branding Support:** Configure logo and support link through `logoUrl` and `supportUrl` parameters in `app-config.json` configuration for page personalization.
+*   **Branding Support:** Configure logo and support link through `logoUrl` and `supportUrl` parameters in subpage config for page personalization.
 
 *   **Link Copying & QR Codes:** Convenient one-click copying of individual links (`vless://`, `trojan://`) and the main subscription link. An adaptive QR code can be generated for each link.
 
-*   **Multilingual support:** The page is available in **Russian, English, Uzbek, Turkish, Farsi, and Chinese**. The language is detected automatically based on the user's browser settings, with an option to switch manually.
+*   **Multilingual support:** The page is available in all 20 languages of the subpage configuration editor, including Russian, English, Farsi, and Chinese. The language is detected automatically based on the user's browser settings, with an option to switch manually.
 
 *   **remnawave-json Support:** Ability to integrate the subscription page into https://github.com/Jolymmiels/remnawave-json (adapted index.html file is located in the remnawave-json folder).
 
@@ -64,17 +63,6 @@ A modern, fast, and responsive subscription page for the Remnawave proxy panel. 
         image: remnawave/subscription-page:latest
         volumes:
           - ./index.html:/opt/app/frontend/index.html
-    ```
-
-    If you plan to use a [custom app list](https://remna.st/docs/install/remnawave-subscription-page#custom-app-configjson-custom-apps) (`app-config.json`), add the corresponding `volume`:
-
-    ```yaml
-    services:
-      remnawave-subscription-page:
-        image: remnawave/subscription-page:latest
-        volumes:
-          - ./index.html:/opt/app/frontend/index.html
-          - ./app-config.json:/opt/app/frontend/assets/app-config.json
     ```
 
 3.  **(Optional) Redirect page setup for redirection**  

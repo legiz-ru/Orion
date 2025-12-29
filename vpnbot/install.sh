@@ -35,7 +35,7 @@ if [ "$LANG" = "ru" ]; then
     Q_PAGEDESC="Хотите указать своё описание внизу страницы?"
     Q_SUPPORTURL="Хотите указать свою ссылку портала поддержки?"
     Q_ANNOUNCE="Хотите указать своё сообщение анонс?"
-    Q_APPSCONFIG="Хотите использовать свой список приложений? (Формат списка Remnawave 2.1.0+)"
+    Q_APPSCONFIG="Хотите использовать свой список приложений? (Формат списка Remnawave 2.4.4+)"
     STR_APPLYING="Применяем изменения и перезапускаем vpnbot..."
     STR_SUCCESS_MSG="Страница подписки успешно установлена!"
     STR_MAKE_ERROR="Ошибка: Команда 'make r' завершилась с ошибкой."
@@ -56,7 +56,7 @@ else
     Q_PAGEDESC="Do you want to specify your description at the bottom of the page?"
     Q_SUPPORTURL="Do you want to specify your support portal link?"
     Q_ANNOUNCE="Do you want to specify your announcement message?"
-    Q_APPSCONFIG="Do you want to use your list of applications? (App list format Remnawave 2.1.0+)"
+    Q_APPSCONFIG="Do you want to use your list of applications? (App list format Remnawave 2.4.4+)"
     STR_APPLYING="Applying changes and restarting vpnbot..."
     STR_SUCCESS_MSG="Subscription page installed successfully!"
     STR_MAKE_ERROR="Error: 'make r' command failed."
@@ -143,7 +143,7 @@ if [ "$PRESERVE" = false ]; then
     replace_value "metaDescription" "$Q_PAGEDESC" "Manage your vpnbot subscription and download configuration files for various clients."
     replace_value "supportUrl" "$Q_SUPPORTURL" "https://t.me/yourID"
     replace_value "announce" "$Q_ANNOUNCE" "welcome to the club"
-    replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json"
+    replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://raw.githubusercontent.com/remnawave/templates/refs/heads/main/remnawave-default/subscription-page/subscription-page-default-config.json"
 else
     echo -e "${YELLOW}${STR_SKIPPING_QUESTIONS}${NC}"
 fi
