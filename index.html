@@ -410,9 +410,21 @@ body {
     justify-content: center;
     flex-shrink: 0;
     order: 2;
+    position: relative;
 }
-.app-tab .app-tab-icon svg { width: 24px; height: 24px; color: white; fill: white; }
-.app-tab.active .app-tab-icon { background: rgba(255,255,255,0.2); }
+/* Gradient transition from icon to surface */
+.app-tab .app-tab-icon::before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    background: linear-gradient(to right, transparent, var(--primary-color));
+}
+.app-tab .app-tab-icon svg { width: 24px; height: 24px; color: white; }
+.app-tab .app-tab-icon svg * { fill: white; stroke: white; }
+.app-tab.active .app-tab-icon::before { display: none; }
 .app-tab .app-tab-name {
     order: 1;
     padding: 12px 16px;
@@ -427,17 +439,6 @@ body {
 
 @media (max-width: 768px) {
     .app-tab {
-        flex: 1 1 calc(50% - 4px);
-        min-width: 0;
-    }
-    .app-tab .app-tab-name {
-        white-space: normal;
-    }
-    /* If only 1-2 apps, full width each */
-    .app-tabs:has(.app-tab:nth-child(3)) .app-tab {
-        flex: 1 1 calc(50% - 4px);
-    }
-    .app-tabs:not(:has(.app-tab:nth-child(3))) .app-tab {
         flex: 1 1 100%;
     }
 }
