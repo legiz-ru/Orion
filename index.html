@@ -1105,6 +1105,18 @@ body {
                 uz: 'Ilovani tanlang', hi: 'एप्लिकेशन चुनें', de: 'Anwendung auswählen', tr: 'Uygulama seçin', az: 'Tətbiqi seçin',
                 vi: 'Chọn ứng dụng', es: 'Seleccionar aplicación', ja: 'アプリを選択', be: 'Выберыце праграму', pt: 'Selecionar aplicativo',
                 uk: 'Вибрати додаток', pl: 'Wybierz aplikację', id: 'Pilih aplikasi', tk: 'Programmany saýlaň', th: 'เลือกแอปพลิเคชัน'
+            },
+            theme: {
+                en: 'Theme', ru: 'Тема', zh: '主题', fa: 'تم', fr: 'Thème',
+                uz: 'Mavzu', hi: 'थीम', de: 'Design', tr: 'Tema', az: 'Mövzu',
+                vi: 'Giao diện', es: 'Tema', ja: 'テーマ', be: 'Тэма', pt: 'Tema',
+                uk: 'Тема', pl: 'Motyw', id: 'Tema', tk: 'Tema', th: 'ธีม'
+            },
+            language: {
+                en: 'Language', ru: 'Язык', zh: '语言', fa: 'زبان', fr: 'Langue',
+                uz: 'Til', hi: 'भाषा', de: 'Sprache', tr: 'Dil', az: 'Dil',
+                vi: 'Ngôn ngữ', es: 'Idioma', ja: '言語', be: 'Мова', pt: 'Idioma',
+                uk: 'Мова', pl: 'Język', id: 'Bahasa', tk: 'Dil', th: 'ภาษา'
             }
         };
 
@@ -1206,6 +1218,10 @@ body {
             document.getElementById('qrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('subscriptionQrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('copySubBtnText').textContent = t('copyLink') || 'Copy';
+            // Update settings modal labels
+            document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
+            document.getElementById('themeLabel').textContent = getHardcodedText('theme');
+            document.getElementById('languageLabel').textContent = getHardcodedText('language');
         }
 
         function setTheme(theme) {
