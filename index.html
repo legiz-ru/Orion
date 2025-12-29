@@ -428,8 +428,12 @@ body {
 
 @media (max-width: 768px) {
     .app-tab {
-        flex: 1 1 calc(50% - 4px);
-        min-width: 120px;
+        flex: 1 0 calc(50% - 4px);
+        min-width: fit-content;
+    }
+    .app-tab .app-tab-name {
+        overflow: visible;
+        text-overflow: clip;
     }
 }
 
