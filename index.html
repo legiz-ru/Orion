@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>
+    // Применяем тему ДО рендера страницы для избежания мерцания
+    (function() {
+        var theme = localStorage.getItem('theme') || 'auto';
+        var isDark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) document.documentElement.classList.add('dark-theme');
+    })();
+    </script>
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-180x180.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
@@ -828,6 +836,12 @@ body {
     .app-tabs { width: 100%; min-width: 0; box-sizing: border-box; }
 }
 
+/* Скрываем элементы до загрузки данных */
+.logo:not(.loaded) { visibility: hidden; }
+.header-controls:not(.loaded) { visibility: hidden; }
+#mainContent { opacity: 0; transition: opacity 0.2s ease; }
+#mainContent.loaded { opacity: 1; }
+
 /* Snowflakes Animation */
 .snowflakes {
     position: fixed;
@@ -954,13 +968,13 @@ body {
 
     <div class="container">
         <header class="header">
-            <div class="logo" id="brandLogo">Subscription</div>
-            <div class="controls" id="headerControls">
+            <div class="logo" id="brandLogo"></div>
+            <div class="controls header-controls" id="headerControls">
                 <!-- Controls will be rendered by JS -->
             </div>
         </header>
         <main id="mainContent">
-            <div class="card"><div class="card-content" style="text-align: center; padding: 40px;">Loading...</div></div>
+            <!-- Контент будет загружен JS -->
         </main>
     </div>
 
@@ -1291,6 +1305,7 @@ body {
                 const titleSpan = document.createElement('span');
                 titleSpan.textContent = branding.title || 'Subscription';
                 logo.appendChild(titleSpan);
+                logo.classList.add('loaded');
             }
         }
 
@@ -1328,6 +1343,7 @@ body {
             </button>`;
 
             controls.innerHTML = html;
+            controls.classList.add('loaded');
         }
 
         function setupLanguageButtons() {
@@ -1461,6 +1477,7 @@ body {
             }
 
             mainContent.innerHTML = html;
+            mainContent.classList.add('loaded');
             attachEventListeners();
         }
 
