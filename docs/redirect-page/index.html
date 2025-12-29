@@ -5,6 +5,10 @@
     <title>Re:direct</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#3b82f6" id="themeColor">
+    <script type="module" defer>
+    import { polyfillCountryFlagEmojis } from "https://cdn.skypack.dev/country-flag-emoji-polyfill";
+    polyfillCountryFlagEmojis();
+    </script>
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -256,32 +260,40 @@
             padding: 20px;
         }
 
-        .step {
+        .settings-section {
             margin-bottom: 24px;
         }
-        .step:last-child {
+        .settings-section:last-child {
             margin-bottom: 0;
         }
 
-        .step-title {
+        .settings-label {
             font-weight: 600;
             margin-bottom: 12px;
+            display: block;
         }
 
-        .step-buttons {
+        .settings-buttons {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .step-buttons .btn {
-            flex: 1;
+        .settings-buttons .btn {
+            flex: 1 1 auto;
+            min-width: 0;
+            justify-content: center;
+        }
+
+        .lang-emoji {
+            font-family: "Twemoji Country Flags", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+            font-size: 1.2em;
         }
 
         @media (max-width: 768px) {
             .logo { font-size: 20px; }
             .btn-text { display: none; }
-            .step-buttons { flex-direction: column; }
+            .settings-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -328,21 +340,21 @@
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" data-key="settings">Settings</h3>
+                <h3 class="modal-title" id="settingsTitle" data-key="settings">Settings</h3>
                 <button class="modal-close" onclick="closeModal('settingsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="step"><div class="step-title" data-key="theme">Theme</div><div class="step-buttons"><button class="btn" onclick="setTheme('light')" data-key="light">Light</button><button class="btn" onclick="setTheme('dark')" data-key="dark">Dark</button><button class="btn" onclick="setTheme('auto')" data-key="auto">Auto</button></div></div>
-                <div class="step">
-                <div class="step-title" data-key="language">Language</div>
-                <div class="step-buttons">
-                    <button class="btn" onclick="setLanguage('fa')">فارسی</button>
-                    <button class="btn" onclick="setLanguage('zh')">中文</button>
-                    <button class="btn" onclick="setLanguage('tr')">Türkçe</button>
-                    <button class="btn" onclick="setLanguage('uz')">Oʻzbekcha</button>
-                    <button class="btn" onclick="setLanguage('en')">English</button>
-                    <button class="btn" onclick="setLanguage('ru')">Русский</button>
+                <div class="settings-section">
+                    <label class="settings-label" id="themeLabel" data-key="theme">Theme</label>
+                    <div class="settings-buttons" id="themeButtons">
+                        <button class="btn" onclick="setTheme('light')">☀️ <span data-key="light">Light</span></button>
+                        <button class="btn" onclick="setTheme('dark')">🌙 <span data-key="dark">Dark</span></button>
+                        <button class="btn" onclick="setTheme('auto')">⚙️ <span data-key="auto">Auto</span></button>
+                    </div>
                 </div>
+                <div class="settings-section">
+                    <label class="settings-label" id="languageLabel" data-key="language">Language</label>
+                    <div class="settings-buttons" id="languageButtons"></div>
                 </div>
             </div>
         </div>
@@ -407,6 +419,14 @@
                 obtainium_info: "Если этого не произошло, возможно у вас не загружено приложение Obtainium. Загрузите его в GitHub или F-Droid и попробуйте нажать кнопку Импортировать ниже.",
                 download_github: "GitHub", download_fdroid: "F-Droid"
             },
+            zh: {
+                settings: "设置", theme: "主题", language: "语言", light: "浅色", dark: "深色", auto: "自动",
+                seconds: "秒", redirecting_to: "正在重定向到", you_will_be_redirected: "您将在以下时间后自动重定向",
+                if_not: "如果没有任何反应，请单击下面的按钮。", proceed: "导入", error_redirect: "重定向错误",
+                error_description: "重定向链接丢失或无效。",
+                obtainium_info: "如果重定向没有发生，您可能没有安装 Obtainium 应用程序。请从 GitHub 或 F-Droid 下载它，然后点击下方的"导入"按钮。",
+                download_github: "下载 (GitHub)", download_fdroid: "下载 (F-Droid)"
+            },
             fa: {
                 settings: "تنظیمات", theme: "پوسته", language: "زبان", light: "روشن", dark: "تیره", auto: "خودکار",
                 seconds: "ثانیه", redirecting_to: "در حال هدایت به", you_will_be_redirected: "شما به طور خودکار هدایت خواهید شد در",
@@ -415,13 +435,37 @@
                 obtainium_info: "اگر این اتفاق نیفتاد، ممکن است برنامه Obtainium را نصب نکرده باشید. آن را از GitHub یا F-Droid دانلود کرده و روی دکمه وارد کردن در پایین کلیک کنید.",
                 download_github: "دانلود (GitHub)", download_fdroid: "دانلود (F-Droid)"
             },
-            zh: {
-                settings: "设置", theme: "主题", language: "语言", light: "浅色", dark: "深色", auto: "自动",
-                seconds: "秒", redirecting_to: "正在重定向到", you_will_be_redirected: "您将在以下时间后自动重定向",
-                if_not: "如果没有任何反应，请单击下面的按钮。", proceed: "导入", error_redirect: "重定向错误",
-                error_description: "重定向链接丢失或无效。",
-                obtainium_info: "如果重定向没有发生，您可能没有安装 Obtainium 应用程序。请从 GitHub 或 F-Droid 下载它，然后点击下方的“导入”按钮。",
-                download_github: "下载 (GitHub)", download_fdroid: "下载 (F-Droid)"
+            fr: {
+                settings: "Paramètres", theme: "Thème", language: "Langue", light: "Clair", dark: "Sombre", auto: "Auto",
+                seconds: "secondes", redirecting_to: "Redirection vers", you_will_be_redirected: "Vous serez redirigé automatiquement dans",
+                if_not: "Si rien ne se passe, cliquez sur le bouton ci-dessous.", proceed: "Importer", error_redirect: "Erreur de redirection",
+                error_description: "Le lien de redirection est manquant ou invalide.",
+                obtainium_info: "Si cela ne s'est pas produit, vous n'avez peut-être pas l'application Obtainium installée. Téléchargez-la depuis GitHub ou F-Droid et cliquez sur le bouton Importer ci-dessous.",
+                download_github: "Télécharger (GitHub)", download_fdroid: "Télécharger (F-Droid)"
+            },
+            uz: {
+                settings: "Sozlamalar", theme: "Mavzu", language: "Til", light: "Yorugʻ", dark: "Qorongʻi", auto: "Avtomatik",
+                seconds: "soniya ichida", redirecting_to: "Quyidagiga yoʻnaltirilmoqda", you_will_be_redirected: "Siz avtomatik ravishda yoʻnaltirilasiz",
+                if_not: "Agar hech narsa sodir bo'lmasa, quyidagi tugmani bosing.", proceed: "Import qilish", error_redirect: "Yoʻnaltirish xatosi",
+                error_description: "Yoʻnaltirish havolasi yoʻq yoki yaroqsiz.",
+                obtainium_info: "Agar bu sodir boʻlmagan boʻlsa, ehtimol sizda Obtainium ilovasi oʻrnatilmagan. Uni GitHub yoki F-Droid'dan yuklab oling va quyidagi "Import qilish" tugmasini bosing.",
+                download_github: "Yuklab olish (GitHub)", download_fdroid: "Yuklab olish (F-Droid)"
+            },
+            hi: {
+                settings: "सेटिंग्स", theme: "थीम", language: "भाषा", light: "लाइट", dark: "डार्क", auto: "ऑटो",
+                seconds: "सेकंड", redirecting_to: "रीडायरेक्ट हो रहा है", you_will_be_redirected: "आप स्वचालित रूप से रीडायरेक्ट होंगे",
+                if_not: "अगर कुछ नहीं होता है, तो नीचे दिए गए बटन पर क्लिक करें।", proceed: "आयात करें", error_redirect: "रीडायरेक्शन त्रुटि",
+                error_description: "रीडायरेक्शन लिंक गायब है या अमान्य है।",
+                obtainium_info: "अगर ऐसा नहीं हुआ, तो शायद आपके पास Obtainium ऐप इंस्टॉल नहीं है। इसे GitHub या F-Droid से डाउनलोड करें।",
+                download_github: "डाउनलोड (GitHub)", download_fdroid: "डाउनलोड (F-Droid)"
+            },
+            de: {
+                settings: "Einstellungen", theme: "Design", language: "Sprache", light: "Hell", dark: "Dunkel", auto: "Auto",
+                seconds: "Sekunden", redirecting_to: "Weiterleitung zu", you_will_be_redirected: "Sie werden automatisch weitergeleitet in",
+                if_not: "Wenn nichts passiert, klicken Sie auf die Schaltfläche unten.", proceed: "Importieren", error_redirect: "Weiterleitungsfehler",
+                error_description: "Der Weiterleitungslink fehlt oder ist ungültig.",
+                obtainium_info: "Wenn dies nicht geschehen ist, haben Sie möglicherweise die Obtainium-App nicht installiert. Laden Sie sie von GitHub oder F-Droid herunter.",
+                download_github: "Herunterladen (GitHub)", download_fdroid: "Herunterladen (F-Droid)"
             },
             tr: {
                 settings: "Ayarlar", theme: "Tema", language: "Dil", light: "Açık", dark: "Koyu", auto: "Otomatik",
@@ -431,15 +475,114 @@
                 obtainium_info: "Bu gerçekleşmediyse, Obtainium uygulaması yüklü olmayabilir. GitHub veya F-Droid'den indirin ve aşağıdaki İçe aktar düğmesine tıklayın.",
                 download_github: "İndir (GitHub)", download_fdroid: "İndir (F-Droid)"
             },
-            uz: {
-                settings: "Sozlamalar", theme: "Mavzu", language: "Til", light: "Yorugʻ", dark: "Qorongʻi", auto: "Avtomatik",
-                seconds: "soniya ichida", redirecting_to: "Quyidagiga yoʻnaltirilmoqda", you_will_be_redirected: "Siz avtomatik ravishda yoʻnaltirilasiz",
-                if_not: "Agar hech narsa sodir bo‘lmasa, quyidagi tugmani bosing.", proceed: "Import qilish", error_redirect: "Yoʻnaltirish xatosi",
-                error_description: "Yoʻnaltirish havolasi yoʻq yoki yaroqsiz.",
-                obtainium_info: "Agar bu sodir boʻlmagan boʻlsa, ehtimol sizda Obtainium ilovasi oʻrnatilmagan. Uni GitHub yoki F-Droid’dan yuklab oling va quyidagi “Import qilish” tugmasini bosing.",
-                download_github: "Yuklab olish (GitHub)", download_fdroid: "Yuklab olish (F-Droid)"
+            az: {
+                settings: "Parametrlər", theme: "Mövzu", language: "Dil", light: "Açıq", dark: "Tünd", auto: "Avtomatik",
+                seconds: "saniyə", redirecting_to: "Yönləndirilir", you_will_be_redirected: "Avtomatik olaraq yönləndiriləcəksiniz",
+                if_not: "Heç nə baş verməzsə, aşağıdakı düyməyə klikləyin.", proceed: "İdxal et", error_redirect: "Yönləndirmə xətası",
+                error_description: "Yönləndirmə linki yoxdur və ya etibarsızdır.",
+                obtainium_info: "Əgər bu baş vermədisə, Obtainium tətbiqi quraşdırılmamış ola bilər. GitHub və ya F-Droid-dan yükləyin.",
+                download_github: "Yüklə (GitHub)", download_fdroid: "Yüklə (F-Droid)"
+            },
+            vi: {
+                settings: "Cài đặt", theme: "Giao diện", language: "Ngôn ngữ", light: "Sáng", dark: "Tối", auto: "Tự động",
+                seconds: "giây", redirecting_to: "Đang chuyển hướng đến", you_will_be_redirected: "Bạn sẽ được chuyển hướng tự động trong",
+                if_not: "Nếu không có gì xảy ra, hãy nhấp vào nút bên dưới.", proceed: "Nhập", error_redirect: "Lỗi chuyển hướng",
+                error_description: "Liên kết chuyển hướng bị thiếu hoặc không hợp lệ.",
+                obtainium_info: "Nếu điều này không xảy ra, bạn có thể chưa cài đặt ứng dụng Obtainium. Tải xuống từ GitHub hoặc F-Droid.",
+                download_github: "Tải xuống (GitHub)", download_fdroid: "Tải xuống (F-Droid)"
+            },
+            es: {
+                settings: "Configuración", theme: "Tema", language: "Idioma", light: "Claro", dark: "Oscuro", auto: "Auto",
+                seconds: "segundos", redirecting_to: "Redirigiendo a", you_will_be_redirected: "Serás redirigido automáticamente en",
+                if_not: "Si no pasa nada, haz clic en el botón de abajo.", proceed: "Importar", error_redirect: "Error de redirección",
+                error_description: "El enlace de redirección falta o no es válido.",
+                obtainium_info: "Si esto no sucedió, es posible que no tengas la aplicación Obtainium instalada. Descárgala desde GitHub o F-Droid.",
+                download_github: "Descargar (GitHub)", download_fdroid: "Descargar (F-Droid)"
+            },
+            ja: {
+                settings: "設定", theme: "テーマ", language: "言語", light: "ライト", dark: "ダーク", auto: "自動",
+                seconds: "秒", redirecting_to: "リダイレクト先", you_will_be_redirected: "自動的にリダイレクトされます",
+                if_not: "何も起こらない場合は、下のボタンをクリックしてください。", proceed: "インポート", error_redirect: "リダイレクトエラー",
+                error_description: "リダイレクトリンクが見つからないか無効です。",
+                obtainium_info: "これが起こらなかった場合、Obtainiumアプリがインストールされていない可能性があります。GitHubまたはF-Droidからダウンロードしてください。",
+                download_github: "ダウンロード (GitHub)", download_fdroid: "ダウンロード (F-Droid)"
+            },
+            be: {
+                settings: "Налады", theme: "Тэма", language: "Мова", light: "Светлая", dark: "Цёмная", auto: "Аўта",
+                seconds: "секунд", redirecting_to: "Перанакіраванне на", you_will_be_redirected: "Вы будзеце аўтаматычна перанакіраваны праз",
+                if_not: "Калі нічога не адбываецца, націсніце кнопку ніжэй.", proceed: "Імпартаваць", error_redirect: "Памылка перанакіравання",
+                error_description: "Спасылка для перанакіравання адсутнічае або несапраўдная.",
+                obtainium_info: "Калі гэта не адбылося, магчыма, у вас не ўсталяваная праграма Obtainium. Спампуйце яе з GitHub або F-Droid.",
+                download_github: "Спампаваць (GitHub)", download_fdroid: "Спампаваць (F-Droid)"
+            },
+            pt: {
+                settings: "Configurações", theme: "Tema", language: "Idioma", light: "Claro", dark: "Escuro", auto: "Auto",
+                seconds: "segundos", redirecting_to: "Redirecionando para", you_will_be_redirected: "Você será redirecionado automaticamente em",
+                if_not: "Se nada acontecer, clique no botão abaixo.", proceed: "Importar", error_redirect: "Erro de redirecionamento",
+                error_description: "O link de redirecionamento está ausente ou é inválido.",
+                obtainium_info: "Se isso não aconteceu, você pode não ter o aplicativo Obtainium instalado. Baixe-o do GitHub ou F-Droid.",
+                download_github: "Baixar (GitHub)", download_fdroid: "Baixar (F-Droid)"
+            },
+            uk: {
+                settings: "Налаштування", theme: "Тема", language: "Мова", light: "Світла", dark: "Темна", auto: "Авто",
+                seconds: "секунд", redirecting_to: "Перенаправлення до", you_will_be_redirected: "Ви будете автоматично перенаправлені через",
+                if_not: "Якщо нічого не сталося, натисніть кнопку нижче.", proceed: "Імпортувати", error_redirect: "Помилка перенаправлення",
+                error_description: "Посилання для перенаправлення відсутнє або недійсне.",
+                obtainium_info: "Якщо це не сталося, можливо, у вас не встановлено додаток Obtainium. Завантажте його з GitHub або F-Droid.",
+                download_github: "Завантажити (GitHub)", download_fdroid: "Завантажити (F-Droid)"
+            },
+            pl: {
+                settings: "Ustawienia", theme: "Motyw", language: "Język", light: "Jasny", dark: "Ciemny", auto: "Auto",
+                seconds: "sekund", redirecting_to: "Przekierowanie do", you_will_be_redirected: "Zostaniesz automatycznie przekierowany za",
+                if_not: "Jeśli nic się nie dzieje, kliknij przycisk poniżej.", proceed: "Importuj", error_redirect: "Błąd przekierowania",
+                error_description: "Link przekierowania jest nieprawidłowy lub brakuje go.",
+                obtainium_info: "Jeśli to się nie stało, możesz nie mieć zainstalowanej aplikacji Obtainium. Pobierz ją z GitHub lub F-Droid.",
+                download_github: "Pobierz (GitHub)", download_fdroid: "Pobierz (F-Droid)"
+            },
+            id: {
+                settings: "Pengaturan", theme: "Tema", language: "Bahasa", light: "Terang", dark: "Gelap", auto: "Otomatis",
+                seconds: "detik", redirecting_to: "Mengalihkan ke", you_will_be_redirected: "Anda akan dialihkan secara otomatis dalam",
+                if_not: "Jika tidak ada yang terjadi, klik tombol di bawah.", proceed: "Impor", error_redirect: "Kesalahan pengalihan",
+                error_description: "Tautan pengalihan tidak ada atau tidak valid.",
+                obtainium_info: "Jika ini tidak terjadi, Anda mungkin tidak memiliki aplikasi Obtainium yang terinstal. Unduh dari GitHub atau F-Droid.",
+                download_github: "Unduh (GitHub)", download_fdroid: "Unduh (F-Droid)"
+            },
+            tk: {
+                settings: "Sazlamalar", theme: "Tema", language: "Dil", light: "Ýagty", dark: "Garaňky", auto: "Awtomatiki",
+                seconds: "sekunt", redirecting_to: "Ugratmak", you_will_be_redirected: "Siz awtomatiki ugradylarsyňyz",
+                if_not: "Hiç zat bolmasa, aşakdaky düwmä basyň.", proceed: "Import et", error_redirect: "Ugratmak ýalňyşlygy",
+                error_description: "Ugratmak baglanyşygy ýok ýa-da nädogry.",
+                obtainium_info: "Eger bu bolmadyk bolsa, Obtainium programmasyny gurnamadyk bolmagyňyz mümkin. GitHub ýa-da F-Droid-dan ýükläp alyň.",
+                download_github: "Ýükle (GitHub)", download_fdroid: "Ýükle (F-Droid)"
+            },
+            th: {
+                settings: "การตั้งค่า", theme: "ธีม", language: "ภาษา", light: "สว่าง", dark: "มืด", auto: "อัตโนมัติ",
+                seconds: "วินาที", redirecting_to: "กำลังเปลี่ยนเส้นทางไปยัง", you_will_be_redirected: "คุณจะถูกเปลี่ยนเส้นทางโดยอัตโนมัติใน",
+                if_not: "หากไม่มีอะไรเกิดขึ้น ให้คลิกปุ่มด้านล่าง", proceed: "นำเข้า", error_redirect: "ข้อผิดพลาดในการเปลี่ยนเส้นทาง",
+                error_description: "ลิงก์เปลี่ยนเส้นทางหายไปหรือไม่ถูกต้อง",
+                obtainium_info: "หากไม่เกิดขึ้น คุณอาจยังไม่ได้ติดตั้งแอป Obtainium ดาวน์โหลดจาก GitHub หรือ F-Droid",
+                download_github: "ดาวน์โหลด (GitHub)", download_fdroid: "ดาวน์โหลด (F-Droid)"
             }
         };
+
+        // Language emojis for selector
+        const langEmojis = {
+            en: '🇬🇧', ru: '🇷🇺', zh: '🇨🇳', fa: '🇮🇷', fr: '🇫🇷', uz: '🇺🇿', hi: '🇮🇳', de: '🇩🇪', tr: '🇹🇷', az: '🇦🇿',
+            vi: '🇻🇳', es: '🇪🇸', ja: '🇯🇵', be: '🇧🇾', pt: '🇵🇹', uk: '🇺🇦', pl: '🇵🇱', id: '🇮🇩', tk: '🇹🇲', th: '🇹🇭'
+        };
+
+        // Language full names for display
+        const langFullNames = {
+            en: 'English', ru: 'Русский', zh: '中文', fa: 'فارسی', fr: 'Français',
+            de: 'Deutsch', es: 'Español', pt: 'Português', ja: '日本語',
+            tr: 'Türkçe', pl: 'Polski', uk: 'Українська',
+            vi: 'Tiếng Việt', th: 'ไทย', id: 'Indonesia',
+            az: 'Azərbaycan', uz: 'Oʻzbek', hi: 'हिन्दी', be: 'Беларуская',
+            tk: 'Türkmen'
+        };
+
+        // Supported locales
+        const supportedLocales = ['en', 'ru', 'zh', 'fa', 'fr', 'uz', 'hi', 'de', 'tr', 'az', 'vi', 'es', 'ja', 'be', 'pt', 'uk', 'pl', 'id', 'tk', 'th'];
 
         // --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ---
 
@@ -547,11 +690,8 @@
         }
 
         function getBrowserLanguage() {
-            const lang = navigator.language || navigator.userLanguage;
-            if (lang.startsWith('ru')) return 'ru';
-            if (lang.startsWith('fa')) return 'fa';
-            if (lang.startsWith('zh')) return 'zh';
-            return 'en';
+            const lang = (navigator.language || navigator.userLanguage).slice(0, 2);
+            return supportedLocales.includes(lang) ? lang : 'en';
         }
 
         function setTheme(theme) {
@@ -576,9 +716,25 @@
             currentLanguage = lang;
             localStorage.setItem('lang', lang);
             document.documentElement.lang = lang; // Обновляем атрибут lang у html
+            setupLanguageButtons();
             if (shouldUpdateUI) {
                 updateUI();
             }
+        }
+
+        function setupLanguageButtons() {
+            const container = document.getElementById('languageButtons');
+            if (!container) return;
+            container.innerHTML = '';
+
+            supportedLocales.forEach(langCode => {
+                const button = document.createElement('button');
+                button.className = 'btn' + (langCode === currentLanguage ? ' btn-primary' : '');
+                const emoji = langEmojis[langCode] || '';
+                button.innerHTML = `<span class="lang-emoji">${emoji}</span> ${langFullNames[langCode] || langCode.toUpperCase()}`;
+                button.onclick = () => setLanguage(langCode);
+                container.appendChild(button);
+            });
         }
 
         function t(key) {
