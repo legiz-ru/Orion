@@ -823,8 +823,6 @@ body {
     .controls { gap: 8px; }
     .btn-text { display: none; }
     .btn-icon { padding: 8px; min-width: auto; }
-    .platform-tabs { display: none; }
-    #platform-selector-btn { display: inline-flex !important; }
     .stats-grid { grid-template-columns: 1fr; }
     .featured-apps-row { grid-template-columns: 1fr; }
     .apps-grid { grid-template-columns: 1fr; }
@@ -834,6 +832,12 @@ body {
     .apps-container { width: 100%; min-width: 0; box-sizing: border-box; }
     .guides-cards, .guides-accordion, .guides-expanded, .guides-minimal, .guides-timeline { width: 100%; min-width: 0; box-sizing: border-box; }
     .app-tabs { width: 100%; min-width: 0; box-sizing: border-box; }
+}
+
+/* Platform tabs breakpoint - show selector button instead of tabs on screens <= 1024px */
+@media (max-width: 1024px) {
+    .platform-tabs { display: none; }
+    #platform-selector-btn { display: inline-flex !important; }
 }
 
 /* Скрываем элементы до загрузки данных */
@@ -2313,7 +2317,7 @@ body {
             const button = document.getElementById('platform-selector-btn');
             if (!tabs || !button) return;
 
-            if (window.matchMedia('(max-width: 768px)').matches) return;
+            if (window.matchMedia('(max-width: 1024px)').matches) return;
 
             const isOverflowing = tabs.scrollWidth > tabs.parentElement.clientWidth;
             tabs.style.display = isOverflowing ? 'none' : 'flex';
