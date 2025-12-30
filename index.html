@@ -2012,19 +2012,18 @@ body {
             block.buttons.forEach(button => {
                 const buttonText = getLocalizedText(button.text);
                 const buttonIcon = getSvgIcon(button.svgIconKey, 'w-4 h-4');
+                const buttonType = button.type || 'external';
                 let buttonLink = button.link || '';
 
-                // Support for template variables in ALL button types
+                // Support for template variables in ALL button types (no encoding)
                 if (buttonLink && response) {
                     if (response.subscriptionUrl) {
-                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(response.subscriptionUrl));
+                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, response.subscriptionUrl);
                     }
                     if (response.user?.username) {
-                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(response.user.username));
+                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
                     }
                 }
-
-                const buttonType = button.type || 'external';
 
                 if (buttonType === 'subscriptionLink' || buttonType === 'subscription') {
                     const subscriptionUrl = generateSubscriptionUrl(app, response?.subscriptionUrl, button.link);
@@ -2046,10 +2045,10 @@ body {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
                 let result = linkTemplate
-                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(subscriptionUrl));
+                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrl);
                 const username = panelData?.response?.user?.username;
                 if (username) {
-                    result = result.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(username));
+                    result = result.replace(/\{\{USERNAME\}\}/g, username);
                 }
                 return result;
             }
