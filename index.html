@@ -1338,13 +1338,15 @@ body {
                 <span class="btn-text">${getHardcodedText('settings')}</span>
             </button>`;
 
-            // Get Link / QR button
-            html += `<button class="btn btn-primary btn-icon" onclick="showSubscriptionModal()">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                </svg>
-                <span class="btn-text">${getHardcodedText('getLink')}</span>
-            </button>`;
+            // Get Link / QR button (hide if baseSettings.hideGetLinkButton is true)
+            if (appConfig?.baseSettings?.hideGetLinkButton !== true) {
+                html += `<button class="btn btn-primary btn-icon" onclick="showSubscriptionModal()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    <span class="btn-text">${getHardcodedText('getLink')}</span>
+                </button>`;
+            }
 
             controls.innerHTML = html;
             controls.classList.add('loaded');
