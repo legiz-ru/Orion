@@ -2012,13 +2012,11 @@ body {
             block.buttons.forEach(button => {
                 const buttonText = getLocalizedText(button.text);
                 const buttonIcon = getSvgIcon(button.svgIconKey, 'w-4 h-4');
-                let buttonLink = button.link;
+                let buttonLink = button.link || '';
 
+                // Support for template variables in ALL button types
                 if (buttonLink && response) {
-                    // Support for template variables
                     if (response.subscriptionUrl) {
-                        buttonLink = buttonLink.replace('{SUBSCRIPTION_URL}', response.subscriptionUrl);
-                        buttonLink = buttonLink.replace('{SUBSCRIPTION_URL_B64}', btoa(response.subscriptionUrl));
                         buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(response.subscriptionUrl));
                     }
                     if (response.user?.username) {
@@ -2026,16 +2024,17 @@ body {
                     }
                 }
 
-                const buttonType = button.type || 'link';
+                const buttonType = button.type || 'external';
 
-                if (buttonType === 'subscription') {
+                if (buttonType === 'subscriptionLink' || buttonType === 'subscription') {
                     const subscriptionUrl = generateSubscriptionUrl(app, response?.subscriptionUrl, button.link);
                     if (subscriptionUrl) {
                         html += `<button class="btn btn-primary" ${colorStyle} onclick="openSubscriptionUrl('${escapeForAttribute(subscriptionUrl)}')">${buttonIcon} ${buttonText}</button>`;
                     }
-                } else if (buttonType === 'copy') {
-                    html += `<button class="btn" onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
+                } else if (buttonType === 'copyButton' || buttonType === 'copy') {
+                    html += `<button class="btn btn-primary" ${colorStyle} onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 } else {
+                    // external and any other type - open link
                     html += `<button class="btn btn-primary" ${colorStyle} onclick="openLink('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 }
             });
