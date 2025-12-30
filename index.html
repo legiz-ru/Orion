@@ -2012,19 +2012,22 @@ body {
             block.buttons.forEach(button => {
                 const buttonText = getLocalizedText(button.text);
                 const buttonIcon = getSvgIcon(button.svgIconKey, 'w-4 h-4');
+                const buttonType = button.type || 'external';
                 let buttonLink = button.link || '';
 
                 // Support for template variables in ALL button types
+                // For copyButton - don't encode, for others - encode for URL safety
                 if (buttonLink && response) {
+                    const shouldEncode = (buttonType !== 'copyButton' && buttonType !== 'copy');
                     if (response.subscriptionUrl) {
-                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(response.subscriptionUrl));
+                        const subLink = shouldEncode ? encodeURIComponent(response.subscriptionUrl) : response.subscriptionUrl;
+                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subLink);
                     }
                     if (response.user?.username) {
-                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(response.user.username));
+                        const username = shouldEncode ? encodeURIComponent(response.user.username) : response.user.username;
+                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, username);
                     }
                 }
-
-                const buttonType = button.type || 'external';
 
                 if (buttonType === 'subscriptionLink' || buttonType === 'subscription') {
                     const subscriptionUrl = generateSubscriptionUrl(app, response?.subscriptionUrl, button.link);
