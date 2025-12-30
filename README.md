@@ -1,61 +1,61 @@
-[Russian Version](README.md) | [English Version](README_en.md) | [نسخه فارسی](README_fa.md)
+[English Version](README_en.md) | [中文版本](README_zh.md) | [نسخه فارسی](README_fa.md)
 
-[演示页面](https://legiz-ru.github.io/Orion)
+[Демонстрационная страница](https://legiz-ru.github.io/Orion)
 
 # Orion
 
-为 Remnawave 面板设计的现代化、快速且响应式的订阅页面。从零开始构建，为订阅管理提供最佳用户体验。
+Современная, быстрая и адаптивная страница подписки для панели Remnawave. Она создана с нуля, чтобы обеспечить лучший пользовательский опыт, высокую производительность и простоту настройки.
 
-## 主要特性
+## Ключевые особенности
 
-*   **现代化响应式设计：** 简洁直观的界面，在所有设备上都能完美显示和运行。
+*   **Современный и адаптивный дизайн:** Чистый, интуитивно понятный интерфейс, который отлично выглядит и работает на любых устройствах, от настольных ПК до смартфонов.
 
-*   **主题支持：** 可在浅色、深色和系统主题之间自动或手动切换，使用更加舒适。
+*   **Поддержка тем:** Автоматическое или ручное переключение между светлой, темной и системной темами для комфорта глаз в любое время суток.
 
-*   **灵活的应用配置：** 完全自定义应用列表，支持"推荐"应用和添加自定义链接，可通过 remnawave 面板侧的 subpage 配置进行设置。
+*   **Гибкая настройка приложений:** Полная кастомизация списка приложений, поддержка "рекомендуемых" приложений и многошаговые инструкции по установке через настраиваемую конфигурацию subpage на стороне панели remnawave.
 
-*   **品牌支持：** 通过 subpage config 配置中的 `logoUrl` 和 `supportUrl` 参数设置徽标和支持链接，实现页面个性化。
+*   **Поддержка брендинга:** Настройка логотипа и ссылки на поддержку через параметры `logoUrl` и `supportUrl` в конфигурации subpage config для персонализации внешнего вида страницы.
 
-*   **链接复制和二维码：** 一键方便复制单个链接（`vless://`、`trojan://`）和主订阅链接，还能生成二维码便于快速设置。
+*   **Копирование ссылок и QR-коды:** Удобное копирование индивидуальных ссылок (`vless://`, `trojan://`) и основной ссылки-подписки в один клик. Для каждой ссылки можно сгенерировать адаптивный QR-код.
 
-*   **多语言支持：** 页面提供 subpage 配置编辑器的全部 20 种语言，包括俄语、英语、波斯语和中文。语言将根据用户的浏览器设置自动识别，并支持手动切换。
+*   **Многоязычная поддержка:** Страница доступна на всех 20 языках редактора конфигурации subpage, включая на русском, английском, фарси и китайском. Язык определяется автоматически на основе настроек браузера пользователя, с возможностью ручного переключения.
 
-*   **remnawave-json 支持：** 可将订阅页面集成到 https://github.com/Jolymmiels/remnawave-json（适配的 index.html 文件位于 remnawave-json 文件夹中）。
+*   **Поддержка remnawave-json:** Возможность интеграции страницы подписки в https://github.com/Jolymmiels/remnawave-json (адаптированный файл index.html расположен в папке remnawave-json).
 
-*   **Telegram Mini App 集成：** 可将订阅页面用作 Telegram 机器人中的 Mini App。
-    *   **重定向页面：** 可选择使用自定义或外部重定向页面，更好地集成 Telegram Mini App。
+*   **Интеграция с Telegram Mini App:** Возможность использовать страницу подписки как Telegram Mini App в вашем боте.
+    *   **Переадресация/Redirect-страница:** Возможность использовать собственную или внешнюю страницу переадресации (актуально для Telegram Mini App, например в стиле Orion — [демо](https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=), self-host по [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html)).
 
-## 截图
+## Скриншоты
 
 <div align="center">
-  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="浅色主题">
-  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="深色主题">
-  <img src="./screenshots/orion-apps.jpg" width="75%" alt="应用部分">
-  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="安装指南">
-  <img src="./screenshots/orion-settings.jpg" width="75%" alt="设置">
+  <img src="./screenshots/orion-main-light.jpg" width="75%" alt="تم روشن">
+  <img src="./screenshots/orion-main-dark.jpg" width="75%" alt="تم تاریک">
+  <img src="./screenshots/orion-apps.jpg" width="75%" alt="بخش برنامه‌ها">
+  <img src="./screenshots/orion-modal-guide.jpg" width="75%" alt="راهنمای نصب">
+  <img src="./screenshots/orion-settings.jpg" width="75%" alt="تنظیمات">
 </div>
 
 <div align="center">
-  <img src="./screenshots/orion-mobile.jpg" width="20%" alt="移动版本">
+  <img src="./screenshots/orion-mobile.jpg" width="20%" alt="Mobile">
 </div>
 
 <div align="center">
-  <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion 重定向页面">
+  <img src="./screenshots/orion-redirect-page.jpg" width="66%" alt="Orion Redirect Page">
 </div>
 
-## 安装 Remnawave
+## Установка для Remnawave
 
-1.  **下载页面文件：**
-    使用 `curl` 将 `index.html` 文件下载到 `docker-compose.yml` 所在的同一文件夹：
+1.  **Загрузка файла страницы:**
+    Скачайте файл `index.html` в ту же папку, где находится ваш `docker-compose.yml`, используя `curl`:
 
     ```bash
     curl -o index.html https://raw.githubusercontent.com/legiz-ru/Orion/main/index.html
     ```
 
-2.  **配置 Docker Compose：**
-    在 `docker-compose.yml` 中通过 `volumes` 挂载将下载的 `index.html` 路径映射到 `remnawave-subscription-page` 容器。
+2.  **Настройка Docker Compose:**
+    Пропишите путь к скачанному `index.html` в вашем `docker-compose.yml` через проброс `volumes` в контейнер `remnawave-subscription-page`.
 
-    标准安装示例：
+    Пример для стандартной установки:
 
     ```yaml
     services:
@@ -65,69 +65,69 @@
           - ./index.html:/opt/app/frontend/index.html
     ```
 
-3.  **（可选）配置重定向页面**  
-    对于 Telegram Mini App 集成或自定义重定向逻辑，在 index.html 中指定您的重定向页面：
+3.  **(Опционально) Настройка redirect-страницы для переадресации**  
+    Для интеграции с Telegram Mini App или для кастомной логики переадресации укажите свою redirect-страницу в index.html:
     ```js
     const redirect_link = 'https://legiz-ru.github.io/Orion/redirect-page/?redirect_to=';
     ```
-    或使用自托管版本。例如：[Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) 或 [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html).
+    или используйте свой self-hosted вариант. Например: [Orion redirect-page](https://github.com/legiz-ru/Orion/blob/main/docs/redirect-page/index.html) ,[redirect-page от SawGoD](https://github.com/SawGoD/redirect-page) или [redirect-page от maposia](https://github.com/maposia/redirect-page/).
 
-4.  **重启容器：**
-    要应用更改，请重启 Docker 容器：
+4.  **Перезапуск контейнера:**
+    Для применения изменений перезапустите контейнер Docker:
 
     ```bash
     docker compose down remnawave-subscription-page && docker compose up -d remnawave-subscription-page
     ```
 
-## 安装 vpnbot
+## Установка для vpnbot
 
-在您的 vpnbot 服务器上运行安装脚本：
+Запустите скрипт установки на вашем сервере vpnbot:
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/vpnbot/install.sh)
 ```
 
-## Marzban 安装
+## Установка для marzban
 
-**自动安装:**  
-参考 [marz-sub](https://github.com/legiz-ru/marz-sub/blob/main/README.md) 使用自动脚本进行安装。
+**Автоматическая установка:**  
+Выполните установку автоматическим скриптом, как описано в [marz-sub](https://github.com/legiz-ru/marz-sub/blob/main/README.md).
 
-**手动安装:**  
+**Ручная установка:**  
 <details>
-<summary>分步说明</summary>
+<summary>Пошаговая инструкция</summary>
 
-1. 下载订阅页面文件：
+1. Скачайте файл страницы:
    ```bash
    sudo wget -N -P /var/lib/marzban/templates/subscription/ https://raw.githubusercontent.com/legiz-ru/Orion/main/marzban/index.html
    ```
 
-2. 在 Marzban `.env` 文件中设置订阅页面模板路径：
+2. Укажите путь к шаблону страницы подписки в `.env` Marzban:
    ```bash
    echo 'CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"' | sudo tee -a /opt/marzban/.env
    echo 'SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"' | sudo tee -a /opt/marzban/.env
    ```
 
-   或手动编辑 `.env` 文件：
+   Или отредактируйте `.env` вручную:
    ```
    CUSTOM_TEMPLATES_DIRECTORY="/var/lib/marzban/templates/"
    SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
    ```
 
-3. **在 `index.html` 文件的所有位置，将 `<%= metaTitle %>` 和 `<%= metaDescription %>` 替换为你自己的内容。**
+3. **Замените значения `<%= metaTitle %>` и `<%= metaDescription %>` на свои во всех местах файла `index.html`.**
 
-4. 重启 Marzban：
+4. Перезапустите Marzban:
    ```bash
    marzban restart
    ```
 </details>
 
-## 联系方式
+## Связь
 
-*   [Telegram 频道](https://t.me/legiz_trashbag)
+*   [Telegram-канал](https://t.me/legiz_trashbag)
 
-## 项目支持
+## Поддержка проекта
 
-如果您喜欢这个项目并希望支持其发展，可以进行捐赠：
+Если вам нравится этот проект и вы хотите поддержать его развитие, вы можете сделать пожертвование:
 
-*   [Telegram Tribute](https://t.me/tribute/app?startapp=drzu)
-*   TON USDT: `UQAGQTQZYCx5TWj5cmTLpo7164PFsXqZZJ6t6x88n7sHW9gU`
+*   [Tribute on Telegram](https://t.me/tribute/app?startapp=drzu)
+*   TON USDT: `UQDMsPzYket1ZvztKEHheR3guiWzTBAH4gC1KjPEMMwtWBPO`
