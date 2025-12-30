@@ -1011,6 +1011,23 @@ body {
                     <label class="settings-label" id="languageLabel">Language</label>
                     <div class="settings-buttons" id="languageButtons"></div>
                 </div>
+                <div class="settings-section">
+                    <label class="settings-label">Force Subscription Info Block Type</label>
+                    <div class="settings-buttons">
+                        <button class="btn" onclick="setOverride('subscriptionInfoBlockType', null)">Default</button>
+                        <button class="btn" onclick="setOverride('subscriptionInfoBlockType', 'cards')">Cards</button>
+                        <button class="btn" onclick="setOverride('subscriptionInfoBlockType', 'list')">List</button>
+                        <button class="btn" onclick="setOverride('subscriptionInfoBlockType', 'hidden')">Hidden</button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <label class="settings-label">Force Installation Guides Block Type</label>
+                    <div class="settings-buttons">
+                        <button class="btn" onclick="setOverride('installationGuidesBlockType', null)">Default</button>
+                        <button class="btn" onclick="setOverride('installationGuidesBlockType', 'minimal')">Minimal</button>
+                        <button class="btn" onclick="setOverride('installationGuidesBlockType', 'full')">Full</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1407,6 +1424,58 @@ body {
             themeColorMeta.setAttribute('content', isDark ? '#0f172a' : '#3b82f6');
         }
 
+        // Settings override functions
+        function setOverride(key, value) {
+            if (value === null) {
+                localStorage.removeItem(`override_${key}`);
+            } else {
+                localStorage.setItem(`override_${key}`, value);
+            }
+            updateOverrideButtons();
+            // Re-render content to apply changes
+            if (panelData?.response?.isFound) renderContent();
+        }
+
+        function getOverride(key) {
+            return localStorage.getItem(`override_${key}`);
+        }
+
+        function getEffectiveValue(key, defaultValue) {
+            const override = getOverride(key);
+            if (override !== null) {
+                return override;
+            }
+            return appConfig?.uiConfig?.[key] || defaultValue;
+        }
+
+        function updateOverrideButtons() {
+            // Update subscription info block type buttons
+            const subInfoOverride = getOverride('subscriptionInfoBlockType');
+            document.querySelectorAll('[onclick*="subscriptionInfoBlockType"]').forEach(btn => {
+                const match = btn.getAttribute('onclick').match(/'([^']+)'\)/);
+                if (match) {
+                    const value = match[1] === 'null' ? null : match[1];
+                    btn.classList.toggle('btn-primary',
+                        (value === null && subInfoOverride === null) ||
+                        (value === subInfoOverride)
+                    );
+                }
+            });
+
+            // Update installation guides block type buttons
+            const guidesOverride = getOverride('installationGuidesBlockType');
+            document.querySelectorAll('[onclick*="installationGuidesBlockType"]').forEach(btn => {
+                const match = btn.getAttribute('onclick').match(/'([^']+)'\)/);
+                if (match) {
+                    const value = match[1] === 'null' ? null : match[1];
+                    btn.classList.toggle('btn-primary',
+                        (value === null && guidesOverride === null) ||
+                        (value === guidesOverride)
+                    );
+                }
+            });
+        }
+
         function isNewYearSeason() {
             const now = new Date();
             const year = now.getFullYear();
@@ -1468,8 +1537,8 @@ body {
 
             let html = '';
 
-            // Render subscription info block based on uiConfig
-            const infoBlockType = appConfig?.uiConfig?.subscriptionInfoBlockType || 'cards';
+            // Render subscription info block based on uiConfig (with override support)
+            const infoBlockType = getEffectiveValue('subscriptionInfoBlockType', 'cards');
             if (infoBlockType !== 'hidden') {
                 html += renderSubscriptionInfo(infoBlockType);
             }
@@ -1673,7 +1742,7 @@ body {
             if (!platformData?.apps?.length) return '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">No apps available</div>';
 
             const apps = platformData.apps;
-            const guidesType = appConfig?.uiConfig?.installationGuidesBlockType || 'minimal';
+            const guidesType = getEffectiveValue('installationGuidesBlockType', 'minimal');
 
             // For minimal mode, use app cards like original
             if (guidesType === 'minimal') {
@@ -2274,7 +2343,7 @@ body {
                 tab.classList.toggle('active', i === appIndex);
             });
 
-            const guidesType = appConfig?.uiConfig?.installationGuidesBlockType || 'minimal';
+            const guidesType = getEffectiveValue('installationGuidesBlockType', 'minimal');
             const guidesContainer = document.getElementById('guidesContainer');
             if (guidesContainer) guidesContainer.innerHTML = renderGuides(currentApp, guidesType);
         }
@@ -2412,7 +2481,13 @@ body {
             }
         }
 
-        function openModal(id) { document.getElementById(id)?.classList.add('active'); }
+        function openModal(id) {
+            document.getElementById(id)?.classList.add('active');
+            // Update override buttons when settings modal is opened
+            if (id === 'settingsModal') {
+                updateOverrideButtons();
+            }
+        }
         function closeModal(id) { document.getElementById(id)?.classList.remove('active'); }
 
         function extractLinkName(link) {
