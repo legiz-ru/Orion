@@ -2015,17 +2015,13 @@ body {
                 const buttonType = button.type || 'external';
                 let buttonLink = button.link || '';
 
-                // Support for template variables in ALL button types
-                // For copyButton - don't encode, for others - encode for URL safety
+                // Support for template variables in ALL button types (no encoding)
                 if (buttonLink && response) {
-                    const shouldEncode = (buttonType !== 'copyButton' && buttonType !== 'copy');
                     if (response.subscriptionUrl) {
-                        const subLink = shouldEncode ? encodeURIComponent(response.subscriptionUrl) : response.subscriptionUrl;
-                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subLink);
+                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, response.subscriptionUrl);
                     }
                     if (response.user?.username) {
-                        const username = shouldEncode ? encodeURIComponent(response.user.username) : response.user.username;
-                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, username);
+                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
                     }
                 }
 
@@ -2049,10 +2045,10 @@ body {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
                 let result = linkTemplate
-                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, encodeURIComponent(subscriptionUrl));
+                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrl);
                 const username = panelData?.response?.user?.username;
                 if (username) {
-                    result = result.replace(/\{\{USERNAME\}\}/g, encodeURIComponent(username));
+                    result = result.replace(/\{\{USERNAME\}\}/g, username);
                 }
                 return result;
             }
