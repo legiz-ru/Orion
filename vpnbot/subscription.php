@@ -164,7 +164,7 @@ function send_profile_headers(string $email, string $subscription_url, string $s
 $panelData = generate_panelData($uid, $download, $email, $vless, $subscription_url, $clash, $singbox, $windows, $xray, $expire);
 
 switch (true) {
-    case preg_match('~^(?:[Kk]oala-[Cc]lash|FlClashX)~iu|prizrak-box', $ua):
+    case preg_match('~^(?:[Kk]oala-[Cc]lash|FlClashX|prizrak-box)~iu', $ua):
         send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
         header('Content-type: text/yaml');
         echo $configs['clash'];
