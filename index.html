@@ -2032,7 +2032,7 @@ body {
                         html += `<button class="btn btn-primary" ${colorStyle} onclick="openSubscriptionUrl('${escapeForAttribute(subscriptionUrl)}')">${buttonIcon} ${buttonText}</button>`;
                     }
                 } else if (buttonType === 'copyButton' || buttonType === 'copy') {
-                    html += `<button class="btn" onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
+                    html += `<button class="btn btn-primary" ${colorStyle} onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 } else {
                     // external and any other type - open link
                     html += `<button class="btn btn-primary" ${colorStyle} onclick="openLink('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
