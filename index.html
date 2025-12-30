@@ -2315,15 +2315,12 @@ body {
         }
 
         function checkTabsOverflow() {
+            // CSS media query at 1024px handles visibility
+            // On resize, clear any inline styles to let CSS take control
             const tabs = document.querySelector('.platform-tabs');
             const button = document.getElementById('platform-selector-btn');
-            if (!tabs || !button) return;
-
-            if (window.matchMedia('(max-width: 1024px)').matches) return;
-
-            const isOverflowing = tabs.scrollWidth > tabs.parentElement.clientWidth;
-            tabs.style.display = isOverflowing ? 'none' : 'flex';
-            button.style.display = isOverflowing ? 'inline-flex' : 'none';
+            if (tabs) tabs.style.display = '';
+            if (button) button.style.display = '';
         }
 
         function showQrModal(data, title) {
