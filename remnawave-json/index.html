@@ -864,15 +864,17 @@ body {
     font-size: 1em;
     text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
     animation: snowfall linear infinite;
-    opacity: 0.9;
+    opacity: 0;
 }
 .dark-theme .snowflake {
     color: #fff;
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 @keyframes snowfall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(100vh) rotate(360deg); }
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    3% { opacity: 0.9; }
+    95% { opacity: 0.9; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 .snowflake:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; font-size: 0.8em; }
 .snowflake:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 1s; font-size: 1.2em; }
@@ -944,30 +946,30 @@ body {
     <!-- Snowflakes container for New Year mode -->
     <div class="snowflakes" id="snowflakesContainer" style="display: none;">
         <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
         <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
         <div class="snowflake">❆</div>
+        <div class="snowflake">⋆</div>
+        <div class="snowflake">⁕</div>
         <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
         <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
         <div class="snowflake">❆</div>
+        <div class="snowflake">⋆</div>
+        <div class="snowflake">⁕</div>
         <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
         <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
         <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❄</div>
     </div>
 
     <div class="container">
