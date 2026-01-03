@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>
+    // Применяем тему ДО рендера страницы для избежания мерцания
+    (function() {
+        var theme = localStorage.getItem('theme') || 'auto';
+        var isDark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) document.documentElement.classList.add('dark-theme');
+    })();
+    </script>
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-180x180.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
@@ -86,7 +94,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
     gap: 20px;
 }
@@ -231,7 +239,7 @@ body {
 .dark-theme .badge-disabled, .dark-theme .badge-limited, .dark-theme .badge-expired { background: #7f1d1d; color: #fecaca; }
 
 /* Links Section */
-.links-section { margin-bottom: 30px; }
+.links-section { margin-bottom: 0; }
 .links-section .card-content { display: none; }
 .links-section.open .card-content { display: block; }
 .links-section .expand-icon { transition: transform 0.2s ease; }
@@ -260,7 +268,7 @@ body {
 .link-actions { display: flex; gap: 8px; }
 
 /* Installation Section */
-.apps-section { margin-bottom: 30px; width: 100%; min-width: 0; box-sizing: border-box; }
+.apps-section { margin-bottom: 20px; width: 100%; min-width: 0; box-sizing: border-box; }
 #appsContainer { width: 100%; min-width: 0; box-sizing: border-box; }
 .platform-tabs {
     display: flex;
@@ -815,8 +823,6 @@ body {
     .controls { gap: 8px; }
     .btn-text { display: none; }
     .btn-icon { padding: 8px; min-width: auto; }
-    .platform-tabs { display: none; }
-    #platform-selector-btn { display: inline-flex !important; }
     .stats-grid { grid-template-columns: 1fr; }
     .featured-apps-row { grid-template-columns: 1fr; }
     .apps-grid { grid-template-columns: 1fr; }
@@ -827,18 +833,154 @@ body {
     .guides-cards, .guides-accordion, .guides-expanded, .guides-minimal, .guides-timeline { width: 100%; min-width: 0; box-sizing: border-box; }
     .app-tabs { width: 100%; min-width: 0; box-sizing: border-box; }
 }
+
+/* Platform tabs breakpoint - show selector button instead of tabs on screens <= 1024px */
+@media (max-width: 1024px) {
+    .platform-tabs { display: none; }
+    #platform-selector-btn { display: inline-flex !important; }
+}
+
+/* Скрываем элементы до загрузки данных */
+.logo:not(.loaded) { visibility: hidden; }
+.header-controls:not(.loaded) { visibility: hidden; }
+#mainContent { opacity: 0; transition: opacity 0.2s ease; }
+#mainContent.loaded { opacity: 1; }
+
+/* Snowflakes Animation */
+.snowflakes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: #a0c4e8;
+    font-size: 1em;
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    animation: snowfall linear infinite;
+    opacity: 0;
+}
+.dark-theme .snowflake {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+@keyframes snowfall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    3% { opacity: 0.9; }
+    95% { opacity: 0.9; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+.snowflake:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; font-size: 0.8em; }
+.snowflake:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 1s; font-size: 1.2em; }
+.snowflake:nth-child(3) { left: 25%; animation-duration: 10s; animation-delay: 2s; font-size: 0.9em; }
+.snowflake:nth-child(4) { left: 35%; animation-duration: 14s; animation-delay: 0.5s; font-size: 1.1em; }
+.snowflake:nth-child(5) { left: 45%; animation-duration: 9s; animation-delay: 3s; font-size: 0.7em; }
+.snowflake:nth-child(6) { left: 55%; animation-duration: 11s; animation-delay: 1.5s; font-size: 1em; }
+.snowflake:nth-child(7) { left: 65%; animation-duration: 13s; animation-delay: 2.5s; font-size: 1.3em; }
+.snowflake:nth-child(8) { left: 75%; animation-duration: 8s; animation-delay: 0.8s; font-size: 0.85em; }
+.snowflake:nth-child(9) { left: 85%; animation-duration: 15s; animation-delay: 3.5s; font-size: 1.15em; }
+.snowflake:nth-child(10) { left: 95%; animation-duration: 10s; animation-delay: 1.2s; font-size: 0.95em; }
+.snowflake:nth-child(11) { left: 10%; animation-duration: 11s; animation-delay: 4s; font-size: 0.75em; }
+.snowflake:nth-child(12) { left: 30%; animation-duration: 9s; animation-delay: 2.8s; font-size: 1.05em; }
+.snowflake:nth-child(13) { left: 50%; animation-duration: 12s; animation-delay: 0.3s; font-size: 0.65em; }
+.snowflake:nth-child(14) { left: 70%; animation-duration: 14s; animation-delay: 1.8s; font-size: 1.25em; }
+.snowflake:nth-child(15) { left: 90%; animation-duration: 10s; animation-delay: 3.2s; font-size: 0.9em; }
+.snowflake:nth-child(16) { left: 8%; animation-duration: 13s; animation-delay: 4.5s; font-size: 0.7em; }
+.snowflake:nth-child(17) { left: 22%; animation-duration: 9s; animation-delay: 0.7s; font-size: 1.1em; }
+.snowflake:nth-child(18) { left: 38%; animation-duration: 11s; animation-delay: 2.2s; font-size: 0.85em; }
+.snowflake:nth-child(19) { left: 48%; animation-duration: 14s; animation-delay: 3.8s; font-size: 1.2em; }
+.snowflake:nth-child(20) { left: 58%; animation-duration: 8s; animation-delay: 1.3s; font-size: 0.75em; }
+.snowflake:nth-child(21) { left: 68%; animation-duration: 12s; animation-delay: 4.2s; font-size: 0.95em; }
+.snowflake:nth-child(22) { left: 78%; animation-duration: 10s; animation-delay: 0.4s; font-size: 1.15em; }
+.snowflake:nth-child(23) { left: 88%; animation-duration: 15s; animation-delay: 2.6s; font-size: 0.65em; }
+.snowflake:nth-child(24) { left: 3%; animation-duration: 11s; animation-delay: 1.9s; font-size: 1.0em; }
+.snowflake:nth-child(25) { left: 97%; animation-duration: 9s; animation-delay: 3.4s; font-size: 0.8em; }
+
+.settings-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+.settings-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: var(--border);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.toggle-switch.active {
+    background: var(--primary-color);
+}
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-switch.active::after {
+    transform: translateX(22px);
+}
     </style>
 </head>
 <body>
+    <!-- Snowflakes container for New Year mode -->
+    <div class="snowflakes" id="snowflakesContainer" style="display: none;">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">⋆</div>
+        <div class="snowflake">⁕</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">⋆</div>
+        <div class="snowflake">⁕</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">✦</div>
+        <div class="snowflake">*</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">✧</div>
+        <div class="snowflake">∗</div>
+        <div class="snowflake">❆</div>
+    </div>
+
     <div class="container">
         <header class="header">
-            <div class="logo" id="brandLogo">Subscription</div>
-            <div class="controls" id="headerControls">
+            <div class="logo" id="brandLogo"></div>
+            <div class="controls header-controls" id="headerControls">
                 <!-- Controls will be rendered by JS -->
             </div>
         </header>
         <main id="mainContent">
-            <div class="card"><div class="card-content" style="text-align: center; padding: 40px;">Loading...</div></div>
+            <!-- Контент будет загружен JS -->
         </main>
     </div>
 
@@ -858,6 +1000,13 @@ body {
                         <button class="btn" onclick="setTheme('light')">☀️ Light</button>
                         <button class="btn" onclick="setTheme('dark')">🌙 Dark</button>
                         <button class="btn" onclick="setTheme('auto')">⚙️ Auto</button>
+                    </div>
+                    <div class="settings-toggle" id="snowToggleContainer" style="margin-top: 12px;">
+                        <div class="settings-toggle-label">
+                            <span>❄️</span>
+                            <span id="snowToggleLabel">New Year Mode</span>
+                        </div>
+                        <div class="toggle-switch" id="snowToggle" onclick="toggleSnowMode()"></div>
                     </div>
                 </div>
                 <div class="settings-section">
@@ -967,6 +1116,8 @@ body {
             applyTheme(savedTheme);
             const savedLang = localStorage.getItem('lang') || getBrowserLanguage();
             currentLanguage = savedLang;
+            // Initialize snow mode
+            initSnowMode();
         }
 
         function getBrowserLanguage() {
@@ -1122,6 +1273,12 @@ body {
                 uz: 'Til', hi: 'भाषा', de: 'Sprache', tr: 'Dil', az: 'Dil',
                 vi: 'Ngôn ngữ', es: 'Idioma', ja: '言語', be: 'Мова', pt: 'Idioma',
                 uk: 'Мова', pl: 'Język', id: 'Bahasa', tk: 'Dil', th: 'ภาษา'
+            },
+            newYearMode: {
+                en: 'New Year Mode', ru: 'Новогодний режим', zh: '新年模式', fa: 'حالت سال نو', fr: 'Mode Nouvel An',
+                uz: 'Yangi yil rejimi', hi: 'नए साल का मोड', de: 'Neujahrsmodus', tr: 'Yeni Yıl Modu', az: 'Yeni İl rejimi',
+                vi: 'Chế độ Năm mới', es: 'Modo Año Nuevo', ja: '新年モード', be: 'Навагодні рэжым', pt: 'Modo Ano Novo',
+                uk: 'Новорічний режим', pl: 'Tryb Noworoczny', id: 'Mode Tahun Baru', tk: 'Täze ýyl rejimi', th: 'โหมดปีใหม่'
             }
         };
 
@@ -1154,6 +1311,7 @@ body {
                 const titleSpan = document.createElement('span');
                 titleSpan.textContent = branding.title || 'Subscription';
                 logo.appendChild(titleSpan);
+                logo.classList.add('loaded');
             }
         }
 
@@ -1182,15 +1340,18 @@ body {
                 <span class="btn-text">${getHardcodedText('settings')}</span>
             </button>`;
 
-            // Get Link / QR button
-            html += `<button class="btn btn-primary btn-icon" onclick="showSubscriptionModal()">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                </svg>
-                <span class="btn-text">${getHardcodedText('getLink')}</span>
-            </button>`;
+            // Get Link / QR button (hide if baseSettings.hideGetLinkButton is true)
+            if (appConfig?.baseSettings?.hideGetLinkButton !== true) {
+                html += `<button class="btn btn-primary btn-icon" onclick="showSubscriptionModal()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    <span class="btn-text">${getHardcodedText('getLink')}</span>
+                </button>`;
+            }
 
             controls.innerHTML = html;
+            controls.classList.add('loaded');
         }
 
         function setupLanguageButtons() {
@@ -1227,6 +1388,7 @@ body {
             document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
             document.getElementById('themeLabel').textContent = getHardcodedText('theme');
             document.getElementById('languageLabel').textContent = getHardcodedText('language');
+            document.getElementById('snowToggleLabel').textContent = getHardcodedText('newYearMode');
         }
 
         function setTheme(theme) {
@@ -1245,6 +1407,47 @@ body {
             }
             html.classList.toggle('dark-theme', isDark);
             themeColorMeta.setAttribute('content', isDark ? '#0f172a' : '#3b82f6');
+        }
+
+        function isNewYearSeason() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth(); // 0-indexed
+            const day = now.getDate();
+            // Enable by default from Dec 1 to Jan 12
+            if (month === 11) return true; // December
+            if (month === 0 && day <= 12) return true; // Jan 1-12
+            return false;
+        }
+
+        function initSnowMode() {
+            const savedSnowMode = localStorage.getItem('snowMode');
+            let snowEnabled;
+            if (savedSnowMode !== null) {
+                snowEnabled = savedSnowMode === 'true';
+            } else {
+                snowEnabled = isNewYearSeason();
+            }
+            applySnowMode(snowEnabled);
+        }
+
+        function applySnowMode(enabled) {
+            const container = document.getElementById('snowflakesContainer');
+            const toggle = document.getElementById('snowToggle');
+            if (container) {
+                container.style.display = enabled ? 'block' : 'none';
+            }
+            if (toggle) {
+                toggle.classList.toggle('active', enabled);
+            }
+        }
+
+        function toggleSnowMode() {
+            const toggle = document.getElementById('snowToggle');
+            const isActive = toggle.classList.contains('active');
+            const newState = !isActive;
+            localStorage.setItem('snowMode', newState.toString());
+            applySnowMode(newState);
         }
 
         function detectOS() {
@@ -1282,6 +1485,7 @@ body {
             }
 
             mainContent.innerHTML = html;
+            mainContent.classList.add('loaded');
             attachEventListeners();
         }
 
@@ -1810,23 +2014,28 @@ body {
             block.buttons.forEach(button => {
                 const buttonText = getLocalizedText(button.text);
                 const buttonIcon = getSvgIcon(button.svgIconKey, 'w-4 h-4');
-                let buttonLink = button.link;
+                const buttonType = button.type || 'external';
+                let buttonLink = button.link || '';
 
-                if (buttonLink && response?.subscriptionUrl) {
-                    buttonLink = buttonLink.replace('{SUBSCRIPTION_URL}', response.subscriptionUrl);
-                    buttonLink = buttonLink.replace('{SUBSCRIPTION_URL_B64}', btoa(response.subscriptionUrl));
+                // Support for template variables in ALL button types (no encoding)
+                if (buttonLink && response) {
+                    if (response.subscriptionUrl) {
+                        buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, response.subscriptionUrl);
+                    }
+                    if (response.user?.username) {
+                        buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
+                    }
                 }
 
-                const buttonType = button.type || 'link';
-
-                if (buttonType === 'subscription') {
+                if (buttonType === 'subscriptionLink' || buttonType === 'subscription') {
                     const subscriptionUrl = generateSubscriptionUrl(app, response?.subscriptionUrl, button.link);
                     if (subscriptionUrl) {
                         html += `<button class="btn btn-primary" ${colorStyle} onclick="openSubscriptionUrl('${escapeForAttribute(subscriptionUrl)}')">${buttonIcon} ${buttonText}</button>`;
                     }
-                } else if (buttonType === 'copy') {
-                    html += `<button class="btn" onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
+                } else if (buttonType === 'copyButton' || buttonType === 'copy') {
+                    html += `<button class="btn btn-primary" ${colorStyle} onclick="copyToClipboard('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 } else {
+                    // external and any other type - open link
                     html += `<button class="btn btn-primary" ${colorStyle} onclick="openLink('${escapeForAttribute(buttonLink)}')">${buttonIcon} ${buttonText}</button>`;
                 }
             });
@@ -1837,7 +2046,13 @@ body {
         function generateSubscriptionUrl(app, subscriptionUrl, linkTemplate) {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
-                return linkTemplate.replace('{SUBSCRIPTION_URL}', subscriptionUrl).replace('{SUBSCRIPTION_URL_B64}', btoa(subscriptionUrl));
+                let result = linkTemplate
+                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrl);
+                const username = panelData?.response?.user?.username;
+                if (username) {
+                    result = result.replace(/\{\{USERNAME\}\}/g, username);
+                }
+                return result;
             }
             return null;
         }
@@ -2097,15 +2312,12 @@ body {
         }
 
         function checkTabsOverflow() {
+            // CSS media query at 1024px handles visibility
+            // On resize, clear any inline styles to let CSS take control
             const tabs = document.querySelector('.platform-tabs');
             const button = document.getElementById('platform-selector-btn');
-            if (!tabs || !button) return;
-
-            if (window.matchMedia('(max-width: 768px)').matches) return;
-
-            const isOverflowing = tabs.scrollWidth > tabs.parentElement.clientWidth;
-            tabs.style.display = isOverflowing ? 'none' : 'flex';
-            button.style.display = isOverflowing ? 'inline-flex' : 'none';
+            if (tabs) tabs.style.display = '';
+            if (button) button.style.display = '';
         }
 
         function showQrModal(data, title) {
