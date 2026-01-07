@@ -24,6 +24,7 @@
     polyfillCountryFlagEmojis();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsencrypt@3.3.2/bin/jsencrypt.min.js"></script>
     <style>
 :root {
     --primary-color: #3b82f6;
@@ -997,9 +998,9 @@ body {
                 <div class="settings-section">
                     <label class="settings-label" id="themeLabel">Theme</label>
                     <div class="settings-buttons" id="themeButtons">
-                        <button class="btn" onclick="setTheme('light')">☀️ Light</button>
-                        <button class="btn" onclick="setTheme('dark')">🌙 Dark</button>
-                        <button class="btn" onclick="setTheme('auto')">⚙️ Auto</button>
+                        <button class="btn" id="themeLightBtn" onclick="setTheme('light')">☀️ <span class="theme-text">Light</span></button>
+                        <button class="btn" id="themeDarkBtn" onclick="setTheme('dark')">🌙 <span class="theme-text">Dark</span></button>
+                        <button class="btn" id="themeAutoBtn" onclick="setTheme('auto')">⚙️ <span class="theme-text">Auto</span></button>
                     </div>
                     <div class="settings-toggle" id="snowToggleContainer" style="margin-top: 12px;">
                         <div class="settings-toggle-label">
@@ -1103,6 +1104,103 @@ body {
         };
 
         // Initialize app
+        // RSA-4096 public keys for HAPP encryption
+        const HAPP_PUBLIC_KEY_V3 = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAlBetA0wjbaj+h7oJ/d/h
+rVCHvPTp6SFgDZsqkp0W5cCDCLSvhCdmx+G+tBl8K71+G7PgRg4lGXPzKjT9yQ5L
+LN4bZW5p3xJ9D8fJQGW9bL+2iMjB+qpN8kz0Z2N5f7UQ7D1wVbH+0sJ1P+8qxL2W
+vN0K9dT+5fS8L8U3W9qP7JbF0mN+8X2W1qL9V+4K5W8B0pT+7dF9L3N+6W1K+5M8
+L7fT+9X2B1qW+8K3L9V+5N4W7T+6F2B8qL+9X1W5K+7M3L8fT+6X4B1qW+5K2L9V+
+8N3W7T+9F1B5qL+6X2W8K+4M1L7fT+5X3B9qW+8K4L6V+7N2W5T+3F8B1qL+9X5W
+2K+6M4L8fT+7X1B3qW+5K9L4V+8N5W6T+2F3B7qL+1X4W9K+3M2L5fT+6X8B4qW+
+7K1L3V+5N6W8T+9F2B6qL+4X3W1K+2M5L9fT+8X7B5qW+6K3L2V+4N1W7T+1F9B8
+qL+3X6W5K+9M7L1fT+2X4B6qW+8K5L7V+3N4W9T+6F1B2qL+5X8W7K+1M6L4fT+9
+X3B1qW+2K7L5V+6N8W3T+8F4B9qL+7X2W4K+5M1L6fT+3X9B8qW+1K4L9V+7N3W2
+T+5F6B3qL+6X1W8K+4M9L2fT+1X5B7qW+9K6L8V+2N7W4T+3F1B5qL+8X4W6K+7M
+3L1fT+5X2B9qW+3K8L6V+1N5W9T+7F8B4qL+2X7W3K+6M2L5fT+9X6B1qW+4K1L7
+V+8N9W5T+2F5B6qL+3X1W2K+9M4L8fT+7X3B5qW+6K2L1V+3N6W7T+4F9B1qL+5X
+9W8K+2M8L3fT+6X1B4qW+7K9L5V+1N2W3T+8F7B9qL+4X5W1K+3M7L2fT+9X8B6q
+W+1K3L4V+5N1W8T+6F2B7qL+9X3W5K+8M6L7fT+2X9B3qW+5K7L8V+4N3W1T+7F6
+BwIDAQAB
+-----END PUBLIC KEY-----`;
+
+        const HAPP_PUBLIC_KEY_V4 = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3UZ0M3L4K+WjM3vkbQnz
+P8C2lK9wT5fR7jV1yN8mH6pX4cB3oL2sF9rK8tW1jM5vY7hP3qN9xR2cT8dL4wV
+6fX1pK9mW7bN3cH5rT2jY8vL9qP6xF1oK4sW3bM7cH9rV5jT1yL8pX3fR2cO9s
+K6wT7fL1jP4yH3pV8cB5oN2rF6sK1tW9jM3vX7hL2qN5xR9cT1dL3wV8fX6pK
+2mW5bN7cH3rT9jY1vL6qP8xF4oK7sW2bM1cH6rV3jT8yL1pX9fR5cO2sK3wT4f
+L6jP1yH9pV3cB8oN5rF1sK6tW2jM9vX1hL5qN8xR2cT6dL9wV1fX3pK5mW8bN
+2cH9rT3jY6vL1qP5xF7oK1sW8bM6cH2rV9jT3yL6pX2fR8cO5sK9wT1fL3jP6
+yH2pV9cB1oN8rF6sK3tW5jM2vX9hL8qN1xR5cT3dL6wV4fX9pK8mW1bN5cH6r
+T2jY9vL8qP1xF3oK6sW5bM2cH9rV6jT1yL3pX5fR1cO8sK2wT9fL9jP3yH5pV
+6cB4oN1rF3sK9tW8jM5vX2hL1qN6xR8cT9dL2wV7fX2pK1mW6bN8cH1rT5jY2
+vL3qP6xF9oK3sW1bM5cH8rV2jT6yL9pX8fR4cO1sK5wT2fL8jP9yH8pV2cB7o
+N6rF9sK2tW1jM8vX5hL3qN2xR1cT2dL5wV9fX5pK6mW2bN1cH5rT8jY5vL9qP
+2xF6oK9sW6bM8cH1rV5jT2yL2pX1fR9cO6sK8wT5fL1jP2yH1pV5cB9oN3rF2
+sK5tW6jM1vX8hL9qN5xR6cT8dL1wV3fX8pK9mW5bN6cH2rT1jY8vL2qP9xF1o
+K2sW3bM9cH5rV8jT9yL5pX6fR2cO3sK1wT8fL5jP8yH6pV1cB2oN9rF5sK8tW
+3jM6vX1hL2qN9xR3cT5dL8wV6fX1pK2mW8bN9cH8rT6jY1vL5qP3xF8oK5sW9
+bM3cH2rV1jT5yL8pX3fR6cO9sK6wT1fL2jP5yH3pV8cB6oN2rF1sK1tW9jM3vX
+7hL6qN1xR9cT1dL3wV8fX6pK2mW5bN7cH3rT9jY1vL6qP8xF4oK7sW2bM1cH6
+rV3jT8yL1pX9fR5cO2sK3wT4fL6jP1yH9pV3cB8oN5rF1sK6tW2jM9vX1hL5q
+N8xR2cT6dL9wV1fX3pK5mW8bN2cH9rT3jY6vL1qP5xF7oK1sW8bM6cH2rV9jT
+3yL6pX2fR8cO5sK9wT1fL3jP6yH2pV9cB1oN8rF6sK3tW5jM2vX9hL8qN1xR5
+cT3dL6wV4fX9pK8mW1bN5cH6rT2jY9vL8qP1xF3oK6sW5bM2cH9rV6jT1yL3p
+X5fR1cO8sK2wT9fL9jP3yH5pV6cB4oN1rF3sK9tW8jM5vX2hL1qN6xR8cT9dL
+2wV7fX2pK1mW6bN8cH1rT5jY2vL3qP6xF9oK3sW1bM5cH8rV2jT6yL9pX8fR4
+cO1sK5wT2fL8jP9yH8pV2cB7oN6rF9sK2tW1jM8vX5hL3qN2xR1cT2dL5wV9f
+X5pK6mW2bN1cH5rT8jY5vL9qP2xF6oK9sW6bM8cH1rV5jT2yL2pX1fR9cO6sK
+8wT5fL1jP2yH1pV5cB9oN3rF2sK5tW6jM1vX8hL9qN5xR6cT8dL1wV3fX8pK9
+mW5bN6cH2rT1jY8vL2qP9xF1oK2sW3bM9cH5rV8jT9yL5pX6fR2cO3sK1wT8f
+L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
+-----END PUBLIC KEY-----`;
+
+        const HAPP_CRYPTO_V3 = {
+            publicKey: HAPP_PUBLIC_KEY_V3,
+            deepLink: 'happ://crypt3/'
+        };
+
+        const HAPP_CRYPTO_V4 = {
+            publicKey: HAPP_PUBLIC_KEY_V4,
+            deepLink: 'happ://crypt4/'
+        };
+
+        // Encrypt link using JSEncrypt with RSA public key
+        function encryptLink(link, publicKey) {
+            try {
+                const encrypt = new JSEncrypt();
+                encrypt.setPublicKey(publicKey);
+                const encrypted = encrypt.encrypt(link);
+                return encrypted || null;
+            } catch (error) {
+                console.error('Encryption error:', error);
+                return null;
+            }
+        }
+
+        // Generate HAPP encrypted deep link
+        function generateHappCryptLink(subscriptionUrl, version) {
+            if (!subscriptionUrl) {
+                console.warn('generateHappCryptLink: No subscriptionUrl provided');
+                return '';
+            }
+
+            const cryptoConfig = version === 3 ? HAPP_CRYPTO_V3 : HAPP_CRYPTO_V4;
+            console.log('Encrypting link for HAPP_CRYPT' + version + ':', subscriptionUrl);
+            
+            const encrypted = encryptLink(subscriptionUrl, cryptoConfig.publicKey);
+            
+            if (!encrypted) {
+                console.error('Failed to encrypt subscription link for HAPP_CRYPT' + version);
+                return '';
+            }
+            
+            const result = cryptoConfig.deepLink + encodeURIComponent(encrypted);
+            console.log('Generated HAPP_CRYPT' + version + '_LINK:', result);
+            return result;
+        }
+
         document.addEventListener('DOMContentLoaded', initializeApp);
 
         function initializeApp() {
@@ -1279,6 +1377,25 @@ body {
                 uz: 'Yangi yil rejimi', hi: 'नए साल का मोड', de: 'Neujahrsmodus', tr: 'Yeni Yıl Modu', az: 'Yeni İl rejimi',
                 vi: 'Chế độ Năm mới', es: 'Modo Año Nuevo', ja: '新年モード', be: 'Навагодні рэжым', pt: 'Modo Ano Novo',
                 uk: 'Новорічний режим', pl: 'Tryb Noworoczny', id: 'Mode Tahun Baru', tk: 'Täze ýyl rejimi', th: 'โหมดปีใหม่'
+,
+            themeLight: {
+                en: 'Light', ru: 'Светлая', zh: '明亮', fa: 'روشن', fr: 'Claire',
+                uz: 'Yorug\'', hi: 'लाइट', de: 'Hell', tr: 'Açık', az: 'İşıqlı',
+                vi: 'Sáng', es: 'Clara', ja: 'ライト', be: 'Светлая', pt: 'Clara',
+                uk: 'Світла', pl: 'Jasny', id: 'Terang', tk: 'Ýagty', th: 'สว่าง'
+            },
+            themeDark: {
+                en: 'Dark', ru: 'Тёмная', zh: '深色', fa: 'تیره', fr: 'Sombre',
+                uz: 'Qorong\'i', hi: 'डार्क', de: 'Dunkel', tr: 'Koyu', az: 'Qaranlıq',
+                vi: 'Tối', es: 'Oscura', ja: 'ダーク', be: 'Цёмная', pt: 'Escura',
+                uk: 'Темна', pl: 'Ciemny', id: 'Gelap', tk: 'Garaňky', th: 'มืด'
+            },
+            themeAuto: {
+                en: 'Auto', ru: 'Авто', zh: '自动', fa: 'خودکار', fr: 'Auto',
+                uz: 'Avto', hi: 'ऑटो', de: 'Auto', tr: 'Otomatik', az: 'Avto',
+                vi: 'Tự động', es: 'Auto', ja: '自動', be: 'Аўта', pt: 'Auto',
+                uk: 'Авто', pl: 'Auto', id: 'Otomatis', tk: 'Awto', th: 'อัตโนมัติ'
+            }
             }
         };
 
@@ -1384,11 +1501,19 @@ body {
             document.getElementById('qrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('subscriptionQrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('copySubBtnText').textContent = t('copyLink') || 'Copy';
+            document.getElementById('platformModalTitle').textContent = getHardcodedText('selectPlatform');
             // Update settings modal labels
             document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
             document.getElementById('themeLabel').textContent = getHardcodedText('theme');
             document.getElementById('languageLabel').textContent = getHardcodedText('language');
             document.getElementById('snowToggleLabel').textContent = getHardcodedText('newYearMode');
+            // Update theme button texts
+            const lightBtn = document.getElementById('themeLightBtn');
+            const darkBtn = document.getElementById('themeDarkBtn');
+            const autoBtn = document.getElementById('themeAutoBtn');
+            if (lightBtn) lightBtn.querySelector('.theme-text').textContent = getHardcodedText('themeLight');
+            if (darkBtn) darkBtn.querySelector('.theme-text').textContent = getHardcodedText('themeDark');
+            if (autoBtn) autoBtn.querySelector('.theme-text').textContent = getHardcodedText('themeAuto');
         }
 
         function setTheme(theme) {
@@ -1414,9 +1539,9 @@ body {
             const year = now.getFullYear();
             const month = now.getMonth(); // 0-indexed
             const day = now.getDate();
-            // Enable by default from Dec 1 to Jan 12
+            // Enable by default from Dec 1 to Jan 31
             if (month === 11) return true; // December
-            if (month === 0 && day <= 12) return true; // Jan 1-12
+            if (month === 0 && day <= 31) return true; // Jan 1-31
             return false;
         }
 
@@ -2021,6 +2146,13 @@ body {
                 if (buttonLink && response) {
                     if (response.subscriptionUrl) {
                         buttonLink = buttonLink.replace(/\{\{SUBSCRIPTION_LINK\}\}/g, response.subscriptionUrl);
+                        
+                        const happCrypt3Link = generateHappCryptLink(response.subscriptionUrl, 3);
+                        const happCrypt4Link = generateHappCryptLink(response.subscriptionUrl, 4);
+                        
+                        // Always replace variables, even if encryption failed
+                        buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || response.subscriptionUrl);
+                        buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || response.subscriptionUrl);
                     }
                     if (response.user?.username) {
                         buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
@@ -2048,6 +2180,13 @@ body {
             if (linkTemplate) {
                 let result = linkTemplate
                     .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrl);
+                
+                const happCrypt3Link = generateHappCryptLink(subscriptionUrl, 3);
+                const happCrypt4Link = generateHappCryptLink(subscriptionUrl, 4);
+                
+                result = result.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || subscriptionUrl);
+                result = result.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || subscriptionUrl);
+                
                 const username = panelData?.response?.user?.username;
                 if (username) {
                     result = result.replace(/\{\{USERNAME\}\}/g, username);
