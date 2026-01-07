@@ -36,6 +36,8 @@ if [ "$LANG" = "ru" ]; then
     Q_SUPPORTURL="Хотите указать свою ссылку портала поддержки?"
     Q_ANNOUNCE="Хотите указать своё сообщение анонс?"
     Q_APPSCONFIG="Хотите использовать свой список приложений? (Формат списка Remnawave 2.1.0+)"
+    Q_BRANDINGTITLE="Хотите указать свой заголовок бренда?"
+    Q_BRANDINGLOGO="Хотите указать свой логотип бренда (URL)?"
     STR_APPLYING="Применяем изменения и перезапускаем vpnbot..."
     STR_SUCCESS_MSG="Страница подписки успешно установлена!"
     STR_MAKE_ERROR="Ошибка: Команда 'make r' завершилась с ошибкой."
@@ -57,6 +59,8 @@ else
     Q_SUPPORTURL="Do you want to specify your support portal link?"
     Q_ANNOUNCE="Do you want to specify your announcement message?"
     Q_APPSCONFIG="Do you want to use your list of applications? (App list format Remnawave 2.1.0+)"
+    Q_BRANDINGTITLE="Do you want to specify your brand title?"
+    Q_BRANDINGLOGO="Do you want to specify your brand logo (URL)?"
     STR_APPLYING="Applying changes and restarting vpnbot..."
     STR_SUCCESS_MSG="Subscription page installed successfully!"
     STR_MAKE_ERROR="Error: 'make r' command failed."
@@ -101,7 +105,7 @@ preserve_data() {
     fi
 
     # Извлечение и вставка старых значений
-    vars_to_preserve=("metaTitle" "metaDescription" "supportUrl" "announce" "appsConfigUrl")
+    vars_to_preserve=("metaTitle" "metaDescription" "supportUrl" "announce" "appsConfigUrl" "brandingTitle" "brandingLogoUrl")
     for var_name in "${vars_to_preserve[@]}"; do
         # Используем awk для надежного извлечения значения между кавычками
         local old_value=$(awk -F"'" -v var="$var_name" '$0 ~ "^\\$" var " = " {print $2}' "$backup_file")
@@ -144,6 +148,8 @@ if [ "$PRESERVE" = false ]; then
     replace_value "supportUrl" "$Q_SUPPORTURL" "https://t.me/yourID"
     replace_value "announce" "$Q_ANNOUNCE" "welcome to the club"
     replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json"
+    replace_value "brandingTitle" "$Q_BRANDINGTITLE" ""
+    replace_value "brandingLogoUrl" "$Q_BRANDINGLOGO" ""
 else
     echo -e "${YELLOW}${STR_SKIPPING_QUESTIONS}${NC}"
 fi
