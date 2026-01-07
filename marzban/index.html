@@ -2206,8 +2206,15 @@ const panelDataJson = {
         function generateSubscriptionUrl(app, subscriptionUrl, linkTemplate) {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
+                // For Marzban: add /clash-meta suffix for specific apps (flclashx, koala-clash, prizrak-box)
+                let subscriptionUrlModified = subscriptionUrl;
+                const appId = app?.id?.toLowerCase();
+                if (appId === 'flclashx' || appId === 'koala-clash' || appId === 'prizrak-box') {
+                    subscriptionUrlModified = subscriptionUrl + '/clash-meta';
+                }
+
                 let result = linkTemplate
-                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrl);
+                    .replace(/\{\{SUBSCRIPTION_LINK\}\}/g, subscriptionUrlModified);
 
                 // Generate encrypted HAPP links
                 const happCrypt3Link = generateHappCryptLink(subscriptionUrl, 3);
