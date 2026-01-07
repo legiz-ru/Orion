@@ -1162,9 +1162,14 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
 
         // Function to generate HAPP encrypted links
         function generateHappCryptLink(subscriptionUrl, version) {
-            if (!subscriptionUrl) return '';
+            if (!subscriptionUrl) {
+                console.warn('generateHappCryptLink: No subscriptionUrl provided');
+                return '';
+            }
 
             const cryptoConfig = version === 3 ? HAPP_CRYPTO_V3 : HAPP_CRYPTO_V4;
+            console.log('Encrypting link for HAPP_CRYPT' + version + ':', subscriptionUrl);
+
             const encrypted = encryptLink(subscriptionUrl, cryptoConfig.publicKey);
 
             if (!encrypted) {
@@ -1172,7 +1177,9 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 return '';
             }
 
-            return cryptoConfig.deepLink + encodeURIComponent(encrypted);
+            const result = cryptoConfig.deepLink + encodeURIComponent(encrypted);
+            console.log('Generated HAPP_CRYPT' + version + '_LINK:', result);
+            return result;
         }
 
         // Initialize app
@@ -2099,12 +2106,9 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                         const happCrypt3Link = generateHappCryptLink(response.subscriptionUrl, 3);
                         const happCrypt4Link = generateHappCryptLink(response.subscriptionUrl, 4);
 
-                        if (happCrypt3Link) {
-                            buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link);
-                        }
-                        if (happCrypt4Link) {
-                            buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link);
-                        }
+                        // Always replace variables, even if encryption failed
+                        buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || response.subscriptionUrl);
+                        buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || response.subscriptionUrl);
                     }
                     if (response.user?.username) {
                         buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
@@ -2137,12 +2141,9 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 const happCrypt3Link = generateHappCryptLink(subscriptionUrl, 3);
                 const happCrypt4Link = generateHappCryptLink(subscriptionUrl, 4);
 
-                if (happCrypt3Link) {
-                    result = result.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link);
-                }
-                if (happCrypt4Link) {
-                    result = result.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link);
-                }
+                // Always replace variables, even if encryption failed
+                result = result.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || subscriptionUrl);
+                result = result.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || subscriptionUrl);
 
                 const username = panelData?.response?.user?.username;
                 if (username) {
