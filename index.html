@@ -998,9 +998,9 @@ body {
                 <div class="settings-section">
                     <label class="settings-label" id="themeLabel">Theme</label>
                     <div class="settings-buttons" id="themeButtons">
-                        <button class="btn" onclick="setTheme('light')">☀️ Light</button>
-                        <button class="btn" onclick="setTheme('dark')">🌙 Dark</button>
-                        <button class="btn" onclick="setTheme('auto')">⚙️ Auto</button>
+                        <button class="btn" id="themeLightBtn" onclick="setTheme('light')">☀️ <span class="theme-text">Light</span></button>
+                        <button class="btn" id="themeDarkBtn" onclick="setTheme('dark')">🌙 <span class="theme-text">Dark</span></button>
+                        <button class="btn" id="themeAutoBtn" onclick="setTheme('auto')">⚙️ <span class="theme-text">Auto</span></button>
                     </div>
                     <div class="settings-toggle" id="snowToggleContainer" style="margin-top: 12px;">
                         <div class="settings-toggle-label">
@@ -1356,6 +1356,24 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 uz: 'Yangi yil rejimi', hi: 'नए साल का मोड', de: 'Neujahrsmodus', tr: 'Yeni Yıl Modu', az: 'Yeni İl rejimi',
                 vi: 'Chế độ Năm mới', es: 'Modo Año Nuevo', ja: '新年モード', be: 'Навагодні рэжым', pt: 'Modo Ano Novo',
                 uk: 'Новорічний режим', pl: 'Tryb Noworoczny', id: 'Mode Tahun Baru', tk: 'Täze ýyl rejimi', th: 'โหมดปีใหม่'
+            },
+            themeLight: {
+                en: 'Light', ru: 'Светлая', zh: '明亮', fa: 'روشن', fr: 'Claire',
+                uz: 'Yorug\'', hi: 'लाइट', de: 'Hell', tr: 'Açık', az: 'İşıqlı',
+                vi: 'Sáng', es: 'Clara', ja: 'ライト', be: 'Светлая', pt: 'Clara',
+                uk: 'Світла', pl: 'Jasny', id: 'Terang', tk: 'Ýagty', th: 'สว่าง'
+            },
+            themeDark: {
+                en: 'Dark', ru: 'Тёмная', zh: '深色', fa: 'تیره', fr: 'Sombre',
+                uz: 'Qorong\'i', hi: 'डार्क', de: 'Dunkel', tr: 'Koyu', az: 'Qaranlıq',
+                vi: 'Tối', es: 'Oscura', ja: 'ダーク', be: 'Цёмная', pt: 'Escura',
+                uk: 'Темна', pl: 'Ciemny', id: 'Gelap', tk: 'Garaňky', th: 'มืด'
+            },
+            themeAuto: {
+                en: 'Auto', ru: 'Авто', zh: '自动', fa: 'خودکار', fr: 'Auto',
+                uz: 'Avto', hi: 'ऑटो', de: 'Auto', tr: 'Otomatik', az: 'Avto',
+                vi: 'Tự động', es: 'Auto', ja: '自動', be: 'Аўта', pt: 'Auto',
+                uk: 'Авто', pl: 'Auto', id: 'Otomatis', tk: 'Awto', th: 'อัตโนมัติ'
             }
         };
 
@@ -1461,11 +1479,19 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             document.getElementById('qrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('subscriptionQrHint').textContent = t('scanQrCodeDescription') || 'Scan with your phone';
             document.getElementById('copySubBtnText').textContent = t('copyLink') || 'Copy';
+            document.getElementById('platformModalTitle').textContent = getHardcodedText('selectPlatform');
             // Update settings modal labels
             document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
             document.getElementById('themeLabel').textContent = getHardcodedText('theme');
             document.getElementById('languageLabel').textContent = getHardcodedText('language');
             document.getElementById('snowToggleLabel').textContent = getHardcodedText('newYearMode');
+            // Update theme button texts
+            const lightBtn = document.getElementById('themeLightBtn');
+            const darkBtn = document.getElementById('themeDarkBtn');
+            const autoBtn = document.getElementById('themeAutoBtn');
+            if (lightBtn) lightBtn.querySelector('.theme-text').textContent = getHardcodedText('themeLight');
+            if (darkBtn) darkBtn.querySelector('.theme-text').textContent = getHardcodedText('themeDark');
+            if (autoBtn) autoBtn.querySelector('.theme-text').textContent = getHardcodedText('themeAuto');
         }
 
         function setTheme(theme) {
@@ -1491,9 +1517,9 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             const year = now.getFullYear();
             const month = now.getMonth(); // 0-indexed
             const day = now.getDate();
-            // Enable by default from Dec 1 to Jan 12
+            // Enable by default from Dec 1 to Jan 31
             if (month === 11) return true; // December
-            if (month === 0 && day <= 12) return true; // Jan 1-12
+            if (month === 0 && day <= 31) return true; // Jan 1-31
             return false;
         }
 
