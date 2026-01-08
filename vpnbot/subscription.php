@@ -8,7 +8,7 @@ $brandingLogoUrl = 'https://cdn.jsdelivr.net/gh/arpicme/Proxy-App-Icon-set@refs/
 $subscription_url = preg_replace("/<a href='([^']+)'>.*<\/a>/", '$1', $suburl);
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $username = htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8');
-$appsConfigUrl = 'https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@refs/heads/main/sub-page/subpage-config/multiapp.json';
+$appsConfigUrl = 'https://raw.githubusercontent.com/legiz-ru/my-remnawave/refs/heads/main/sub-page/subpage-config/multiapp.json';
 // Переменные для страницы подписки vpnbot
 /*
     $suburl - ссылка на страницу подписки пользователя
@@ -1407,12 +1407,17 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
         }
 
         function loadAppConfig() {
-            fetch('<?= $appsConfigUrl ?>')
+            const configUrl = '<?= $appsConfigUrl ?>';
+            console.log('Loading app config from:', configUrl);
+
+            fetch(configUrl)
                 .then(response => {
+                    console.log('App config response status:', response.status);
                     if (!response.ok) throw new Error(`Failed to load config: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
+                    console.log('App config loaded successfully:', data);
                     appConfig = data;
 
                     // Set meta tags from baseSettings
@@ -1470,6 +1475,15 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 })
                 .catch(error => {
                     console.error('Error loading app config:', error);
+                    console.error('Config URL was:', '<?= $appsConfigUrl ?>');
+                    // Set minimal config to avoid errors
+                    appConfig = {
+                        locales: ['en'],
+                        platforms: {},
+                        baseSettings: {},
+                        baseTranslations: {}
+                    };
+                    alert('Failed to load app configuration. Please check your internet connection and try again.');
                 })
                 .finally(() => {
                     if (panelData) renderContent();
@@ -1478,8 +1492,10 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
 
         function loadPanelData() {
             const panelDataB64 = '<?= $panelDataB64 ?>';
+            console.log('Loading panel data, base64 length:', panelDataB64.length);
             try {
                 panelData = JSON.parse(atob(panelDataB64));
+                console.log('Panel data loaded successfully:', panelData);
             } catch (error) {
                 console.error('Error loading panel data:', error);
                 panelData = { response: { isFound: false } };
