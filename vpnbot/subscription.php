@@ -2,7 +2,7 @@
 $metaTitle = 'vpnbot sub';
 $announce = 'welcome to the club';
 $metaDescription = 'Manage your vpnbot subscription and download configuration files for various clients.';
-$supportUrl = 'https://t.me/yourID';
+$supportUrl = 'https://t.me/legiz_trashbag';
 $brandingTitle = 'vpnbot';
 $brandingLogoUrl = 'https://cdn.jsdelivr.net/gh/arpicme/Proxy-App-Icon-set@refs/heads/main/white_background/Prizrak-box.svg';
 $subscription_url = preg_replace("/<a href='([^']+)'>.*<\/a>/", '$1', $suburl);

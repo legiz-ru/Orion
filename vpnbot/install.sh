@@ -248,7 +248,7 @@ else
         # --- Задаем вопросы и меняем значения ---
         replace_value "metaTitle" "$Q_PAGENAME" "vpnbot Sub"
         replace_value "metaDescription" "$Q_PAGEDESC" "Manage your vpnbot subscription and download configuration files for various clients."
-        replace_value "supportUrl" "$Q_SUPPORTURL" "https://t.me/yourID"
+        replace_value "supportUrl" "$Q_SUPPORTURL" "https://t.me/legiz_trashbag"
         replace_value "announce" "$Q_ANNOUNCE" "welcome to the club"
         replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/subpage-config/multiapp.json"
         replace_value "brandingTitle" "$Q_BRANDINGTITLE" "vpnbot"
