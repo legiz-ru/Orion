@@ -164,6 +164,7 @@ function send_profile_headers(string $email, string $subscription_url, string $s
 }
 
 $panelData = generate_panelData($uid, $download, $email, $vless, $subscription_url, $clash, $singbox, $windows, $xray, $expire);
+$panelDataB64 = $panelData; // Already base64 encoded
 
 switch (true) {
     case preg_match('~^(?:[Kk]oala-[Cc]lash|FlClashX|prizrak-box)~iu', $ua):
