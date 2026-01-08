@@ -113,7 +113,13 @@ bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/
    SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
    ```
 
-3. **在 `index.html` 文件的所有位置，将 `<%= metaTitle %>` 和 `<%= metaDescription %>` 替换为你自己的内容。**
+3. **在 `index.html` 文件中替换以下值为你自己的内容：**
+   - `<%= metaTitle %>` - 元标题
+   - `<%= metaDescription %>` - 元描述和页面页脚内容
+   - `<%= brandingTitle %>` - 页面上显示的品牌名称
+   - `<%= brandingLogoUrl %>` - 页面上显示的品牌徽标
+   - `<%= brandingSupportUrl %>` - 页面上显示的支持链接
+   - `<%= subPageConfig %>` - 订阅页面配置 (remnawave 2.4-2.5 格式)
 
 4. 重启 Marzban：
    ```bash

@@ -114,7 +114,13 @@ bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/
    SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
    ```
 
-3. **مقادیر `<%= metaTitle %>` و `<%= metaDescription %>` را در تمام بخش‌های فایل `index.html` با مقادیر دلخواه خود جایگزین کنید.**
+3. **مقادیر زیر را در فایل `index.html` با مقادیر دلخواه خود جایگزین کنید:**
+   - `<%= metaTitle %>` - عنوان متا
+   - `<%= metaDescription %>` - توضیحات متا و محتوای فوتر صفحه
+   - `<%= brandingTitle %>` - نام برند نمایش داده شده در صفحه
+   - `<%= brandingLogoUrl %>` - لوگوی برند نمایش داده شده در صفحه
+   - `<%= brandingSupportUrl %>` - لینک پشتیبانی نمایش داده شده در صفحه
+   - `<%= subPageConfig %>` - پیکربندی صفحه اشتراک (فرمت remnawave 2.4-2.5)
 
 4. مارزبان را ریستارت کنید:
    ```bash

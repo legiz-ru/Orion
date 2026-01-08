@@ -113,7 +113,13 @@ bash <(curl -s https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/
    SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
    ```
 
-3. **Замените значения `<%= metaTitle %>` и `<%= metaDescription %>` на свои во всех местах файла `index.html`.**
+3. **Замените значения на свои во всех местах файла `index.html`:**
+   - `<%= metaTitle %>` - мета заголовок
+   - `<%= metaDescription %>` - мета описание и содержимое футера страницы
+   - `<%= brandingTitle %>` - отображаемое на странице имя бренда
+   - `<%= brandingLogoUrl %>` - отображаемое на странице лого бренда
+   - `<%= brandingSupportUrl %>` - отображаемое на странице ссылка поддержки
+   - `<%= subPageConfig %>` - конфигурация страницы подписки (формат remnawave 2.4-2.5)
 
 4. Перезапустите Marzban:
    ```bash

@@ -113,7 +113,13 @@ Use the automatic script as described in [marz-sub](https://github.com/legiz-ru/
    SUBSCRIPTION_PAGE_TEMPLATE="subscription/index.html"
    ```
 
-3. **Replace all `<%= metaTitle %>` and `<%= metaDescription %>` values in `index.html` with your own.**
+3. **Replace the following values in `index.html` with your own:**
+   - `<%= metaTitle %>` - meta title
+   - `<%= metaDescription %>` - meta description and page footer content
+   - `<%= brandingTitle %>` - brand name displayed on the page
+   - `<%= brandingLogoUrl %>` - brand logo displayed on the page
+   - `<%= brandingSupportUrl %>` - support link displayed on the page
+   - `<%= subPageConfig %>` - subscription page configuration (remnawave 2.4-2.5 format)
 
 4. Restart Marzban:
    ```bash
