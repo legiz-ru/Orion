@@ -116,6 +116,9 @@ replace_value() {
         sed -i "s/\$$var_name = '.*';/\$$var_name = '$escaped_input';/" "$TARGET_FILE"
         echo -e "${GREEN}${STR_VALUE_CHANGED} '$var_name' ${STR_SUCCESSFULLY_CHANGED}${NC}"
     else
+        # Если пользователь нажал Enter - устанавливаем default value
+        local escaped_default=$(echo "$default_value" | sed -e 's/[]\/$*.^[]/\\&/g')
+        sed -i "s/\$$var_name = '.*';/\$$var_name = '$escaped_default';/" "$TARGET_FILE"
         echo "$STR_DEFAULT_LEFT"
     fi
 }
