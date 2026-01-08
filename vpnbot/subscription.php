@@ -1455,6 +1455,8 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                         const platform = appConfig.platforms[p];
                         return platform && platform.apps && platform.apps.length > 0;
                     });
+                    console.log('Valid platforms found:', validPlatforms);
+                    console.log('All platforms in config:', Object.keys(appConfig.platforms || {}));
 
                     // Set language if not already set (now that appConfig is loaded)
                     if (!localStorage.getItem('lang')) {
@@ -1977,7 +1979,15 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
         }
 
         function renderInstallationSection() {
-            if (!appConfig?.platforms || validPlatforms.length === 0) return '';
+            console.log('renderInstallationSection called');
+            console.log('appConfig?.platforms:', appConfig?.platforms);
+            console.log('validPlatforms:', validPlatforms);
+            console.log('validPlatforms.length:', validPlatforms.length);
+
+            if (!appConfig?.platforms || validPlatforms.length === 0) {
+                console.warn('No platforms available, skipping installation section');
+                return '';
+            }
 
             const storedPlatform = localStorage.getItem('platform');
             currentPlatform = validPlatforms.includes(storedPlatform) ? storedPlatform : detectOS();
