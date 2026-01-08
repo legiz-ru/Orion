@@ -2206,10 +2206,10 @@ const panelDataJson = {
         function generateSubscriptionUrl(app, subscriptionUrl, linkTemplate) {
             if (!subscriptionUrl) return null;
             if (linkTemplate) {
-                // For Marzban: add /clash-meta suffix for specific apps (flclashx, koala-clash, prizrak-box)
+                // For Marzban: add /clash-meta suffix for specific apps (FlClashX, Koala Clash, Prizrak-Box)
                 let subscriptionUrlModified = subscriptionUrl;
-                const appId = app?.id?.toLowerCase();
-                if (appId === 'flclashx' || appId === 'koala-clash' || appId === 'prizrak-box') {
+                const appName = app?.name?.toLowerCase();
+                if (appName === 'flclashx' || appName === 'koala clash' || appName === 'prizrak-box') {
                     subscriptionUrlModified = subscriptionUrl + '/clash-meta';
                 }
 

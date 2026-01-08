@@ -3,12 +3,12 @@ $metaTitle = 'vpnbot sub';
 $announce = 'welcome to the club';
 $metaDescription = 'Manage your vpnbot subscription and download configuration files for various clients.';
 $supportUrl = 'https://t.me/yourID';
-$brandingTitle = '';
-$brandingLogoUrl = '';
+$brandingTitle = 'vpnbot';
+$brandingLogoUrl = 'https://cdn.jsdelivr.net/gh/arpicme/Proxy-App-Icon-set@refs/heads/main/white_background/Prizrak-box.svg';
 $subscription_url = preg_replace("/<a href='([^']+)'>.*<\/a>/", '$1', $suburl);
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $username = htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8');
-$appsConfigUrl = 'https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json';
+$appsConfigUrl = 'https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@refs/heads/main/sub-page/subpage-config/multiapp.json';
 // Переменные для страницы подписки vpnbot
 /*
     $suburl - ссылка на страницу подписки пользователя

@@ -9,7 +9,7 @@ NC='\033[0m' # No Color
 # Путь к файлу конфигурации
 TARGET_FILE="/root/vpnbot/app/subscription.php"
 # URL для загрузки файла
-DOWNLOAD_URL="https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/main/vpnbot/subscription.php"
+DOWNLOAD_URL="https://raw.githubusercontent.com/legiz-ru/Orion/refs/heads/claude/add-encrypted-link-variables-2Jktz/vpnbot/subscription.php"
 
 # --- Выбор языка ---
 LANG=""
@@ -147,9 +147,9 @@ if [ "$PRESERVE" = false ]; then
     replace_value "metaDescription" "$Q_PAGEDESC" "Manage your vpnbot subscription and download configuration files for various clients."
     replace_value "supportUrl" "$Q_SUPPORTURL" "https://t.me/yourID"
     replace_value "announce" "$Q_ANNOUNCE" "welcome to the club"
-    replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@main/sub-page/multiapp/app-config.json"
-    replace_value "brandingTitle" "$Q_BRANDINGTITLE" ""
-    replace_value "brandingLogoUrl" "$Q_BRANDINGLOGO" ""
+    replace_value "appsConfigUrl" "$Q_APPSCONFIG" "https://cdn.jsdelivr.net/gh/legiz-ru/my-remnawave@refs/heads/main/sub-page/subpage-config/multiapp.json"
+    replace_value "brandingTitle" "$Q_BRANDINGTITLE" "vpnbot"
+    replace_value "brandingLogoUrl" "$Q_BRANDINGLOGO" "https://cdn.jsdelivr.net/gh/arpicme/Proxy-App-Icon-set@refs/heads/main/white_background/Prizrak-box.svg"
 else
     echo -e "${YELLOW}${STR_SKIPPING_QUESTIONS}${NC}"
 fi
