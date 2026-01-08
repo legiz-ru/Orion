@@ -232,11 +232,16 @@ else
         if [ ! -f "$TARGET_FILE" ]; then
             echo "$STR_DOWNLOADING"
             mkdir -p /root/vpnbot/app
-            if ! curl -sSL "$DOWNLOAD_URL" -o "$TARGET_FILE"; then
-                echo -e "${RED}${STR_DOWNLOAD_ERROR}${NC}"
-                exit 1
-            fi
+        else
+            # Файл существует, но пользователь не хочет сохранять данные - загружаем новый
+            echo "$STR_DOWNLOADING"
         fi
+
+        if ! curl -sSL "$DOWNLOAD_URL" -o "$TARGET_FILE"; then
+            echo -e "${RED}${STR_DOWNLOAD_ERROR}${NC}"
+            exit 1
+        fi
+
         # --- Задаем вопросы и меняем значения ---
         replace_value "metaTitle" "$Q_PAGENAME" "vpnbot Sub"
         replace_value "metaDescription" "$Q_PAGEDESC" "Manage your vpnbot subscription and download configuration files for various clients."
