@@ -2813,18 +2813,3 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
     </script>
 </body>
 </html>
-        document.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.classList.remove('active'); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active')); });
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (localStorage.getItem('theme') === 'auto') applyTheme('auto'); });
-    </script>
-</body>
-</html>
-        <?php
-        break;
-
-    default:
-        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
-        header('Content-type: text/plain');
-        echo base64_encode($vless);
-        break;
-}
