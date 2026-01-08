@@ -1091,6 +1091,30 @@ body {
         let currentApp = null;
         let toastTimeout = null;
         let validPlatforms = [];
+
+        // Hardcoded translations for "Days left"
+        const daysLeftTranslations = {
+            en: 'Days left',
+            ru: 'Осталось дней',
+            zh: '剩余天数',
+            es: 'Días restantes',
+            pt: 'Dias restantes',
+            fr: 'Jours restants',
+            de: 'Verbleibende Tage',
+            it: 'Giorni rimanenti',
+            ja: '残り日数',
+            ko: '남은 일수',
+            ar: 'الأيام المتبقية',
+            tr: 'Kalan günler',
+            fa: 'روزهای باقی‌مانده',
+            uk: 'Залишилось днів',
+            hi: 'शेष दिन',
+            id: 'Hari tersisa',
+            vi: 'Số ngày còn lại',
+            th: 'จำนวนวันคงเหลือ',
+            pl: 'Pozostało dni',
+            nl: 'Dagen resterend'
+        };
         let timelineCurrentStep = 0;
 
         // Language full names for display
@@ -1681,7 +1705,7 @@ const panelDataJson = {
             if (isActive) {
                 infoRows += `
                     <div class="info-row"><span class="info-label">${t('expires') || 'Expires'}</span><span class="info-value">${expiryText}</span></div>
-                    ${!isNeverExpires ? `<div class="info-row"><span class="info-label">${t('expiresIn') || 'Days left'}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
+                    ${!isNeverExpires ? `<div class="info-row"><span class="info-label">${daysLeftTranslations[currentLanguage] || daysLeftTranslations.en}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
                     <div class="info-row"><span class="info-label">${t('bandwidth') || 'Traffic used'}</span><span class="info-value">${user.trafficUsed || '0 B'} / ${trafficLimit}</span></div>
                 `;
             }
