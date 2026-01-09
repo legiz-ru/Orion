@@ -1334,6 +1334,39 @@ const panelDataJson = {
                 console.error('Error loading panel data:', error);
                 panelData = { response: { isFound: false } };
             }
+
+            // Скрипт для связи между index.html и iframe TV Import
+            (function() {
+                const tvIframe = document.getElementById('tvImportIframe');
+                if (!tvIframe) return;
+                
+                window.addEventListener('message', function(event) {
+                    if (event.data && event.data.type === 'requestSubscriptionUrl') {
+                        const subUrl = panelData?.response?.subscriptionUrl;
+                        if (subUrl && tvIframe.contentWindow) {
+                            tvIframe.contentWindow.postMessage({
+                                type: 'subscriptionUrl',
+                                url: subUrl
+                            }, '*');
+                            console.log('Sent subscription URL to TV iframe:', subUrl);
+                        } else {
+                            console.error('Subscription URL not found in panelData');
+                        }
+                    }
+                });
+                
+                tvIframe.addEventListener('load', function() {
+                    const subUrl = panelData?.response?.subscriptionUrl;
+                    if (subUrl) {
+                        setTimeout(() => {
+                            tvIframe.contentWindow.postMessage({
+                                type: 'subscriptionUrl',
+                                url: subUrl
+                            }, '*');
+                        }, 100);
+                    }
+                });
+            })();
             if (appConfig !== null) renderContent();
         }
 
