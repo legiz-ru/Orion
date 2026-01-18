@@ -2839,4 +2839,10 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
 </html>
 <?php
         break;
+
+    default:
+        send_profile_headers($email, $subscription_url, $supportUrl, $download, $expire, $announce);
+        header('Content-type: text/plain');
+        echo base64_encode($vless);
+        break;
 }
