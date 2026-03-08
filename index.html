@@ -847,132 +847,9 @@ body {
 #mainContent { opacity: 0; transition: opacity 0.2s ease; }
 #mainContent.loaded { opacity: 1; }
 
-/* Snowflakes Animation */
-.snowflakes {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    overflow: hidden;
-}
-.snowflake {
-    position: absolute;
-    top: -20px;
-    color: #a0c4e8;
-    font-size: 1em;
-    text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-    animation: snowfall linear infinite;
-    opacity: 0;
-}
-.dark-theme .snowflake {
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-@keyframes snowfall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    3% { opacity: 0.9; }
-    95% { opacity: 0.9; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-.snowflake:nth-child(1) { left: 5%; animation-duration: 8s; animation-delay: 0s; font-size: 0.8em; }
-.snowflake:nth-child(2) { left: 15%; animation-duration: 12s; animation-delay: 1s; font-size: 1.2em; }
-.snowflake:nth-child(3) { left: 25%; animation-duration: 10s; animation-delay: 2s; font-size: 0.9em; }
-.snowflake:nth-child(4) { left: 35%; animation-duration: 14s; animation-delay: 0.5s; font-size: 1.1em; }
-.snowflake:nth-child(5) { left: 45%; animation-duration: 9s; animation-delay: 3s; font-size: 0.7em; }
-.snowflake:nth-child(6) { left: 55%; animation-duration: 11s; animation-delay: 1.5s; font-size: 1em; }
-.snowflake:nth-child(7) { left: 65%; animation-duration: 13s; animation-delay: 2.5s; font-size: 1.3em; }
-.snowflake:nth-child(8) { left: 75%; animation-duration: 8s; animation-delay: 0.8s; font-size: 0.85em; }
-.snowflake:nth-child(9) { left: 85%; animation-duration: 15s; animation-delay: 3.5s; font-size: 1.15em; }
-.snowflake:nth-child(10) { left: 95%; animation-duration: 10s; animation-delay: 1.2s; font-size: 0.95em; }
-.snowflake:nth-child(11) { left: 10%; animation-duration: 11s; animation-delay: 4s; font-size: 0.75em; }
-.snowflake:nth-child(12) { left: 30%; animation-duration: 9s; animation-delay: 2.8s; font-size: 1.05em; }
-.snowflake:nth-child(13) { left: 50%; animation-duration: 12s; animation-delay: 0.3s; font-size: 0.65em; }
-.snowflake:nth-child(14) { left: 70%; animation-duration: 14s; animation-delay: 1.8s; font-size: 1.25em; }
-.snowflake:nth-child(15) { left: 90%; animation-duration: 10s; animation-delay: 3.2s; font-size: 0.9em; }
-.snowflake:nth-child(16) { left: 8%; animation-duration: 13s; animation-delay: 4.5s; font-size: 0.7em; }
-.snowflake:nth-child(17) { left: 22%; animation-duration: 9s; animation-delay: 0.7s; font-size: 1.1em; }
-.snowflake:nth-child(18) { left: 38%; animation-duration: 11s; animation-delay: 2.2s; font-size: 0.85em; }
-.snowflake:nth-child(19) { left: 48%; animation-duration: 14s; animation-delay: 3.8s; font-size: 1.2em; }
-.snowflake:nth-child(20) { left: 58%; animation-duration: 8s; animation-delay: 1.3s; font-size: 0.75em; }
-.snowflake:nth-child(21) { left: 68%; animation-duration: 12s; animation-delay: 4.2s; font-size: 0.95em; }
-.snowflake:nth-child(22) { left: 78%; animation-duration: 10s; animation-delay: 0.4s; font-size: 1.15em; }
-.snowflake:nth-child(23) { left: 88%; animation-duration: 15s; animation-delay: 2.6s; font-size: 0.65em; }
-.snowflake:nth-child(24) { left: 3%; animation-duration: 11s; animation-delay: 1.9s; font-size: 1.0em; }
-.snowflake:nth-child(25) { left: 97%; animation-duration: 9s; animation-delay: 3.4s; font-size: 0.8em; }
-
-.settings-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-}
-.settings-toggle-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.toggle-switch {
-    position: relative;
-    width: 48px;
-    height: 26px;
-    background: var(--border);
-    border-radius: 13px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-.toggle-switch.active {
-    background: var(--primary-color);
-}
-.toggle-switch::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 0.3s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-.toggle-switch.active::after {
-    transform: translateX(22px);
-}
     </style>
 </head>
 <body>
-    <!-- Snowflakes container for New Year mode -->
-    <div class="snowflakes" id="snowflakesContainer" style="display: none;">
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">⋆</div>
-        <div class="snowflake">⁕</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">⋆</div>
-        <div class="snowflake">⁕</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-    </div>
-
     <div class="container">
         <header class="header">
             <div class="logo" id="brandLogo"></div>
@@ -1001,13 +878,6 @@ body {
                         <button class="btn" id="themeLightBtn" onclick="setTheme('light')">☀️ <span class="theme-text">Light</span></button>
                         <button class="btn" id="themeDarkBtn" onclick="setTheme('dark')">🌙 <span class="theme-text">Dark</span></button>
                         <button class="btn" id="themeAutoBtn" onclick="setTheme('auto')">⚙️ <span class="theme-text">Auto</span></button>
-                    </div>
-                    <div class="settings-toggle" id="snowToggleContainer" style="margin-top: 12px;">
-                        <div class="settings-toggle-label">
-                            <span>❄️</span>
-                            <span id="snowToggleLabel">New Year Mode</span>
-                        </div>
-                        <div class="toggle-switch" id="snowToggle" onclick="toggleSnowMode()"></div>
                     </div>
                 </div>
                 <div class="settings-section">
@@ -1158,6 +1028,21 @@ vHuEdc0d7vDmdw0oqCqWj0Xwq86HfORu6tm1A8uRATjb4SzjTKclKuoElVAVa5Jo
 oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
 -----END PUBLIC KEY-----`;
 
+        const HAPP_PUBLIC_KEY_V5 = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAlBetA0wjbaj+h7oJ/d/h
+pNrXvAcuhOdFGEFcfCxSWyLzWk4SAQ05gtaEGZyetTax2uqagi9HT6lapUSUe2S8
+nMLJf5K+LEs9TYrhhBdx/B0BGahA+lPJa7nUwp7WfUmSF4hir+xka5ApHjzkAQn6
+cdG6FKtSPgq1rYRPd1jRf2maEHwiP/e/jqdXLPP0SFBjWTMt/joUDgE7v/IGGB0L
+Q7mGPAlgmxwUHVqP4bJnZ//5sNLxWMjtYHOYjaV+lixNSfhFM3MdBndjpkmgSfmg
+D5uYQYDL29TDk6Eu+xetUEqry8ySPjUbNWdDXCglQWMxDGjaqYXMWgxBA1UKjUBW
+wbgr5yKTJ7mTqhlYEC9D5V/LOnKd6pTSvaMxkHXwk8hBWvUNWAxzAf5JZ7EVE3jt
+0j682+/hnmL/hymUE44yMG1gCcWvSpB3BTlKoMnl4yrTakmdkbASeFRkN3iMRewa
+IenvMhzJh1fq7xwX94otdd5eLB2vRFavrnhOcN2JJAkKTnx9dwQwFpGEkg+8U613
++Tfm/f82l56fFeoFN98dD2mUFLFZoeJ5CG81ZeXrH83niI0joX7rtoAZIPWzq3Y1
+Zb/Zq+kK2hSIhphY172Uvs8X2Qp2ac9UoTPM71tURsA9IvPNvUwSIo/aKlX5KE3I
+VE0tje7twWXL5Gb1sfcXRzsCAwEAAQ==
+-----END PUBLIC KEY-----`;
+
         const HAPP_CRYPTO_V3 = {
             publicKey: HAPP_PUBLIC_KEY_V3,
             deepLink: 'happ://crypt3/'
@@ -1167,6 +1052,14 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             publicKey: HAPP_PUBLIC_KEY_V4,
             deepLink: 'happ://crypt4/'
         };
+
+        const HAPP_CRYPTO_V5 = {
+            publicKey: HAPP_PUBLIC_KEY_V5,
+            deepLink: 'happ://crypt5/'
+        };
+
+        // Cache for CRYPT5 links
+        let happCrypt5LinkCache = {};
 
         // Function to encrypt link using RSA public key
         function encryptLink(link, publicKey) {
@@ -1203,6 +1096,41 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             return result;
         }
 
+        // Async function to get CRYPT5 link: tries API first, falls back to RSA-4096
+        async function getHappCrypt5Link(subscriptionUrl) {
+            if (!subscriptionUrl) return '';
+            if (happCrypt5LinkCache[subscriptionUrl] !== undefined) {
+                return happCrypt5LinkCache[subscriptionUrl];
+            }
+
+            // Try API
+            try {
+                const response = await fetch('https://crypto.happ.su/api-v2.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: subscriptionUrl })
+                });
+                if (response.ok) {
+                    const text = await response.text();
+                    const result = text.trim();
+                    if (result) {
+                        console.log('Generated HAPP_CRYPT5_LINK via API:', result);
+                        happCrypt5LinkCache[subscriptionUrl] = result;
+                        return result;
+                    }
+                }
+            } catch (e) {
+                console.warn('HAPP CRYPT5 API failed, falling back to RSA-4096:', e);
+            }
+
+            // Fallback: RSA-4096 (deprecated)
+            const encrypted = encryptLink(subscriptionUrl, HAPP_CRYPTO_V5.publicKey);
+            const result = encrypted ? HAPP_CRYPTO_V5.deepLink + encodeURIComponent(encrypted) : '';
+            console.log('Generated HAPP_CRYPT5_LINK via RSA fallback:', result);
+            happCrypt5LinkCache[subscriptionUrl] = result;
+            return result;
+        }
+
         // Initialize app
         document.addEventListener('DOMContentLoaded', initializeApp);
 
@@ -1217,8 +1145,6 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             applyTheme(savedTheme);
             const savedLang = localStorage.getItem('lang') || getBrowserLanguage();
             currentLanguage = savedLang;
-            // Initialize snow mode
-            initSnowMode();
         }
 
         function getBrowserLanguage() {
@@ -1375,12 +1301,6 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 vi: 'Ngôn ngữ', es: 'Idioma', ja: '言語', be: 'Мова', pt: 'Idioma',
                 uk: 'Мова', pl: 'Język', id: 'Bahasa', tk: 'Dil', th: 'ภาษา'
             },
-            newYearMode: {
-                en: 'New Year Mode', ru: 'Новогодний режим', zh: '新年模式', fa: 'حالت سال نو', fr: 'Mode Nouvel An',
-                uz: 'Yangi yil rejimi', hi: 'नए साल का मोड', de: 'Neujahrsmodus', tr: 'Yeni Yıl Modu', az: 'Yeni İl rejimi',
-                vi: 'Chế độ Năm mới', es: 'Modo Año Nuevo', ja: '新年モード', be: 'Навагодні рэжым', pt: 'Modo Ano Novo',
-                uk: 'Новорічний режим', pl: 'Tryb Noworoczny', id: 'Mode Tahun Baru', tk: 'Täze ýyl rejimi', th: 'โหมดปีใหม่'
-            },
             themeLight: {
                 en: 'Light', ru: 'Светлая', zh: '明亮', fa: 'روشن', fr: 'Claire',
                 uz: 'Yorug\'', hi: 'लाइट', de: 'Hell', tr: 'Açık', az: 'İşıqlı',
@@ -1508,7 +1428,6 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
             document.getElementById('themeLabel').textContent = getHardcodedText('theme');
             document.getElementById('languageLabel').textContent = getHardcodedText('language');
-            document.getElementById('snowToggleLabel').textContent = getHardcodedText('newYearMode');
             // Update theme button texts
             const lightBtn = document.getElementById('themeLightBtn');
             const darkBtn = document.getElementById('themeDarkBtn');
@@ -1536,47 +1455,6 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             themeColorMeta.setAttribute('content', isDark ? '#0f172a' : '#3b82f6');
         }
 
-        function isNewYearSeason() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth(); // 0-indexed
-            const day = now.getDate();
-            // Enable by default from Dec 1 to Jan 31
-            if (month === 11) return true; // December
-            if (month === 0 && day <= 31) return true; // Jan 1-31
-            return false;
-        }
-
-        function initSnowMode() {
-            const savedSnowMode = localStorage.getItem('snowMode');
-            let snowEnabled;
-            if (savedSnowMode !== null) {
-                snowEnabled = savedSnowMode === 'true';
-            } else {
-                snowEnabled = isNewYearSeason();
-            }
-            applySnowMode(snowEnabled);
-        }
-
-        function applySnowMode(enabled) {
-            const container = document.getElementById('snowflakesContainer');
-            const toggle = document.getElementById('snowToggle');
-            if (container) {
-                container.style.display = enabled ? 'block' : 'none';
-            }
-            if (toggle) {
-                toggle.classList.toggle('active', enabled);
-            }
-        }
-
-        function toggleSnowMode() {
-            const toggle = document.getElementById('snowToggle');
-            const isActive = toggle.classList.contains('active');
-            const newState = !isActive;
-            localStorage.setItem('snowMode', newState.toString());
-            applySnowMode(newState);
-        }
-
         function detectOS() {
             const ua = navigator.userAgent;
             const platform = navigator.platform;
@@ -1588,11 +1466,16 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             return 'ios';
         }
 
-        function renderContent() {
+        async function renderContent() {
             const mainContent = document.getElementById('mainContent');
             if (!panelData?.response?.isFound) {
                 mainContent.innerHTML = `<div class="card"><div class="card-content" style="text-align: center; padding: 40px;">${t('unknown') || 'No data found'}</div></div>`;
                 return;
+            }
+
+            // Pre-fetch CRYPT5 link before rendering
+            if (panelData.response.subscriptionUrl) {
+                await getHappCrypt5Link(panelData.response.subscriptionUrl);
             }
 
             let html = '';
@@ -2152,10 +2035,12 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                         // Generate encrypted HAPP links
                         const happCrypt3Link = generateHappCryptLink(response.subscriptionUrl, 3);
                         const happCrypt4Link = generateHappCryptLink(response.subscriptionUrl, 4);
+                        const happCrypt5Link = happCrypt5LinkCache[response.subscriptionUrl] || '';
 
                         // Always replace variables, even if encryption failed
                         buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || response.subscriptionUrl);
                         buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || response.subscriptionUrl);
+                        buttonLink = buttonLink.replace(/\{\{HAPP_CRYPT5_LINK\}\}/g, happCrypt5Link || response.subscriptionUrl);
                     }
                     if (response.user?.username) {
                         buttonLink = buttonLink.replace(/\{\{USERNAME\}\}/g, response.user.username);
@@ -2187,10 +2072,12 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
                 // Generate encrypted HAPP links
                 const happCrypt3Link = generateHappCryptLink(subscriptionUrl, 3);
                 const happCrypt4Link = generateHappCryptLink(subscriptionUrl, 4);
+                const happCrypt5Link = happCrypt5LinkCache[subscriptionUrl] || '';
 
                 // Always replace variables, even if encryption failed
                 result = result.replace(/\{\{HAPP_CRYPT3_LINK\}\}/g, happCrypt3Link || subscriptionUrl);
                 result = result.replace(/\{\{HAPP_CRYPT4_LINK\}\}/g, happCrypt4Link || subscriptionUrl);
+                result = result.replace(/\{\{HAPP_CRYPT5_LINK\}\}/g, happCrypt5Link || subscriptionUrl);
 
                 const username = panelData?.response?.user?.username;
                 if (username) {
