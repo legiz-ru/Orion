@@ -1664,7 +1664,7 @@ oh/uZMozC65SmDw+N5p6Su8CAwEAAQ==
             if (isActive) {
                 infoRows += `
                     <div class="info-row"><span class="info-label">${t('expires') || 'Expires'}</span><span class="info-value">${expiryText}</span></div>
-                    ${(!isNeverExpires || user.trafficLimitStrategy === 'MONTH_ROLLING') ? `<div class="info-row"><span class="info-label">${daysLeftTranslations[currentLanguage] || daysLeftTranslations.en}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
+                    ${!isNeverExpires ? `<div class="info-row"><span class="info-label">${daysLeftTranslations[currentLanguage] || daysLeftTranslations.en}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
                     <div class="info-row"><span class="info-label">${t('bandwidth') || 'Traffic used'}</span><span class="info-value">${user.trafficUsed || '0 B'} / ${trafficLimit}</span></div>
                 `;
             }
