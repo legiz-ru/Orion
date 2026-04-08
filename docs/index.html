@@ -1123,39 +1123,6 @@ body {
             pl: 'Pozostało dni',
             nl: 'Dagen resterend'
         };
-
-        // Hardcoded translations for traffic reset period label and values
-        const trafficResetTranslations = {
-            en: 'Traffic reset',     ru: 'Сброс трафика',        zh: '流量重置',
-            es: 'Reinicio tráfico',  pt: 'Redefinição tráfego',   fr: 'Réinitialisation',
-            de: 'Datenreset',        it: 'Reset traffico',        ja: 'トラフィックリセット',
-            ko: '트래픽 초기화',      ar: 'إعادة تعيين البيانات',  tr: 'Trafik sıfırlama',
-            fa: 'بازنشینی ترافیک',  uk: 'Скидання трафіку',     hi: 'ट्रैफ़िक रीसेट',
-            id: 'Reset trafik',      vi: 'Đặt lại lưu lượng',    th: 'รีเซ็ตทราฟฟิก',
-            pl: 'Reset ruchu',       nl: 'Verkeersreset'
-        };
-        const strategyTranslations = {
-            en: { NO_RESET: 'Never',         DAY: 'Daily',      WEEK: 'Weekly',       MONTH: 'Monthly'     },
-            ru: { NO_RESET: 'Никогда',       DAY: 'Ежедневно',  WEEK: 'Еженедельно',  MONTH: 'Ежемесячно'  },
-            zh: { NO_RESET: '从不',           DAY: '每日',       WEEK: '每周',          MONTH: '每月'         },
-            es: { NO_RESET: 'Nunca',         DAY: 'Diario',     WEEK: 'Semanal',      MONTH: 'Mensual'     },
-            pt: { NO_RESET: 'Nunca',         DAY: 'Diário',     WEEK: 'Semanal',      MONTH: 'Mensal'      },
-            fr: { NO_RESET: 'Jamais',        DAY: 'Quotidien',  WEEK: 'Hebdomadaire', MONTH: 'Mensuel'     },
-            de: { NO_RESET: 'Nie',           DAY: 'Täglich',    WEEK: 'Wöchentlich',  MONTH: 'Monatlich'   },
-            it: { NO_RESET: 'Mai',           DAY: 'Giornaliero',WEEK: 'Settimanale',  MONTH: 'Mensile'     },
-            ja: { NO_RESET: 'なし',           DAY: '毎日',       WEEK: '毎週',          MONTH: '毎月'         },
-            ko: { NO_RESET: '없음',           DAY: '매일',       WEEK: '매주',          MONTH: '매월'         },
-            ar: { NO_RESET: 'أبدًا',          DAY: 'يوميًا',    WEEK: 'أسبوعيًا',     MONTH: 'شهريًا'      },
-            tr: { NO_RESET: 'Asla',          DAY: 'Günlük',     WEEK: 'Haftalık',     MONTH: 'Aylık'       },
-            fa: { NO_RESET: 'هرگز',          DAY: 'روزانه',     WEEK: 'هفتگی',        MONTH: 'ماهانه'      },
-            uk: { NO_RESET: 'Ніколи',        DAY: 'Щоденно',    WEEK: 'Щотижнево',    MONTH: 'Щомісяця'    },
-            hi: { NO_RESET: 'कभी नहीं',      DAY: 'प्रतिदिन',  WEEK: 'साप्ताहिक',    MONTH: 'मासिक'       },
-            id: { NO_RESET: 'Tidak pernah',  DAY: 'Harian',     WEEK: 'Mingguan',     MONTH: 'Bulanan'     },
-            vi: { NO_RESET: 'Không bao giờ', DAY: 'Hàng ngày',  WEEK: 'Hàng tuần',    MONTH: 'Hàng tháng'  },
-            th: { NO_RESET: 'ไม่มี',          DAY: 'รายวัน',    WEEK: 'รายสัปดาห์',   MONTH: 'รายเดือน'    },
-            pl: { NO_RESET: 'Nigdy',         DAY: 'Codziennie', WEEK: 'Co tydzień',   MONTH: 'Co miesiąc'  },
-            nl: { NO_RESET: 'Nooit',         DAY: 'Dagelijks',  WEEK: 'Wekelijks',    MONTH: 'Maandelijks' }
-        };
         let timelineCurrentStep = 0;
 
         // Language full names for display
@@ -1710,9 +1677,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
         function renderCardsInfo(user, isActive, expiryText, bandwidth, isNeverExpires) {
             const expiresDate = new Date(user.expiresAt);
             const trafficLimit = user.trafficLimit === "0" ? (t('indefinitely') || '∞') : user.trafficLimit;
-            const strategy = user.trafficLimitStrategy === 'MONTH_ROLLING' ? 'MONTH' : user.trafficLimitStrategy;
-            const strategyLangMap = strategyTranslations[currentLanguage] || strategyTranslations.en;
-            const resetRowLabel = trafficResetTranslations[currentLanguage] || trafficResetTranslations.en;
 
             let infoRows = `
                 <div class="info-row"><span class="info-label">${t('name') || 'Username'}</span><span class="info-value">${escapeHtml(user.username)}</span></div>
@@ -1724,7 +1688,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
                     <div class="info-row"><span class="info-label">${t('expires') || 'Expires'}</span><span class="info-value">${expiryText}</span></div>
                     ${!isNeverExpires ? `<div class="info-row"><span class="info-label">${daysLeftTranslations[currentLanguage] || daysLeftTranslations.en}</span><span class="info-value">${user.daysLeft || 0}</span></div>` : ''}
                     <div class="info-row"><span class="info-label">${t('bandwidth') || 'Traffic used'}</span><span class="info-value">${user.trafficUsed || '0 B'} / ${trafficLimit}</span></div>
-                    ${strategy ? `<div class="info-row"><span class="info-label">${resetRowLabel}</span><span class="info-value">${strategyLangMap[strategy] || strategy}</span></div>` : ''}
                 `;
             }
 
