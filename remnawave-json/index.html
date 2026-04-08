@@ -858,35 +858,6 @@ body {
     </style>
 </head>
 <body>
-    <!-- Snowflakes container for New Year mode -->
-    <div class="snowflakes" id="snowflakesContainer" style="display: none;">
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">⋆</div>
-        <div class="snowflake">⁕</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">⋆</div>
-        <div class="snowflake">⁕</div>
-        <div class="snowflake">❄</div>
-        <div class="snowflake">✦</div>
-        <div class="snowflake">*</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">✧</div>
-        <div class="snowflake">∗</div>
-        <div class="snowflake">❆</div>
-    </div>
-
     <div class="container">
         <header class="header">
             <div class="logo" id="brandLogo"></div>
@@ -915,13 +886,6 @@ body {
                         <button class="btn" id="themeLightBtn" onclick="setTheme('light')">☀️ <span class="theme-text">Light</span></button>
                         <button class="btn" id="themeDarkBtn" onclick="setTheme('dark')">🌙 <span class="theme-text">Dark</span></button>
                         <button class="btn" id="themeAutoBtn" onclick="setTheme('auto')">⚙️ <span class="theme-text">Auto</span></button>
-                    </div>
-                    <div class="settings-toggle" id="snowToggleContainer" style="margin-top: 12px;">
-                        <div class="settings-toggle-label">
-                            <span>❄️</span>
-                            <span id="snowToggleLabel">New Year Mode</span>
-                        </div>
-                        <div class="toggle-switch" id="snowToggle" onclick="toggleSnowMode()"></div>
                     </div>
                 </div>
                 <div class="settings-section">
@@ -1152,8 +1116,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
             applyTheme(savedTheme);
             const savedLang = localStorage.getItem('lang') || getBrowserLanguage();
             currentLanguage = savedLang;
-            // Initialize snow mode
-            initSnowMode();
         }
 
         function getBrowserLanguage() {
@@ -1310,12 +1272,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
                 vi: 'Ngôn ngữ', es: 'Idioma', ja: '言語', be: 'Мова', pt: 'Idioma',
                 uk: 'Мова', pl: 'Język', id: 'Bahasa', tk: 'Dil', th: 'ภาษา'
             },
-            newYearMode: {
-                en: 'New Year Mode', ru: 'Новогодний режим', zh: '新年模式', fa: 'حالت سال نو', fr: 'Mode Nouvel An',
-                uz: 'Yangi yil rejimi', hi: 'नए साल का मोड', de: 'Neujahrsmodus', tr: 'Yeni Yıl Modu', az: 'Yeni İl rejimi',
-                vi: 'Chế độ Năm mới', es: 'Modo Año Nuevo', ja: '新年モード', be: 'Навагодні рэжым', pt: 'Modo Ano Novo',
-                uk: 'Новорічний режим', pl: 'Tryb Noworoczny', id: 'Mode Tahun Baru', tk: 'Täze ýyl rejimi', th: 'โหมดปีใหม่'
-,
             themeLight: {
                 en: 'Light', ru: 'Светлая', zh: '明亮', fa: 'روشن', fr: 'Claire',
                 uz: 'Yorug\'', hi: 'लाइट', de: 'Hell', tr: 'Açık', az: 'İşıqlı',
@@ -1444,7 +1400,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
             document.getElementById('settingsTitle').textContent = getHardcodedText('settings');
             document.getElementById('themeLabel').textContent = getHardcodedText('theme');
             document.getElementById('languageLabel').textContent = getHardcodedText('language');
-            document.getElementById('snowToggleLabel').textContent = getHardcodedText('newYearMode');
             // Update theme button texts
             const lightBtn = document.getElementById('themeLightBtn');
             const darkBtn = document.getElementById('themeDarkBtn');
@@ -1470,47 +1425,6 @@ L5jP8yH6pV1cB2oN9rF5sK8tW3jM6vX1hL2qN9xR3cT5dL8wIDAQAB
             }
             html.classList.toggle('dark-theme', isDark);
             themeColorMeta.setAttribute('content', isDark ? '#0f172a' : '#3b82f6');
-        }
-
-        function isNewYearSeason() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth(); // 0-indexed
-            const day = now.getDate();
-            // Enable by default from Dec 1 to Jan 31
-            if (month === 11) return true; // December
-            if (month === 0 && day <= 31) return true; // Jan 1-31
-            return false;
-        }
-
-        function initSnowMode() {
-            const savedSnowMode = localStorage.getItem('snowMode');
-            let snowEnabled;
-            if (savedSnowMode !== null) {
-                snowEnabled = savedSnowMode === 'true';
-            } else {
-                snowEnabled = isNewYearSeason();
-            }
-            applySnowMode(snowEnabled);
-        }
-
-        function applySnowMode(enabled) {
-            const container = document.getElementById('snowflakesContainer');
-            const toggle = document.getElementById('snowToggle');
-            if (container) {
-                container.style.display = enabled ? 'block' : 'none';
-            }
-            if (toggle) {
-                toggle.classList.toggle('active', enabled);
-            }
-        }
-
-        function toggleSnowMode() {
-            const toggle = document.getElementById('snowToggle');
-            const isActive = toggle.classList.contains('active');
-            const newState = !isActive;
-            localStorage.setItem('snowMode', newState.toString());
-            applySnowMode(newState);
         }
 
         function detectOS() {
