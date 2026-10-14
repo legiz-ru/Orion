@@ -435,6 +435,20 @@ body {
     text-overflow: ellipsis;
 }
 
+/* Keyboard users need to see where they are; pointer users never see this ring. */
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    .snowflakes { display: none !important; }
+}
+
 @media (max-width: 768px) {
     .app-tab {
         flex: 1 0 calc(50% - 4px);
@@ -1370,6 +1384,16 @@ const panelDataJson = {
 
         // Hardcoded translations for common UI texts
         const hardcodedTranslations = {
+            a11yClose: { en: 'Close', ru: 'Закрыть', uk: 'Закрити', be: 'Закрыць', de: 'Schließen',
+                         fr: 'Fermer', es: 'Cerrar', pt: 'Fechar', pl: 'Zamknij', tr: 'Kapat' },
+            a11yPrev:  { en: 'Previous step', ru: 'Предыдущий шаг', uk: 'Попередній крок', be: 'Папярэдні крок',
+                         de: 'Vorheriger Schritt', fr: 'Étape précédente', es: 'Paso anterior',
+                         pt: 'Passo anterior', pl: 'Poprzedni krok', tr: 'Önceki adım' },
+            a11yNext:  { en: 'Next step', ru: 'Следующий шаг', uk: 'Наступний крок', be: 'Наступны крок',
+                         de: 'Nächster Schritt', fr: 'Étape suivante', es: 'Paso siguiente',
+                         pt: 'Próximo passo', pl: 'Następny krok', tr: 'Sonraki adım' },
+            a11yStep:  { en: 'Step', ru: 'Шаг', uk: 'Крок', be: 'Крок', de: 'Schritt',
+                         fr: 'Étape', es: 'Paso', pt: 'Passo', pl: 'Krok', tr: 'Adım' },
             recommended: {
                 en: 'Recommended', ru: 'Рекомендуется', zh: '推荐', fa: 'پیشنهادی', fr: 'Recommandé',
                 uz: 'Tavsiya etiladi', hi: 'अनुशंसित', de: 'Empfohlen', tr: 'Önerilen', az: 'Tövsiyə olunur',
@@ -2636,6 +2660,30 @@ const panelDataJson = {
             if (typeof text !== 'string') return '';
             return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
+
+        /* The page renders clickable <div>s and icon-only buttons: screen readers do
+           not announce them and they cannot be reached with a keyboard. Instead of
+           touching every template, fix the result of each render in one pass. */
+        function a11yPass() {
+            document.documentElement.lang = currentLanguage;
+            document.querySelectorAll('div[onclick]:not([role])').forEach(el => {
+                el.setAttribute('role', 'button');
+                el.tabIndex = 0;
+            });
+            document.querySelectorAll('.modal-close').forEach(el => el.setAttribute('aria-label', getHardcodedText('a11yClose')));
+            const prev = document.getElementById('timelinePrevBtn');
+            if (prev) prev.setAttribute('aria-label', getHardcodedText('a11yPrev'));
+            const next = document.getElementById('timelineNextBtn');
+            if (next) next.setAttribute('aria-label', getHardcodedText('a11yNext'));
+            document.querySelectorAll('.timeline-dot').forEach((el, i) => el.setAttribute('aria-label', `${getHardcodedText('a11yStep')} ${i + 1}`));
+        }
+        new MutationObserver(() => a11yPass()).observe(document.body, { childList: true, subtree: true });
+        document.addEventListener('keydown', e => {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute?.('role') === 'button' && e.target.tagName === 'DIV') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
 
         // Event listeners
         document.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.classList.remove('active'); });
